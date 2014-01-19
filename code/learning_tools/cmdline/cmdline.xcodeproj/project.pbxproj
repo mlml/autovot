@@ -1,0 +1,165 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildStyle section */
+		014CEA520018CE5811CA2923 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		014CEA530018CE5811CA2923 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXFileReference section */
+		ED3CBB6F0A29A6BA00739A3D /* cmd_line.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = cmd_line.cpp; sourceTree = "<group>"; };
+		ED3CBB700A29A6BA00739A3D /* tester.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = tester.cpp; sourceTree = "<group>"; };
+		EDA1399009AF11DE00D14AD2 /* cmd_line.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = cmd_line.h; sourceTree = "<group>"; };
+		EDA1399109AF11DE00D14AD2 /* cmd_option.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = cmd_option.h; sourceTree = "<group>"; };
+		EDA1399209AF11DE00D14AD2 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* cmdline */ = {
+			isa = PBXGroup;
+			children = (
+				ED3CBB6F0A29A6BA00739A3D /* cmd_line.cpp */,
+				ED3CBB700A29A6BA00739A3D /* tester.cpp */,
+				EDA1399009AF11DE00D14AD2 /* cmd_line.h */,
+				EDA1399109AF11DE00D14AD2 /* cmd_option.h */,
+				EDA1399209AF11DE00D14AD2 /* Makefile */,
+			);
+			name = cmdline;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		D28A88AD04BDD90700651E21 /* cmdline */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 1DEB918F08733D9F0010E9CD /* Build configuration list for PBXLegacyTarget "cmdline" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = cmdline;
+			};
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = cmdline;
+			passBuildSettingsInEnvironment = 1;
+			productName = cmdline;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB919308733D9F0010E9CD /* Build configuration list for PBXProject "cmdline" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA520018CE5811CA2923 /* Debug */,
+				014CEA530018CE5811CA2923 /* Release */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* cmdline */;
+			projectDirPath = "";
+			targets = (
+				D28A88AD04BDD90700651E21 /* cmdline */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB919008733D9F0010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = cmdline;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB919108733D9F0010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = cmdline;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		1DEB919408733D9F0010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB919508733D9F0010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB918F08733D9F0010E9CD /* Build configuration list for PBXLegacyTarget "cmdline" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB919008733D9F0010E9CD /* Debug */,
+				1DEB919108733D9F0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB919308733D9F0010E9CD /* Build configuration list for PBXProject "cmdline" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB919408733D9F0010E9CD /* Debug */,
+				1DEB919508733D9F0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

@@ -1,0 +1,148 @@
+//=============================================================================
+// File Name: kernels.imp
+// Written by: Shai Shalev-Shwartz (shais@cs.huji.ac.il)
+//
+// Distributed as part of the kernels library
+// Copyright (C) 2006 Shai Shalev-Shwartz
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+//
+//=============================================================================
+
+//=============================================================================
+// File Name: kernels.imp
+//
+//=============================================================================
+//*****************************************************************************
+// Included Files
+//*****************************************************************************
+#include "kernels.h"
+#include <math.h>
+
+
+//-----------------------------------------------------------------------------
+inline double kernels::linear::operator()
+  (const infra::vector_view v1, const infra::vector_view v2) const {
+  return ((v1 * v2) + _b) * _s;
+}
+  
+//-----------------------------------------------------------------------------
+inline infra::matrix_view kernels::linear::operator() (const infra::matrix_view M1,
+					const infra::matrix_view M2) const {
+  infra::matrix outcome(M1.height(), M2.height());
+  infra::prod_t(M1, M2, outcome);
+  if (_b != 0.0) {
+    outcome += _b;
+  }
+  outcome *= _s;
+  return outcome;
+}
+
+//-----------------------------------------------------------------------------
+inline infra::vector_view kernels::linear::operator() (const infra::matrix_view M,
+						const infra::vector_view v) const {
+
+  infra::vector_view outcome = M * v; 
+  if (_b != 0.0) {
+    outcome += _b;
+  }
+  outcome *= _s;
+  return outcome;
+}
+
+
+//-----------------------------------------------------------------------------
+inline double kernels::polynomial::operator()
+  (const infra::vector_view v1, const infra::vector_view v2) const {
+  return pow((v1 * v2) + _b,_d) * _s;
+}
+  
+//-----------------------------------------------------------------------------
+inline infra::matrix_view kernels::polynomial::operator() (const infra::matrix_view M1,
+					const infra::matrix_view M2) const {
+  infra::matrix outcome(M1.height(), M2.height());
+  infra::prod_t(M1, M2, outcome);
+  if (_b != 0.0) {
+    outcome += _b;
+  }
+  outcome.pow(_d);
+  outcome *= _s;
+  return outcome;
+}
+
+//-----------------------------------------------------------------------------
+inline infra::vector_view kernels::polynomial::operator() (const infra::matrix_view M,
+						const infra::vector_view v) const {
+  infra::vector_view outcome = M * v; 
+  if (_b != 0.0) {
+    outcome += _b;
+  }
+  outcome.pow(_d);
+  outcome *= _s;
+  return outcome;
+}
+
+
+//-----------------------------------------------------------------------------
+inline double kernels::gaussian::operator()
+  (const infra::vector_view v1, const infra::vector_view v2) const {
+  return exp(_s - infra::dist2(v1,v2) / 2.0 / _sigma2);
+}
+  
+//-----------------------------------------------------------------------------
+inline infra::matrix_view kernels::gaussian::operator() (const infra::matrix_view M1,
+					const infra::matrix_view M2) const {
+
+  infra::matrix outcome(M1.height(), M2.height());
+  infra::prod_t(M1, M2, outcome);
+  infra::vector M1_norms2(M1.height());
+  infra::vector M2_norms2(M2.height());
+  for(unsigned long i=0; i<M1.height(); ++i) {
+    M1_norms2(i) = M1.row(i) * M1.row(i) / 2.0;
+  }
+  for(unsigned long i=0; i<M2.height(); ++i) {
+    M2_norms2(i) = M2.row(i) * M2.row(i) / 2.0;
+  }
+  
+  for(unsigned long j=0; j<outcome.width(); ++j) {
+    for(unsigned long i=0; i<outcome.height(); ++i) {
+      outcome(i,j) = exp(_s - (M1_norms2(i) + M2_norms2(j) - outcome(i,j)) /
+			 _sigma2);
+    }
+  }
+
+  return outcome;
+}
+
+//-----------------------------------------------------------------------------
+inline infra::vector_view kernels::gaussian::operator() (const infra::matrix_view M,
+						const infra::vector_view v) const {
+  infra::vector_view outcome = M * v; 
+  infra::vector M_norms2(M.height());
+  for(unsigned long i=0; i<M.height(); ++i) {
+    M_norms2(i) = M.row(i) * M.row(i) / 2.0;
+  }
+
+  double v_norm2 = v * v / 2.0;
+  for(unsigned long i=0; i<outcome.size(); ++i) {
+    outcome(i) = exp(_s - (M_norms2(i) + v_norm2 - outcome(i)) / _sigma2);
+  }
+
+  return outcome;
+}
+
+//*****************************************************************************
+//                                     E O F
+//*****************************************************************************

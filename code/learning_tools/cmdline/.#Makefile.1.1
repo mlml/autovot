@@ -1,0 +1,28 @@
+# headers
+HDRS=cmd_option.h cmd_line.h
+
+# sources
+SRCS=cmd_line.cc tester.cc
+
+CC = g++
+CFLAGS  = -Wall -g
+LFLAGS  =
+OBJS    = $(SRCS:.cc=.o)
+
+all: tester libcmdline.a
+
+tester: $(OBJS)
+	$(CC) $(LFLAGS) $(OBJS) -o tester
+
+%.o:  %.cc $(HDRS)
+	$(CC) $(CFLAGS) -c $<
+
+libcmdline.a: cmd_line.o
+	ar rv $@ $?
+	ranlib $@
+
+clean:
+	rm -f *.o tester libcmdline.a
+
+doc:    $(HDRS)
+	mkdir html; kdoc -f html -d html -n cmd_line $(HDRS)

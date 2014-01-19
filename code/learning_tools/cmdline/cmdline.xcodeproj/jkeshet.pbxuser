@@ -1,0 +1,209 @@
+// !$*UTF8*$!
+{
+	08FB7793FE84155DC02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeBuildStyle = 014CEA520018CE5811CA2923 /* Debug */;
+		activeExecutable = ED46035E09C433570094F4C7 /* Tester */;
+		activeTarget = D28A88AD04BDD90700651E21 /* cmdline */;
+		addToTargets = (
+			D28A88AD04BDD90700651E21 /* cmdline */,
+		);
+		breakpointsGroup = ED8739FD0A6CD741007AA59D /* XCBreakpointsBucket */;
+		codeSenseManager = EDA1397E09AF119900D14AD2 /* Code sense */;
+		executables = (
+			ED46035E09C433570094F4C7 /* Tester */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					300,
+					400,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+					PBXExecutablesDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					548,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.XCSCMDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					20,
+					524,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_SCM_ColumnID,
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 174837752;
+			PBXWorkspaceStateSaveDate = 174837752;
+		};
+		perUserProjectItems = {
+			ED3CBB7F0A29A75800739A3D /* PBXTextBookmark */ = ED3CBB7F0A29A75800739A3D /* PBXTextBookmark */;
+			ED3CBB820A29A75800739A3D /* PBXTextBookmark */ = ED3CBB820A29A75800739A3D /* PBXTextBookmark */;
+			ED8739F90A6CD741007AA59D /* PBXTextBookmark */ = ED8739F90A6CD741007AA59D /* PBXTextBookmark */;
+			EDA1399D09AF129A00D14AD2 /* PBXTextBookmark */ = EDA1399D09AF129A00D14AD2 /* PBXTextBookmark */;
+			EDA139A309AF129A00D14AD2 /* PBXTextBookmark */ = EDA139A309AF129A00D14AD2 /* PBXTextBookmark */;
+		};
+		sourceControlManager = EDA1397D09AF119900D14AD2 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	D28A88AD04BDD90700651E21 /* cmdline */ = {
+		activeExec = 0;
+	};
+	ED3CBB7F0A29A75800739A3D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EDA1399209AF11DE00D14AD2 /* Makefile */;
+		name = "Makefile: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 348;
+		vrLoc = 0;
+	};
+	ED3CBB820A29A75800739A3D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EDA1399109AF11DE00D14AD2 /* cmd_option.h */;
+		name = "cmd_option.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1320;
+		vrLoc = 0;
+	};
+	ED46035E09C433570094F4C7 /* Tester */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		launchableReference = ED46035F09C433570094F4C7 /* tester */;
+		libgmallocEnabled = 0;
+		name = Tester;
+		sourceDirectories = (
+		);
+	};
+	ED46035F09C433570094F4C7 /* tester */ = {
+		isa = PBXFileReference;
+		explicitFileType = "compiled.mach-o.executable";
+		name = tester;
+		path = /Users/jkeshet/Projects/learning_tools/cmdline/tester;
+		sourceTree = "<absolute>";
+	};
+	ED8739F90A6CD741007AA59D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EDA1399109AF11DE00D14AD2 /* cmd_option.h */;
+		name = "typedef int opti";
+		rLen = 19;
+		rLoc = 2725;
+		rType = 0;
+		vrLen = 1251;
+		vrLoc = 2542;
+	};
+	ED8739FD0A6CD741007AA59D /* XCBreakpointsBucket */ = {
+		isa = XCBreakpointsBucket;
+		name = "Project Breakpoints";
+		objects = (
+		);
+	};
+	EDA1397D09AF119900D14AD2 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 1;
+		scmConfiguration = {
+		};
+		scmType = scm.cvs;
+	};
+	EDA1397E09AF119900D14AD2 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	EDA1399109AF11DE00D14AD2 /* cmd_option.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {746, 2352}}";
+			sepNavSelRange = "{2725, 19}";
+			sepNavVisRect = "{{0, 953}, {746, 607}}";
+		};
+	};
+	EDA1399209AF11DE00D14AD2 /* Makefile */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {746, 415}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {746, 415}}";
+			sepNavWindowFrame = "{{58, -5}, {769, 746}}";
+		};
+	};
+	EDA1399D09AF129A00D14AD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EDA1399109AF11DE00D14AD2 /* cmd_option.h */;
+		name = "cmd_option.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1630;
+		vrLoc = 3321;
+	};
+	EDA139A309AF129A00D14AD2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EDA1399209AF11DE00D14AD2 /* Makefile */;
+		name = "Makefile: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 348;
+		vrLoc = 0;
+	};
+}

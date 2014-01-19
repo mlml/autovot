@@ -1,0 +1,166 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		ED8EF5001512748F00C1736B /* Classifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Classifier.cpp; sourceTree = "<group>"; };
+		ED8EF5011512748F00C1736B /* Classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Classifier.h; sourceTree = "<group>"; };
+		ED8EF5021512748F00C1736B /* Dataset.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dataset.cpp; sourceTree = "<group>"; };
+		ED8EF5031512748F00C1736B /* Dataset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dataset.h; sourceTree = "<group>"; };
+		ED8EF5041512748F00C1736B /* InitialVotDecode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InitialVotDecode.cpp; sourceTree = "<group>"; };
+		ED8EF5051512748F00C1736B /* InitialVotTrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InitialVotTrain.cpp; sourceTree = "<group>"; };
+		ED8EF5061512748F00C1736B /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		ED8EF5071512748F00C1736B /* VotFrontEnd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VotFrontEnd.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		ED8EF4F01512740D00C1736B = {
+			isa = PBXGroup;
+			children = (
+				ED8EF5001512748F00C1736B /* Classifier.cpp */,
+				ED8EF5011512748F00C1736B /* Classifier.h */,
+				ED8EF5021512748F00C1736B /* Dataset.cpp */,
+				ED8EF5031512748F00C1736B /* Dataset.h */,
+				ED8EF5041512748F00C1736B /* InitialVotDecode.cpp */,
+				ED8EF5051512748F00C1736B /* InitialVotTrain.cpp */,
+				ED8EF5061512748F00C1736B /* Makefile */,
+				ED8EF5071512748F00C1736B /* VotFrontEnd.cpp */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		ED8EF4F71512740E00C1736B /* vot_joint */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = ED8EF4FA1512740E00C1736B /* Build configuration list for PBXLegacyTarget "vot_joint" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = vot_joint;
+			passBuildSettingsInEnvironment = 1;
+			productName = vot_joint;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		ED8EF4F21512740D00C1736B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = ED8EF4F51512740D00C1736B /* Build configuration list for PBXProject "vot_joint" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = ED8EF4F01512740D00C1736B;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ED8EF4F71512740E00C1736B /* vot_joint */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		ED8EF4F81512740E00C1736B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		ED8EF4F91512740E00C1736B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		ED8EF4FB1512740E00C1736B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		ED8EF4FC1512740E00C1736B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ED8EF4F51512740D00C1736B /* Build configuration list for PBXProject "vot_joint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED8EF4F81512740E00C1736B /* Debug */,
+				ED8EF4F91512740E00C1736B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED8EF4FA1512740E00C1736B /* Build configuration list for PBXLegacyTarget "vot_joint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED8EF4FB1512740E00C1736B /* Debug */,
+				ED8EF4FC1512740E00C1736B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ED8EF4F21512740D00C1736B /* Project object */;
+}

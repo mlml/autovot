@@ -1,0 +1,142 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXFileReference section */
+		ED7A7C4B0CE1B71C00E0CE62 /* db_append.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = db_append.cpp; sourceTree = "<group>"; };
+		ED7A7C4C0CE1B71C00E0CE62 /* db_average_norm_l2.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = db_average_norm_l2.cpp; sourceTree = "<group>"; };
+		ED7A7C4D0CE1B71C00E0CE62 /* db_extract.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = db_extract.cpp; sourceTree = "<group>"; };
+		ED7A7C4E0CE1B71C00E0CE62 /* db_normalize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = db_normalize.cpp; sourceTree = "<group>"; };
+		ED7A7C4F0CE1B71C00E0CE62 /* db_remove_labels.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = db_remove_labels.cpp; sourceTree = "<group>"; };
+		ED7A7C500CE1B71C00E0CE62 /* db_shuffle.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = db_shuffle.cpp; sourceTree = "<group>"; };
+		ED7A7C510CE1B71C00E0CE62 /* db_zero_size.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = db_zero_size.cpp; sourceTree = "<group>"; };
+		ED7A7C520CE1B71C00E0CE62 /* db2txt.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = db2txt.cpp; sourceTree = "<group>"; };
+		ED7A7C530CE1B71C00E0CE62 /* infra_split.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = infra_split.cpp; sourceTree = "<group>"; };
+		ED7A7C540CE1B71C00E0CE62 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		ED7A7C550CE1B71C00E0CE62 /* txt2db.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = txt2db.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* infra_utils */ = {
+			isa = PBXGroup;
+			children = (
+				ED7A7C4B0CE1B71C00E0CE62 /* db_append.cpp */,
+				ED7A7C4C0CE1B71C00E0CE62 /* db_average_norm_l2.cpp */,
+				ED7A7C4D0CE1B71C00E0CE62 /* db_extract.cpp */,
+				ED7A7C4E0CE1B71C00E0CE62 /* db_normalize.cpp */,
+				ED7A7C4F0CE1B71C00E0CE62 /* db_remove_labels.cpp */,
+				ED7A7C500CE1B71C00E0CE62 /* db_shuffle.cpp */,
+				ED7A7C510CE1B71C00E0CE62 /* db_zero_size.cpp */,
+				ED7A7C520CE1B71C00E0CE62 /* db2txt.cpp */,
+				ED7A7C530CE1B71C00E0CE62 /* infra_split.cpp */,
+				ED7A7C540CE1B71C00E0CE62 /* Makefile */,
+				ED7A7C550CE1B71C00E0CE62 /* txt2db.cpp */,
+			);
+			name = infra_utils;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		ED7A7C580CE1B73700E0CE62 /* db2txt */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = ED7A7C5D0CE1B75600E0CE62 /* Build configuration list for PBXLegacyTarget "db2txt" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = db2txt;
+			passBuildSettingsInEnvironment = 1;
+			productName = db2txt;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB919308733D9F0010E9CD /* Build configuration list for PBXProject "infra_utils" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* infra_utils */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ED7A7C580CE1B73700E0CE62 /* db2txt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB919408733D9F0010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB919508733D9F0010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+		ED7A7C5E0CE1B75600E0CE62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = db2txt;
+			};
+			name = Debug;
+		};
+		ED7A7C5F0CE1B75600E0CE62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = db2txt;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB919308733D9F0010E9CD /* Build configuration list for PBXProject "infra_utils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB919408733D9F0010E9CD /* Debug */,
+				1DEB919508733D9F0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED7A7C5D0CE1B75600E0CE62 /* Build configuration list for PBXLegacyTarget "db2txt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED7A7C5E0CE1B75600E0CE62 /* Debug */,
+				ED7A7C5F0CE1B75600E0CE62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

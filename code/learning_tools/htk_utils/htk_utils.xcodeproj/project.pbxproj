@@ -1,0 +1,176 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		ED8E3E6315869C5C00A078E6 /* htk_ceps_dist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = htk_ceps_dist.cpp; sourceTree = "<group>"; };
+		ED8E3E6415869C5C00A078E6 /* htk_shuffle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = htk_shuffle.cpp; sourceTree = "<group>"; };
+		ED8E3E6515869C5C00A078E6 /* htk_split.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = htk_split.cpp; sourceTree = "<group>"; };
+		ED8E3E6615869C5C00A078E6 /* htk_stats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = htk_stats.cpp; sourceTree = "<group>"; };
+		ED8E3E6715869C5C00A078E6 /* htk2db.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = htk2db.cpp; sourceTree = "<group>"; };
+		ED8E3E6815869C5C00A078E6 /* htk2txt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = htk2txt.cpp; sourceTree = "<group>"; };
+		ED8E3E6915869C5C00A078E6 /* htkcat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = htkcat.cpp; sourceTree = "<group>"; };
+		ED8E3E6A15869C5C00A078E6 /* HtkFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HtkFile.cpp; sourceTree = "<group>"; };
+		ED8E3E6B15869C5C00A078E6 /* HtkFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtkFile.h; sourceTree = "<group>"; };
+		ED8E3E6C15869C5C00A078E6 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		ED8E3E6D15869C5C00A078E6 /* txt2htk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = txt2htk.cpp; sourceTree = "<group>"; };
+		EDEF6D5D1598B77400939FC3 /* htk_contract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = htk_contract.cpp; sourceTree = "<group>"; };
+		EDEF6D651599B74600939FC3 /* htk_split_from_phn.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = htk_split_from_phn.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		ED8E3E5315869C2300A078E6 = {
+			isa = PBXGroup;
+			children = (
+				ED8E3E6315869C5C00A078E6 /* htk_ceps_dist.cpp */,
+				EDEF6D5D1598B77400939FC3 /* htk_contract.cpp */,
+				ED8E3E6415869C5C00A078E6 /* htk_shuffle.cpp */,
+				ED8E3E6515869C5C00A078E6 /* htk_split.cpp */,
+				EDEF6D651599B74600939FC3 /* htk_split_from_phn.cpp */,
+				ED8E3E6615869C5C00A078E6 /* htk_stats.cpp */,
+				ED8E3E6715869C5C00A078E6 /* htk2db.cpp */,
+				ED8E3E6815869C5C00A078E6 /* htk2txt.cpp */,
+				ED8E3E6D15869C5C00A078E6 /* txt2htk.cpp */,
+				ED8E3E6915869C5C00A078E6 /* htkcat.cpp */,
+				ED8E3E6A15869C5C00A078E6 /* HtkFile.cpp */,
+				ED8E3E6B15869C5C00A078E6 /* HtkFile.h */,
+				ED8E3E6C15869C5C00A078E6 /* Makefile */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		ED8E3E5A15869C2300A078E6 /* htk_utils */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = ED8E3E5D15869C2300A078E6 /* Build configuration list for PBXLegacyTarget "htk_utils" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = htk_utils;
+			passBuildSettingsInEnvironment = 1;
+			productName = htk_utils;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		ED8E3E5515869C2300A078E6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = ED8E3E5815869C2300A078E6 /* Build configuration list for PBXProject "htk_utils" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = ED8E3E5315869C2300A078E6;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ED8E3E5A15869C2300A078E6 /* htk_utils */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		ED8E3E5B15869C2300A078E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		ED8E3E5C15869C2300A078E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		ED8E3E5E15869C2300A078E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		ED8E3E5F15869C2300A078E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ED8E3E5815869C2300A078E6 /* Build configuration list for PBXProject "htk_utils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED8E3E5B15869C2300A078E6 /* Debug */,
+				ED8E3E5C15869C2300A078E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED8E3E5D15869C2300A078E6 /* Build configuration list for PBXLegacyTarget "htk_utils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED8E3E5E15869C2300A078E6 /* Debug */,
+				ED8E3E5F15869C2300A078E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ED8E3E5515869C2300A078E6 /* Project object */;
+}

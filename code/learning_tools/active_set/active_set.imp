@@ -1,0 +1,170 @@
+//=============================================================================
+// File Name: active_set.imp
+// Written by: Shai Shalev-Shwartz (shais@cs.huji.ac.il)
+//
+// Distributed as part of the active-set library
+// Copyright (C) 2004 Shai Shalev-Shwartz
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+//
+//=============================================================================
+
+//=============================================================================
+// File Name: active_set.imp
+// Written by: Shai Shalev-Shwartz (shais@cs.huji.ac.il)
+//=============================================================================
+
+#ifndef _SHAI_ACTIVE_SET_IMP_
+#define _SHAI_ACTIVE_SET_IMP_
+
+// Included files
+#include "active_set.h"
+
+
+/*----------------------------------------------------------------------------*/
+inline infra::matrix_view ActiveSet::operator() () { 
+  return(Data_.submatrix(0,0,svc_,Data_.width())); 
+}
+/*----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------*/
+inline infra::vector_view ActiveSet::get(uint ind) { 
+  return(Data_.row(Index_[ind])); 
+}
+/*----------------------------------------------------------------------------*/
+
+
+/*----------------------------------------------------------------------------*/
+inline bool ActiveSet::does_exist(uint ind) { 
+  return(Index_[ind] != n_examples); 
+}
+/*----------------------------------------------------------------------------*/
+
+
+
+/*----------------------------------------------------------------------------*/
+inline void ActiveSet::insert(infra::vector_view & x,  uint ind) {
+
+  // First check is the example is already in the support. If it so,
+  // we can return without doing anything
+  if (Index_[ind] != n_examples)
+    return; 
+
+  // Now check if the size of Data_ is large enough
+  if (svc_ == Data_.height()) {
+    Data_.resize(Data_.height() * 2,Data_.width());
+  } 
+  
+  // and now we can insert this example
+  Data_.row(svc_) = x;
+  Index_[ind] = svc_;
+  Inverse_Index_[svc_] = ind;
+  ++svc_;
+}
+/*----------------------------------------------------------------------------*/
+
+
+
+/*----------------------------------------------------------------------------*/
+inline void ActiveSet::remove( uint ind) {
+
+  // First check is the example is already in the support. If it is not
+  // in the support, nothing need to be done
+  if (Index_[ind] == n_examples)
+    return; 
+
+  // Now, lets put the last example in the support in the place of the 
+  // example to be removed
+  if (Index_[ind] != (svc_-1)) {
+    Data_.row(Index_[ind]) = Data_.row(svc_-1);
+    Inverse_Index_[Index_[ind]] = Inverse_Index_[svc_-1];
+    Index_[Inverse_Index_[svc_-1]] = Index_[ind];
+  }
+
+  // and remove
+  Index_[ind] = n_examples;
+  --svc_;
+
+}
+/*----------------------------------------------------------------------------*/
+
+
+/*----------------------------------------------------------------------------*/
+inline void ActiveSet::save_binary(FILE * fid) {
+
+  // write only the relevant data
+  Data_.submatrix(0,0,svc_,Data_.width()).save_binary(fid);
+  
+  // write n_examples
+  infra::save_binary(fid,n_examples);
+
+  // write Index_ and Inverse_Index_
+  for (uint i=0;i < n_examples; ++i) {
+    infra::save_binary(fid,Index_[i]);
+  }
+  for (uint i=0;i < n_examples; ++i) {
+    infra::save_binary(fid,Inverse_Index_[i]);
+  }
+
+
+}
+/*----------------------------------------------------------------------------*/
+
+inline void ActiveSet::load_binary(FILE * fid)
+{
+  infra::matrix tmp(fid);
+  Data_.resize(tmp.height(),tmp.width());
+  Data_ = tmp;
+  svc_ = Data_.height();
+
+  // load n_examples
+  infra::load_binary(fid,n_examples);
+
+  // load Index_ and Inverse_Index_
+  Index_.resize(n_examples);
+  for (uint i=0;i < n_examples; ++i) {
+    infra::load_binary(fid,Index_[i]);
+  }
+  Inverse_Index_.resize(n_examples);
+  for (uint i=0;i < n_examples; ++i) {
+    infra::load_binary(fid,Inverse_Index_[i]);
+  }
+
+}
+
+
+/*----------------------------------------------------------------------------*/
+inline ActiveSet::ActiveSet(FILE * fid) : 
+  Data_(fid) // use the constructor of infra_matrix to load the Data_ matrix
+{
+  svc_ = Data_.height();
+
+  // load n_examples
+  infra::load_binary(fid,n_examples);
+
+  // load Index_ and Inverse_Index_
+  Index_.resize(n_examples);
+  for (uint i=0;i < n_examples; ++i) {
+    infra::load_binary(fid,Index_[i]);
+  }
+  Inverse_Index_.resize(n_examples);
+  for (uint i=0;i < n_examples; ++i) {
+    infra::load_binary(fid,Inverse_Index_[i]);
+  }
+
+}
+/*----------------------------------------------------------------------------*/
+
+#endif

@@ -1,0 +1,39 @@
+
+#include <iostream>
+#include "cmd_line.h"
+
+int main(int argc, char *argv[])
+{
+  double r;
+  std::string s;
+  int i;
+  unsigned int ui;
+  bool b;
+  std::string master1, master2;
+  
+  learning::cmd_line cmdline;
+  cmdline.info("This is a tester program for cmd_line class");
+  cmdline.add("-r", "your value for real", &r, 3.1415);
+  cmdline.add("-s", "your value for string", &s, "my string");
+  cmdline.add("-i", "your integer", &i, 73);
+  cmdline.add_master_option("input_filename", &master1);
+  cmdline.add("-ui", "your unsigned integer", &ui, 1973);
+  cmdline.add("-b", "your boolean", &b, false);
+  cmdline.add_master_option("output_filename", &master2);
+  int rc = cmdline.parse(argc, argv);
+
+  if (rc < 1) {
+    cmdline.print_help();
+    return EXIT_FAILURE;
+  }
+
+  std::cout << "After parsing " << rc << " arguments:" << std::endl;
+  std::cout << "r=" << r << std::endl;
+  std::cout << "s=" << s << std::endl;
+  std::cout << "i=" << i << std::endl;
+  std::cout << "b=" << b << std::endl;
+  std::cout << "input=" << master1 << std::endl;
+  std::cout << "output=" << master2 << std::endl;  
+
+  return EXIT_SUCCESS;
+}
