@@ -32,6 +32,16 @@ if __name__ == "__main__":
     parser.add_argument('--window_max', help='window right boundary (in msec) relative to the VOT right boundary ('
                                              'usually should be positive, that is, after the VOT left boundary.)',
                         default=0.8, type=float)
+
+    parser.add_argument('--min_vot_length', help='minimum allowed length of predicted VOT (in msec) in decoding', default=15, type=int)
+    ## MS: set to 15 because that's the default for InitialVotDecode
+
+    parser.add_argument('--max_vot_length', help='maximum allowed length of predicted VOT (in msec) in decoding', default=250, type=int)
+
+    ## MS: set to 250 because that's what was in the call to
+    ## InitialVotDecode below, before I changed it
+
+    
     parser.add_argument("--debug", help="verbose printing", action='store_const', const=True, default=False)
     args = parser.parse_args()
 
@@ -78,8 +88,8 @@ if __name__ == "__main__":
     easy_call(cmd_vot_front_end, verbose=args.debug)
 
     # testing
-    cmd_vot_decode = 'InitialVotDecode -max_onset 200 -max_vot_length 250 -output_predictions %s %s ' \
-                     '%s %s' % (preds_filename, features_filename, labels_filename, args.model_filename)
+    cmd_vot_decode = 'InitialVotDecode -max_onset 200 -min_vot_length %d -max_vot_length %d -output_predictions %s %s ' \
+                     '%s %s' % (args.min_vot_length, args.max_vot_length, preds_filename, features_filename, labels_filename, args.model_filename)
     easy_call(cmd_vot_decode, verbose=args.debug)
 
 
@@ -118,8 +128,30 @@ if __name__ == "__main__":
     textgrid.read(args.textgrid_filename)
 
     auto_vot_tier = IntervalTier(name='AutoVOT', xmin=textgrid.xmin(), xmax=textgrid.xmax())
-    for (xmin, xmax, mark) in zip(xmin_preds, xmax_preds, text_preds):
+    
+    
+
+    
+    ## \begin{MS changes}: added intervals without a mark between
+    ## predictions, and before the last prediction, and after the last
+    ## prediction.  So far only tested with files with *just one* VOT
+    ## to be predicted TODO: test for files with >1 VOT to be
+    ## predicted
+
+    auto_vot_tier.append(Interval(textgrid.xmin(), xmin_preds[0], ''))
+
+    triplets = zip(xmin_preds, xmax_preds, text_preds)
+    
+    for i, (xmin, xmax, mark) in enumerate(triplets):
+        if i>0 and i < len(triplets):
+            auto_vot_tier.append(Interval(triplets[i-1][0], triplets[i-1][1], triplets[i-1][2]))
+            
         auto_vot_tier.append(Interval(xmin, xmax, mark)) # after this call auto_vot_tier.xmax is cahnged to xmax <-----
+
+    auto_vot_tier.append(Interval(xmax_preds[-1],textgrid.xmax(), ''))
+
+    ## \end{MS changes}
+    
     textgrid.append(auto_vot_tier)
     textgrid.write(args.textgrid_filename + ".new.TextGrid")
 
