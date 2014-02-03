@@ -33,10 +33,12 @@ if __name__ == "__main__":
                                              'usually should be positive, that is, after the VOT left boundary.)',
                         default=0.8, type=float)
 
-    parser.add_argument('--min_vot_length', help='minimum allowed length of predicted VOT (in msec) in decoding', default=15, type=int)
+    parser.add_argument('--min_vot_length', help='minimum allowed length of predicted VOT (in msec) in decoding',
+                        default=15, type=int)
     ## MS: set to 15 because that's the default for InitialVotDecode
 
-    parser.add_argument('--max_vot_length', help='maximum allowed length of predicted VOT (in msec) in decoding', default=250, type=int)
+    parser.add_argument('--max_vot_length', help='maximum allowed length of predicted VOT (in msec) in decoding',
+                        default=250, type=int)
 
     ## MS: set to 250 because that's what was in the call to
     ## InitialVotDecode below, before I changed it
@@ -51,7 +53,6 @@ if __name__ == "__main__":
         exit(-1)
 
     # extract tier definitions
-    args.max_num_instances = 1
     tier_definitions = TierDefinitions()
     tier_definitions.extract_definition(args)
 
@@ -104,7 +105,7 @@ if __name__ == "__main__":
     # convert decoding back to TextGrid. first generate list of xmin, xmax and mark
     xmin_preds = list()
     xmax_preds = list()
-    text_preds = list()
+    mark_preds = list()
     k = 0
     for line in open(preds_filename):
         (confidence, xmin, xmax) = line.strip().split()
@@ -113,11 +114,11 @@ if __name__ == "__main__":
         if xmin < xmax:  # positive VOT
             xmin_preds.append(xmin_proc_win[k] + xmin/1000)
             xmax_preds.append(xmin_proc_win[k] + xmax/1000)
-            text_preds.append(confidence)
+            mark_preds.append(confidence)
         else:  # negative VOT
             xmin_preds.append(xmin_proc_win[k] + xmax/1000)
             xmax_preds.append(xmin_proc_win[k] + xmin/1000)
-            text_preds.append("neg "+confidence)
+            mark_preds.append("neg "+confidence)
         if args.debug:
             print confidence, (xmin/1000), (xmax/1000), xmin_proc_win[k], " --> ", xmin_proc_win[k]+(xmin/1000), \
                 xmin_proc_win[k] + (xmax/1000), " [", confidence, xmin, xmax, "]"
@@ -126,34 +127,20 @@ if __name__ == "__main__":
     # add "AutoVOT" tier to textgrid_filename
     textgrid = TextGrid()
     textgrid.read(args.textgrid_filename)
-
     auto_vot_tier = IntervalTier(name='AutoVOT', xmin=textgrid.xmin(), xmax=textgrid.xmax())
-    
-    
-
-    
-    ## \begin{MS changes}: added intervals without a mark between
-    ## predictions, and before the last prediction, and after the last
-    ## prediction.  So far only tested with files with *just one* VOT
-    ## to be predicted TODO: test for files with >1 VOT to be
-    ## predicted
-
     auto_vot_tier.append(Interval(textgrid.xmin(), xmin_preds[0], ''))
-
-    triplets = zip(xmin_preds, xmax_preds, text_preds)
-    
-    for i, (xmin, xmax, mark) in enumerate(triplets):
-        if i>0 and i < len(triplets):
-            auto_vot_tier.append(Interval(triplets[i-1][0], triplets[i-1][1], triplets[i-1][2]))
-            
-        auto_vot_tier.append(Interval(xmin, xmax, mark)) # after this call auto_vot_tier.xmax is cahnged to xmax <-----
-
-    auto_vot_tier.append(Interval(xmax_preds[-1],textgrid.xmax(), ''))
-
-    ## \end{MS changes}
-    
+    # print textgrid.xmin(), xmin_preds[0], ''
+    for i in xrange(len(xmin_preds)-1):
+        auto_vot_tier.append(Interval(xmin_preds[i], xmax_preds[i], mark_preds[i]))
+        # print xmin_preds[i], xmax_preds[i], mark_preds[i]
+        auto_vot_tier.append(Interval(xmax_preds[i], xmin_preds[i+1], ''))
+        # print xmax_preds[i], xmin_preds[i+1], ''
+    auto_vot_tier.append(Interval(xmin_preds[-1], xmax_preds[-1], mark_preds[-1]))
+    # print xmin_preds[-1], xmax_preds[-1], mark_preds[-1]
+    auto_vot_tier.append(Interval(xmax_preds[-1], textgrid.xmax(), ''))
+    # print xmax_preds[-1], textgrid.xmax(), ''
     textgrid.append(auto_vot_tier)
-    textgrid.write(args.textgrid_filename + ".new.TextGrid")
+    textgrid.write(args.textgrid_filename)
 
     # delete the working directory at the end
     if not args.debug:
