@@ -27,6 +27,8 @@ def easy_call(command, verbose=False, log_filename='', fake=False):
             return_code = subprocess.call(command, shell=True)
             if verbose:
                 print "return_code", return_code
+            if return_code == 127:
+                exit(-1)
     except Exception as exception:
         print "Error: could not execute the following"
         print ">>", command
