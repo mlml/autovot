@@ -43,7 +43,6 @@ if __name__ == "__main__":
     ## MS: set to 250 because that's what was in the call to
     ## InitialVotDecode below, before I changed it
 
-    
     parser.add_argument("--debug", help="verbose printing", action='store_const', const=True, default=False)
     args = parser.parse_args()
 
@@ -70,12 +69,12 @@ if __name__ == "__main__":
 
     textgrid_list = basename + ".tg_list"
     f = open(textgrid_list, 'w')
-    f.write(args.textgrid_filename+'\n')
+    f.write(args.textgrid_filename + '\n')
     f.close()
 
     wav_list = basename + ".wav_list"
     f = open(wav_list, 'w')
-    f.write(args.wav_filename+'\n')
+    f.write(args.wav_filename + '\n')
     f.close()
 
     if args.debug:
@@ -84,13 +83,13 @@ if __name__ == "__main__":
     # call front end
     textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename, features_dir, tier_definitions,
                        decoding=False)
-    cmd_vot_front_end = 'VotFrontEnd2 %s %s %s' % (input_filename, features_filename,
-                                                          labels_filename)
+    cmd_vot_front_end = 'VotFrontEnd2 %s %s %s' % (input_filename, features_filename, labels_filename)
     easy_call(cmd_vot_front_end, verbose=args.debug)
 
     # testing
-    cmd_vot_decode = 'InitialVotDecode -max_onset 200 -min_vot_length %d -max_vot_length %d -output_predictions %s %s ' \
-                     '%s %s' % (args.min_vot_length, args.max_vot_length, preds_filename, features_filename, labels_filename, args.model_filename)
+    cmd_vot_decode = 'InitialVotDecode -max_onset 200 -min_vot_length %d -max_vot_length %d -output_predictions %s ' \
+                     '%s %s %s' % (args.min_vot_length, args.max_vot_length, preds_filename, features_filename,
+                                   labels_filename, args.model_filename)
     easy_call(cmd_vot_decode, verbose=args.debug)
 
 
@@ -118,10 +117,10 @@ if __name__ == "__main__":
         else:  # negative VOT
             xmin_preds.append(xmin_proc_win[k] + xmax/1000)
             xmax_preds.append(xmin_proc_win[k] + xmin/1000)
-            mark_preds.append("neg "+confidence)
+            mark_preds.append("neg " + confidence)
         if args.debug:
-            print confidence, (xmin/1000), (xmax/1000), xmin_proc_win[k], " --> ", xmin_proc_win[k]+(xmin/1000), \
-                xmin_proc_win[k] + (xmax/1000), " [", confidence, xmin, xmax, "]"
+            print confidence, (xmin/1000), (xmax/1000), xmin_proc_win[k], " --> ", xmin_proc_win[k] + (xmin/1000), \
+                xmin_proc_win[k] + (xmax/1000), " [", confidence, "]"
         k += 1
 
     # add "AutoVOT" tier to textgrid_filename
@@ -130,10 +129,10 @@ if __name__ == "__main__":
     auto_vot_tier = IntervalTier(name='AutoVOT', xmin=textgrid.xmin(), xmax=textgrid.xmax())
     auto_vot_tier.append(Interval(textgrid.xmin(), xmin_preds[0], ''))
     # print textgrid.xmin(), xmin_preds[0], ''
-    for i in xrange(len(xmin_preds)-1):
+    for i in xrange(len(xmin_preds) - 1):
         auto_vot_tier.append(Interval(xmin_preds[i], xmax_preds[i], mark_preds[i]))
         # print xmin_preds[i], xmax_preds[i], mark_preds[i]
-        auto_vot_tier.append(Interval(xmax_preds[i], xmin_preds[i+1], ''))
+        auto_vot_tier.append(Interval(xmax_preds[i], xmin_preds[i + 1], ''))
         # print xmax_preds[i], xmin_preds[i+1], ''
     auto_vot_tier.append(Interval(xmin_preds[-1], xmax_preds[-1], mark_preds[-1]))
     # print xmin_preds[-1], xmax_preds[-1], mark_preds[-1]
