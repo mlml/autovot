@@ -35,7 +35,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/jkeshet/Projects/vot_measurement/auto_vot/experiments/theaDataForYossi"
+      customWorkingDirectory = "/Users/jkeshet/Projects/vot_measurement/published_code/experiments"
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
@@ -45,7 +45,7 @@
       </PathRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/var/tmp/tmptuk1c6/training.input /var/tmp/tmptuk1c6/training.feature_filelist /var/tmp/tmptuk1c6/training.labels"
+            argument = "/var/tmp/tmpbXfrFB/GC_9_2.input /var/tmp/tmpbXfrFB/GC_9_2.feature_filelist /var/tmp/tmpbXfrFB/GC_9_2.labels"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -63,8 +63,11 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       debugDocumentVersioning = "YES">
+      <PathRunnable
+         FilePath = "/Users/jkeshet/Projects/vot_measurement/published_code/auto_vot/code/vot_predictor/_Darwin_Debug/VotFrontEnd2">
+      </PathRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
