@@ -1,0 +1,488 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red243\green235\blue0;\red255\green83\blue8;\red170\green13\blue145;
+}
+\margl1440\margr1440\vieww16980\viewh17840\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 autovot\
+=======\
+	\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 TODO TK:\
+	# TODO: walk user through specific examples (cas7d to come)\
+	In this example, \
+		train data:\
+		VOT_TIER: tier name = "newseg" (TO BE CHANGED)\
+		VOT_MARK: mark value = "PX" or "BX"\
+		test data:\
+		VOT_TIER: tier name = "sib" (TO BE CHANGED)\
+		VOT_MARK: mark value = "pos"\
+	# TODO: Tidy up steps and make more concise\
+	# TODO: Go through options?\
+	# TODO: Go through comprehensive list of possible errors/solutions\
+	# TODO: Get new example data ready for release (coming)\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \cb2 POSSIBLE CHANGES TO PIPELINE:\cb1 \
+	# user has option to generate file list and directory structure\
+	# provide less verbose options for training&testing (or output text that is less fine grained for the user as opposed to detail report for each file)\
+	# output the SAME text when each of the following steps is completed: compiling, training, testing\
+\pard\tx529\pardeftab529\pardirnatural
+\cf0 \CocoaLigature0 	# Rather than renamed text grids after they've been tested, it would be better to have the old text grids moved to a newly generated folder (e.g. "oldTextGrids") and for the new text grids to have the same name.\
+\
+
+\b In this readme:
+\b0 \
+I. Out of the box: what the user gets when they download the auto_vot package\
+II. User provided files and directories: guide to how to structure/name format files and folders\
+III. Compiling\
+IV. Training\
+V. Testing\
+VI. Additional options for user \
+\CocoaLigature1 VII. Possible errors\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0   ###################	\
+## 
+\b I. Out of the box:
+\b0  ##\
+###################\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+When you clone the auto_vot repository to your local drive you'll have access to the following:\
+	
+\b autovot
+\b0 /: master folder\
+	
+\b auto_vot
+\b0 /\
+		auto_vot/
+\b bin
+\b0 /: Contains files that will be doing the training/testing\
+		auto_vot/
+\b code
+\b0 : \
+			auto_vot/code/
+\b audiofile-0.3.4
+\b0 /:\
+			auto_vot/code/
+\b learning_tools
+\b0 /...:\
+			auto_vot/code/
+\i Makefile
+\i0  :\
+			auto_vot/code/
+\b vot_predictor
+\b0 /: Contains files that will construct classifiers\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 #####################################\
+## 
+\b II. User provided files and directories 
+\b0 ##\
+#####################################\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 #################\
+## 
+\b II.a
+\b0  
+\b File format 
+\b0 ##\
+#################\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 TextGrid Format:
+\b0 \
+	For training: the VOT tier must contain hand annotated segments with a common label\
+
+\i 		In the CAS data, voiceless VOT is marked "PX," and voiced VOT is marked "BX"
+\i0 \
+		We recommend training on no fewer than 50 tokens\
+	For testing/running: the VOT tier must contain intervals with a common label indicating a window approximating where VOT is likely to occur\
+	
+\i 	In the CAS data, these intervals are labeled "pos" and start and end 30ms beyond the boundaries of the force-aligned VOT prediction.
+\i0 \
+
+\b Wav Format:
+\b0 \
+	16kHz\
+
+\b Naming conventions:
+\b0 \
+	TextGrids and corresponding wavs should have the same filename, differing only in their extension.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 ######################\
+## 
+\b II.b Directory format 
+\b0 ##\
+######################\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 Within the master autovot folder: make following directories:\
+	
+\b data
+\b0 /\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 		data/
+\b train/
+\b0 : This directory should contain your 
+\i training
+\i0  TextGrids and wav files.\
+		Training data should also be divided into subcategories:\
+				voiced: textgrids and wavs\
+				voiceless: textgrids and wavs\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 		data/
+\b test
+\b0 /: This directory should contain 
+\i all
+\i0  your files to be run. \
+			TextGrids should be divided into subfolders, e.g.:\
+				
+\b voiced: 
+\b0 TextGrids only\
+				
+\b voiceless: 
+\b0 TextGrids only\
+			All wavs should be in their own folder, named "wav":\
+				
+\b wav: 
+\b0 wavs only\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 	
+\b experiments
+\b0 /:\
+		experiments/
+\b logs
+\b0 /: \cb2 will contain logs???? currently remains empty\cb1 \
+		experiments/
+\b config
+\b0 /: This folder should contain four lists of filenames for each subcategory, as determined by the user:\
+			Test TextGrids\
+			Test Wavs\
+			Train TextGrids\
+			Train Wavs\
+\
+			Lists can either be a) provided by the user or b) generated using the helper scripts described below\
+
+\i 			For the CAS data, we have two subcategories (voiced, voiceless), so we've provided 8 lists.
+\i0 \
+				\
+		experiments/
+\b models
+\b0 /: This may remain empty for now. It will be used to hold classifiers (feature weights - write up something)\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 #####################################\
+## 
+\b II.c Helper files for generating file lists
+\b0  ##\
+#####################################\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \cb3 TO DO? Not currently set up for users\cb1 \
+To access (not on GitHub currently): makeConfigFiles.sh which should be moved into the user's data/?\
+	Move makeConfigFiles.sh to data/\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 	Navigate to data/\
+	Run makeConfigFiles.sh to generate a list of TextGrids and wavs:\
+	\
+		$ ./makeConfigFiles.sh\
+	\
+	If successful, no text will appear on the command line, but 8 .txt files will be generated in experiments/config/.\
+	These text files will contain lists of the TextGrids and wav files for voiced/voiceless training/testing:\
+		voicedTestTgList.txt		voicedTrainWavList.txt		voicelessTrainTgList.txt\
+		voicedTestWavList.txt	voicelessTestTgList.txt		voicelessTrainWavList.txt\
+		voicedTrainTgList.txt		voicelessTestWavList.txt\
+\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 ##################\
+## 
+\b III. COMPILING
+\b0  ##\
+##################\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+
+\b 1. COMPILE AUDIO FILE LIBRARY.
+\b0 \
+	Navigate to auto_vot/code/audiofile-0.3.4/\
+\
+		$ make\
+\
+	If successful, a lot of text will appear on the screen, the last line being:\
+\
+		
+\i "make[2]: Nothing to be done for `all-am'."
+\i0 \
+\cb2 		SHOULD HAVE VERY CLEAR OUTPUT FOR BOTH COMPILE STEPS (should be the same for all steps?)\cb1 \
+\
+
+\b 2. COMPILE CODE
+\b0 \
+	Navigate to auto_vot/code/	\
+		\
+		$ make\
+\
+	If successful, a lot of text will appear on the screen, the last line being:\
+		
+\i >> !!! Ok !!! <<<
+\i0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 ################\
+## 
+\b IV. TRAINING
+\b0  ##\
+################ \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 0. ADD LOCATION OF SCRIPTS TO PATH\
+	Navigate to experiments/\
+
+\b0 		$
+\b  
+\f1\b0\fs22 \cf4 \CocoaLigature0 export\cf0  PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/auto_vot/bin
+\f0\fs24 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \cb2 	- can this be encoded in the script as opposed to up to the user?\cb1 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 1. TRAIN CLASSIFIER
+\b0 \
+This must be done separately for each subcategory\
+For the CAS data, this means training on both voiced and voiceless tokens.	\
+	Navigate to experiments/\
+\
+		$ auto_vot_train.py --vot_tier newseg --vot_mark PX config/voicelessTrainTgList.txt  config/voicelessTrainWavList.txt models/theaVoicelessModel.classifier \
+	\
+		$ auto_vot_train.py --vot_tier newseg --vot_mark BX config/VoicedTrainTgList.txt  config/VoicedTrainWavList.txt models/theaVoicedModel.classifier \
+	\
+	\
+	If they successfully run you'll see: (this will scroll by rapidly on the screen)\
+
+\b 		- a list of each training file
+\b0 \
+
+\b 		- a list of files as they're processed:
+\b0 \
+			
+\fs18 Processing 1 of 101\
+			Processing 2 of 101\
+			Processing 3 of 101\
+			....
+\fs24 \
+	\cb2 CLARIFY\cb1  >
+\b - info about how much of the data is used for training:
+\b0 \
+			Info: using 20% of the data for cross-validation\
+			size(w_pos)=77\
+			size(w_pos)=77\
+			Info: training method is PA\
+	\cb2 CLARIFY\cb1  > 
+\b - info about the classifiers for each file:
+\b0 \
+			current file=0 /var/folders/3f/36223fgx7xn2f3l5dn_0v1km0000gn/T/tmpajt41Y/features/cas4D_1642_7_2_0.609.txt\
+			D_neg=-1e+06 D_pos=94\
+			y=50 152 y_hat=0 200\
+			w*phi(x,y)=0 w*phi(x,y_hat)=0 w*phi(x,y_hat)+loss(y,y_hat)=94\
+			gamma=94\
+			hinge_loss=94\
+			delta_phi.norm2()=284.978\
+			tau=0.32985\
+	\cb2 CLARIFY> 
+\b \cb1 - info about VOT measurement accuracy, which updates for each training file:
+\b0 \
+\
+
+\fs18 			current file=20 /var/folders/3f/36223fgx7xn2f3l5dn_0v1km0000gn/T/tmpuSkjjf/features/cas4D_1640_11_2_0.742.txt\
+			Predicted positive VOT\
+			Neg prediction: 15 0 conf: 0\
+			Pos prediction: 49 113 conf: 206.545\
+			burst onset err: -1\
+			voice onset err: -2\
+			Labeled VOT: 50 115\
+			Predicted VOT: 49 113 conf: 206.545\
+			Cum loss = 2.07143\
+			% Boundaries (t <= 2ms) = 78.5714\
+			% Boundaries (t <= 5ms) = 95.2381\
+			% Boundaries (t <= 10ms) = 97.619\
+			% Boundaries (t <= 15ms) = 97.619\
+			% Boundaries (t <= 20ms) = 100\
+			% Boundaries (t <= 25ms) = 100\
+			% Boundaries (t <= 50ms) = 100\
+			\
+			Cum VOT loss = 3.28571\
+			% VOT error (t <= 2ms) = 52.381\
+			% VOT error (t <= 5ms) = 85.7143\
+			% VOT error (t <= 10ms) = 95.2381\
+			% VOT error (t <= 15ms) = 95.2381\
+			% VOT error (t <= 20ms) = 100\
+			% VOT error (t <= 25ms) = 100\
+			% VOT error (t <= 50ms) = 100\
+			\
+			Total num misclassified = 0\
+			Num pos misclassified as neg = 0\
+			Num neg misclassified as pos = nan\
+			Cum VOT loss on correctly classified data = 3.28571\
+			% corr VOT error (t <= 2ms) = 52.381\
+			% corr VOT error (t <= 5ms) = 85.7143\
+			% corr VOT error (t <= 10ms) = 95.2381\
+			% corr VOT error (t <= 15ms) = 95.2381\
+			% corr VOT error (t <= 20ms) = 100\
+			% corr VOT error (t <= 25ms) = 100\
+			% corr VOT error (t <= 50ms) = 100
+\fs24 \
+			\
+
+\b 		- a message at the end: "Done"\
+		- you can check if it worked by looking within the models folder. positive and negative classifier files should be generated for each instance of training.
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0    ###############################	\
+## 
+\b V. RUNNING VOT ALGORITHM
+\b0  ##\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 ###############################\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+
+\b \cb3 1. RUN AUTO_VOT_DECODE.PY (TO BE EDITED)\cb1 \
+
+\b0 This will need to be done once for each subcategory\
+	Navigate to experiments/\
+	For CAS, run script as follows for 
+\b VOICELESS
+\b0 \
+\
+\pard\tx529\pardeftab529\pardirnatural
+
+\f1\fs22 \cf0 \CocoaLigature0 n=`wc -l < config/voicelessTestTgList.txt`\
+for line in $(seq 1 $n)\
+do\
+	echo $n\
+	tg=`sed -n "$\{line\}p" config/voicelessTestTgList.txt`\
+	wav=`sed -n "$\{line\}p" config/voicelessTestWavList.txt`\
+\
+	auto_vot_decode.py --vot_tier sib --vot_mark pos "$wav" "$tg" models/theaVoicelessModel.classifier\
+    \
+done\cf4 \
+\
+\
+
+\f0\fs24 \cf0 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 	Run script as follows for 
+\b VOICED
+\b0 \
+\pard\tx529\pardeftab529\pardirnatural
+
+\f1\fs22 \cf0 \CocoaLigature0 n=`wc -l < config/voicedTestTgList.txt`\
+for line in $(seq 1 $n)\
+do\
+	echo $n\
+	tg=`sed -n "$\{line\}p" config/voicedTestTgList.txt`\
+	wav=`sed -n "$\{line\}p" config/voicedTestWavList.txt`    \
+	## note different min_vot_length here -- this is important, since\
+	## the default is 15 ms, and voiced stops often have VOT < 15 ms\
+	auto_vot_decode.py --vot_tier sib --vot_mark pos --min_vot_length 5 --max_vot_length 100 "$wav" "$tg" models/theaVoicedModel.classifier    \
+done\cf4 \
+\
+
+\f0 \cf0 A lot of output will be generated (clarify what's going on here)\
+As each file is completed, the message "
+\i Done
+\i0 " will appear at the bottom\
+
+\fs24 \cb2 THERE SHOULD BE A MESSAGE WHEN ALL FILES HAVE BEEN RUN\cb1 \
+\cb2 THERE SHOULD BE A LESS VERBOSE OPTION (currently even the "non verbose" option is pretty wordy)\
+Rather than renamed text grids after they've been tested, it would be better to have the old text grids moved to a newly generated folder (e.g. "oldTextGrids") and for the new text grids to have the same name.\cb1 \CocoaLigature1 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 #####################################\
+## 
+\b VI. ADDITIONAL OPTIONS FOR USER
+\b0  ##\
+#####################################\
+	# TODO	\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 	To see list of options:\
+	\
+		$ ./auto_vot_decode.py -h\
+	\
+		OUTPUT:\
+		usage: auto_vot_decode.py [-h] [--vot_tier VOT_TIER] [--vot_mark VOT_MARK]\
+		                          [--window_tier WINDOW_TIER]\
+		                          [--window_mark WINDOW_MARK]\
+		                          [--window_min WINDOW_MIN] [--window_max WINDOW_MAX]\
+		                          [--min_vot_length MIN_VOT_LENGTH]\
+		                          [--max_vot_length MAX_VOT_LENGTH] [--debug]\
+		                          wav_filename textgrid_filename model_filename\
+		\
+		Decode AutoVOT after features extraction\
+		\
+		positional arguments:\
+		  wav_filename          a Wav filename\
+		  textgrid_filename     TextGrid with a window tier\
+		  model_filename        output model file name\
+		\
+		optional arguments:\
+		  -h, --help            show this help message and exit\
+		  --vot_tier VOT_TIER   name of the tier to extract VOTs from\
+		  --vot_mark VOT_MARK   VOT mark value (e.g., "pos", "neg") or "*" for any\
+		                        string\
+		  --window_tier WINDOW_TIER\
+		                        used this window as a search window for training. If\
+		                        not given, a constant window with parameters\
+		                        [window_min, window_max] around the manually labeled\
+		                        VOT will be used\
+		  --window_mark WINDOW_MARK\
+		                        window mark value or "*" for any string\
+		  --window_min WINDOW_MIN\
+		                        window left boundary (in msec) relative to the VOT\
+		                        right boundary (usually should be negative, that is,\
+		                        before the VOT right boundary.)\
+		  --window_max WINDOW_MAX\
+		                        window right boundary (in msec) relative to the VOT\
+		                        right boundary (usually should be positive, that is,\
+		                        after the VOT left boundary.)\
+		  --min_vot_length MIN_VOT_LENGTH\
+		                        minimum allowed length of predicted VOT (in msec) in\
+		                        decoding\
+		  --max_vot_length MAX_VOT_LENGTH\
+		                        maximum allowed length of predicted VOT (in msec) in\
+		                        decoding\
+		  --debug               verbose printing\
+	\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+\cf0 ##########################\
+## 
+\b VII. POSSIBLE ERRORS 
+\b0 ##\
+##########################\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 	TO DO\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 	\
+ 	(makeConfigFiles.sh can't generate file lists:)\
+	Error (which is reiterated for every file in data)\
+		./makeConfigFiles.sh: line 110: ../experiments/config/voicedTestTgList.txt: No such file or directory\
+		./makeConfigFiles.sh: line 111: ../experiments/config/voicedTestWavList.txt: No such file or directory\
+	Solution: \
+		double check to see that all subdirectories (critically: config/) exist within experiments\
+		is makeConfigFiles in data/?\
+\
+	\
+	\
+	\
+	}
