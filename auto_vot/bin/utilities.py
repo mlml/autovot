@@ -101,6 +101,14 @@ def extract_lines(input_filename, output_filename, lines_range, has_header=False
     output_file.close()
 
 
+def is_textgrid(filename):
+    file = open(filename)
+    first_line = file.readline()
+    if "ooTextFile" in first_line:
+        return True
+    return False
+
+
 if __name__ == "__main__":
     easy_call("ls -al", log_filename='log.txt', verbose=True)
 
