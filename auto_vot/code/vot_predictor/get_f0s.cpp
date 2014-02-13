@@ -1512,7 +1512,6 @@ int Get_f0(wav_params *wpar, F0_params *par, out_params *opar){
   int done;
   long buff_size, actsize;
   double sf;
-  F0_params *read_f0_params();
   float *f0p, *vuvp, *rms_speech, *acpkp;
   int i, vecsize;
   static int framestep = -1;
