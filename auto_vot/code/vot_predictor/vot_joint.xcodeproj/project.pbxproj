@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		ED38AF3118B0F07B000A78D9 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		EDA0590B18420164005FE3E3 /* Classifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Classifier.cpp; sourceTree = "<group>"; };
 		EDA0590C18420164005FE3E3 /* Classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Classifier.h; sourceTree = "<group>"; };
 		EDA0590D18420164005FE3E3 /* Dataset.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dataset.cpp; sourceTree = "<group>"; };
@@ -39,6 +40,7 @@
 				EDA0590C18420164005FE3E3 /* Classifier.h */,
 				EDA0590D18420164005FE3E3 /* Dataset.cpp */,
 				EDA0590E18420164005FE3E3 /* Dataset.h */,
+				ED38AF3118B0F07B000A78D9 /* Logger.h */,
 				EDA0591718420164005FE3E3 /* KernelExpansion.cpp */,
 				EDA0591818420164005FE3E3 /* KernelExpansion.h */,
 				EDA0590F18420164005FE3E3 /* fast_pitch_filters.h */,
@@ -255,6 +257,7 @@
 				EDF8EB891881D2980014BD80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

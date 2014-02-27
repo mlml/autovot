@@ -127,12 +127,12 @@ if __name__ == "__main__":
             else:
                 print ".",
             print x2, y2,
-            if abs(x2-y2) > 0.1:
+            if abs(x2-y2) > 0.05:
                 print "*",
             else:
                 print ".",
             print x3, y3,
-            if abs(x3-y3) > 0.1:
+            if abs(x3-y3) > 0.05:
                 print "*"
             else:
                 print

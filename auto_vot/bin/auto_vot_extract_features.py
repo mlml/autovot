@@ -7,10 +7,10 @@ Author: Joseph Keshet, 18/11/2013
 
 import argparse
 import wave
-import os
-from textgrid import *
-from utilities import *
-
+from autovot.textgrid import *
+from autovot.utilities import *
+import sys
+from os.path import splitext, basename
 
 class Instance:
     def __init__(self):
@@ -64,7 +64,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
 
     # check the number of TextGrid files is the same as WAV files.
     if not num_lines(wav_list) == num_lines(textgrid_list):
-        print "Error: number of TextGrid files should match the number of WAVs"
+        logging.error('Number of TextGrid files should match the number of WAVs')
         exit()
 
     input_file = open(input_filename, 'w')
@@ -74,16 +74,16 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
     for textgrid_filename, wav_filename in zip(textgrid_list, wav_list):
         textgrid_filename = textgrid_filename.strip()
         wav_filename = wav_filename.strip()
-        print textgrid_filename, wav_filename
+        logging.debug('%s %s' % (textgrid_filename, wav_filename))
 
         # check the sampling rate and number bits of the WAV
         wav_file = wave.Wave_read(wav_filename)
         if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
             or wav_file.getcomptype() != 'NONE':
-            print "Error: WAV file format should be sampling_rate=16000, sample_width=2 and num_channels=1"
-            print "       Consider changing the file parameters with a utility such as 'sox' as follows:"
-            print "       sox input.wav  -c 1 -r 16000 output.wav"
-            print "       (sox can be downloaded from http://sox.sourceforge.net)"
+            logging.error('WAV file format should be sampling_rate=16000, sample_width=2 and num_channels=1.')
+            logging.error('Consider changing the file parameters with a utility such as \'sox\' as follows:')
+            logging.error('              sox input.wav  -c 1 -r 16000 output.wav')
+            logging.error('(sox can be downloaded from http://sox.sourceforge.net)')
             exit(-1)
         textgrid = TextGrid()
 
@@ -96,7 +96,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
         if decoding:
 
             if definitions.window_tier == "":
-                print "Error: when extracting features for decoding the window tier name has to be given"
+                logging.error("When extracting features for decoding the window tier name has to be given")
                 exit(-1)
 
             # check if the window tier is one of the tiers in the TextGrid
@@ -114,9 +114,9 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                         instances.append(new_instance)
                 # check if the given mark was ever found
                 if not instances:
-                    print "Warning: the mark '%s' has not found in tier '%s' of %s" % (definitions.window_mark,
-                                                                                       definitions.window_tier,
-                                                                                       textgrid_filename)
+                    logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.window_mark,
+                                                                                        definitions.window_tier,
+                                                                                        textgrid_filename))
                     continue
         else:
 
@@ -135,9 +135,9 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                         instances.append(new_instance)
                 # check if the given mark was ever found
                 if not instances:
-                    print "Warning: the mark '%s' has not found in tier '%s' of %s" % (definitions.vot_mark,
-                                                                                       definitions.vot_tier,
-                                                                                       textgrid_filename)
+                    logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.vot_mark,
+                                                                                        definitions.vot_tier,
+                                                                                        textgrid_filename))
                     continue
 
             # if the window tier is empty and not decoding, fix window information
@@ -154,9 +154,10 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                         or instances[i].vot_min > instances[i].window_max \
                         or instances[i].window_min > instances[i].vot_max \
                         or instances[i].window_max < instances[i].vot_max:
-                        print "Error: something wrong in the TextGrid VOT tier:", instances[i]
+                        logging.error("Something wrong in the TextGrid VOT tier: %s" % instances[i])
             else:
-                print "Info: --window_tier and --window_mark for training mode need to be implemented. Using defaults."
+                logging.info("--window_tier and --window_mark for training mode need to be implemented. Using "
+                             "defaults.")
 
         # write out the information
         max_num_instances = definitions.max_num_instances
@@ -164,8 +165,8 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
         for instance in instances:
             if max_num_instances > 0 and num_instances >= max_num_instances:
                 break
-            basename = os.path.splitext(os.path.basename(textgrid_filename))[0]
-            feature_line = '%s/%s_%.3f.txt\n' % (features_dir, basename, instance.window_min)
+            my_basename = splitext(basename(textgrid_filename))[0]
+            feature_line = '%s/%s_%.3f.txt\n' % (features_dir, my_basename, instance.window_min)
             input_file.write(str(instance))
             feature_file.write(feature_line)
             num_instances += 1
@@ -203,10 +204,12 @@ if __name__ == "__main__":
                         default=0.8, type=float)
     parser.add_argument('--max_num_instances', help='max number of instances per file to use (default is to use '
                                                     'everything)', default=0, type=int)
-    parser.add_argument("--debug", help="verbose printing", action='store_const', const=True, default=False)
+    parser.add_argument("--logging_level", help="print out level (DEBUG, INFO, WARNING or ERROR)", default="INFO")
     args = parser.parse_args()
 
-    # check that the features_dir exists
+    logging_defaults(args.logging_level)
+
+    # check that the features_dir exists?
 
     # prepare configuration files for the front end (means acoustic features extraction)
     tier_definitions = TierDefinitions()
@@ -217,6 +220,6 @@ if __name__ == "__main__":
                        args.features_dir, tier_definitions, args.decoding)
 
     # call front end
-    cmd_vot_front_end = 'VotFrontEnd2 %s %s %s' % (args.input_filename, args.features_filename, 
-                                                          args.labels_filename)
-    easy_call(cmd_vot_front_end, verbose=args.debug)
+    cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, args.input_filename,
+                                                               args.features_filename, args.labels_filename)
+    easy_call(cmd_vot_front_end)

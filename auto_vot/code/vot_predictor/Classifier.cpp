@@ -36,6 +36,7 @@
  **************************** INCLUDE FILES *****************************/
 #include <iostream>
 #include "Classifier.h"
+#include "Logger.h"
 
 #define MISPAR_KATAN_MEOD (-1000000)
 #define _min(a,b) ((a)>(b) ? (b) : (a))
@@ -73,11 +74,11 @@ w_neg_sum(phi_neg_size),
 kernel(_kernel_name, phi_pos_size, _sigma)
 {
 	kernel_phi_pos_size = kernel.features_dim();
-	std::cout << "size(w_pos)=" << w_pos.size() << std::endl;
+	LOG(DEBUG) << "size(w_pos)=" << w_pos.size();
 	w_pos.resize(kernel_phi_pos_size);
 	w_pos_sum.resize(kernel_phi_pos_size);
 	phi_size = phi_neg_size + kernel_phi_pos_size;
-	std::cout << "size(w_pos)=" << w_pos.size() << std::endl;
+	LOG(DEBUG) << "size(w_pos)=" << w_pos.size() ;
 	w_pos.zeros();
 	w_neg.zeros();
 	w_pos_sum.zeros();
@@ -118,9 +119,8 @@ void Classifier::ignore_features(std::string &ignore_features_str)
 		std::string token = ignore_features_str.substr(last_pos, pos - last_pos);
 		int feature_num = atoi(token.c_str());
 		if (feature_num < 0 || feature_num >= Classifier::phi_size) {
-			std::cerr << "Error: can only ignore features in the set of 0-"
-			<< (Classifier::phi_size-1) << ". " << feature_num << " is not a valid feature number."
-			<< std::endl;
+			LOG(ERROR) << "Can only ignore features in the set of 0-" << (Classifier::phi_size-1) << ". "
+			<< feature_num << " is not a valid feature number.";
 			exit(-1);
 		}
 		else {
@@ -166,10 +166,10 @@ double Classifier::update( SpeechUtterance& x, VotLocation y, VotLocation &y_hat
 	w.subvector(0, kernel_phi_pos_size) = w_pos;
 	w.subvector(kernel_phi_pos_size, phi_neg_size) = w_neg;
 	
-	std::cout << "y=" << y << " y_hat=" << y_hat << std::endl;
-	std::cout << "w*phi(x,y)=" << w*phi_x_y << " w*phi(x,y_hat)=" << w*phi_x_y_hat
-	<< " w*phi(x,y_hat)+loss(y,y_hat)=" << w*phi_x_y_hat + current_loss << std::endl;
-	std::cout << "gamma=" << current_loss << std::endl;
+	LOG(DEBUG) << "y=" << y << " y_hat=" << y_hat;
+	LOG(DEBUG) << "w*phi(x,y)=" << w*phi_x_y << " w*phi(x,y_hat)=" << w*phi_x_y_hat
+	<< " w*phi(x,y_hat)+loss(y,y_hat)=" << w*phi_x_y_hat + current_loss;
+	LOG(DEBUG) << "gamma=" << current_loss;
 	
 	// changed 3/27/10 for consistency w/ matlab version -- MS
 	// delta_phi /= 2.0;
@@ -178,14 +178,14 @@ double Classifier::update( SpeechUtterance& x, VotLocation y, VotLocation &y_hat
 	//std::cout << "phi(x,y)= " << phi_x_y << std::endl;
 	//std::cout << "phi(x,y_hat)= " << phi_x_y_hat << std::endl;
 	//  std::cout << "delta_phi = " << delta_phi << std::endl;
-	std::cout << "hinge_loss=" << current_loss << std::endl;
-	std::cout << "delta_phi.norm2()="  << delta_phi.norm2() << std::endl;
+	LOG(DEBUG) << "hinge_loss=" << current_loss;
+	LOG(DEBUG) << "delta_phi.norm2()="  << delta_phi.norm2();
 	
 	if (current_loss > 0.0)  {
 		// update
 		double tau = current_loss / delta_phi.norm2();
 		if (tau > PA1_C) tau = PA1_C; // PA-I
-		std::cout << "tau=" << tau << std::endl;
+		LOG(DEBUG) << "tau=" << tau;
 		delta_phi *= tau;
 		w += delta_phi;
 		
@@ -193,14 +193,14 @@ double Classifier::update( SpeechUtterance& x, VotLocation y, VotLocation &y_hat
 		w_changed = true;
 	}
 	else if (current_loss == 0.0) {
-		std::cout << "Info: no update. hinge loss is zero. Wow!" << std::endl;
+		LOG(DEBUG) << "No update. hinge loss is zero. Wow!";
 		w_changed = false;
 	}
 	else { // hing loss is less than zero, if we reach this point
 		if (fabs(y.voice-y.burst) <= min_vot_length) {
-			std::cerr << "Warning: hinge loss is less than zero. This is due a short VOT in training data." << std::endl;
+			LOG(WARNING) << "Hinge loss is less than zero. This is due a short VOT in training data.";
 		} else {
-			std::cerr << "Error: hinge loss is less than zero. " << std::endl;
+			LOG(ERROR) << "Hinge loss is less than zero. ";
 			//exit(-1);
 		}
 		w_changed = false;
@@ -247,7 +247,7 @@ double Classifier::update_direct_loss(SpeechUtterance& x, VotLocation &y_hat_eps
 	//std::cout << "phi(x,y_hat_eps)= " << phi_x_y_hat_eps << std::endl;
 	//std::cout << "phi(x,y_hat)= " << phi_x_y_hat << std::endl;
 	//std::cout << "delta_phi = " << delta_phi << std::endl;
-	std::cout << "delta_phi.norm2() = "  << delta_phi.norm2() << std::endl;
+	LOG(DEBUG) << "delta_phi.norm2() = "  << delta_phi.norm2();
 	
 	if (delta_phi.norm2() == 0) {
 		w_changed = false;
@@ -260,7 +260,7 @@ double Classifier::update_direct_loss(SpeechUtterance& x, VotLocation &y_hat_eps
 	double tau_pa = 0.0;
 	if (loss_pa > 0.0) {
 		tau_pa = loss_pa / delta_phi.norm2();
-		std::cout << "tau(PA) = " << tau_pa << std::endl;
+		LOG(DEBUG) << "tau(PA) = " << tau_pa ;
 	}
 	
 	// keep the loss and w before update
@@ -289,9 +289,7 @@ double Classifier::update_direct_loss(SpeechUtterance& x, VotLocation &y_hat_eps
 		predict(x, y_hat_tmp);
 		///predict_epsilon(x, y_hat_eps_tmp, y, epsilon);
 		loss_after_update = loss(y,y_hat_tmp);
-		std::cout << "tau(DA)=" << tau
-		<< " loss_before=" << loss_before_update
-		<< " loss_after=" << loss_after_update << std::endl;
+		LOG(DEBUG) << "tau(DA)=" << tau << " loss_before=" << loss_before_update << " loss_after=" << loss_after_update ;
 		tau /= 2;
 	} while (loss_after_update >= loss_before_update && tau > 0.05) ;
 	
@@ -303,7 +301,7 @@ double Classifier::update_direct_loss(SpeechUtterance& x, VotLocation &y_hat_eps
 	else {
 		// keep old w
 		w_old = w_before_update;
-		std::cout << "w = " << w << std::endl;
+		LOG(DEBUG) << "w = " << w ;
 		w_changed = true;
 	}
 	
@@ -1018,9 +1016,9 @@ double Classifier::predict(SpeechUtterance& x, VotLocation &y_hat, bool pos_only
 				y_temp.burst = offset;
 				y_temp.voice = onset;
 				if (w_neg*phi_neg(x,y_temp) > 1000 || w_neg*phi_neg(x,y_temp) < -1000) {
-				std::cout << "phi_neg(x,y_temp)=" << phi_neg(x,y_temp) << std::endl;
-				std::cout << "w_neg=" << w_neg << std::endl;
-				std::cout << "w_neg*phi_neg(x,y_temp)=" << w_neg*phi_neg(x,y_temp) << std::endl;
+				LOG(DEBUG) << "phi_neg(x,y_temp)=" << phi_neg(x,y_temp);
+				LOG(DEBUG) << "w_neg=" << w_neg;
+				LOG(DEBUG) << "w_neg*phi_neg(x,y_temp)=" << w_neg*phi_neg(x,y_temp);
 				}
 				if (w_neg*phi_neg(x,y_temp) > D_neg) {
 					//std::cout << "wx=" << w*phi(x,y_temp) << " (-eps)=" << -epsilon*loss(y_temp,y) << std::endl;
@@ -1035,18 +1033,16 @@ double Classifier::predict(SpeechUtterance& x, VotLocation &y_hat, bool pos_only
 	if (pos_only || D_neg < D_pos) {
 		D = D_pos;
 		y_hat = y_hat_pos;
-		std::cout << "Predicted positive VOT\n";
+		LOG(DEBUG) << "Predicted positive VOT";
 	} else {
 		D = D_neg;
 		y_hat = y_hat_neg;
-		std::cout << "Predicted negative VOT\n";
+		LOG(DEBUG) << "Predicted negative VOT";
 	}
 	if (!pos_only) {
-		std::cout << "Neg prediction: " << y_hat_neg.burst << " "
-		<< y_hat_neg.voice << " conf: " << D_neg << std::endl;
+		LOG(DEBUG) << "Neg prediction: " << y_hat_neg.burst << " " << y_hat_neg.voice << " conf: " << D_neg;
 	}
-	std::cout << "Pos prediction: " << y_hat_pos.burst << " "
-	<< y_hat_pos.voice << " conf: " << D_pos << std::endl;
+	LOG(DEBUG) << "Pos prediction: " << y_hat_pos.burst << " "	<< y_hat_pos.voice << " conf: " << D_pos;
 	
 	return ( D );
 	
@@ -1120,7 +1116,7 @@ double Classifier::predict_epsilon(SpeechUtterance& x, VotLocation &y_hat,
 		y_hat = y_hat_neg;
 	}
 	
-	std::cout << "D_neg=" << D_neg << " D_pos=" << D_pos << std::endl;
+	LOG(DEBUG) << "D_neg=" << D_neg << " D_pos=" << D_pos;
 	return ( D );
 }
 
@@ -1184,7 +1180,7 @@ void Classifier::load(std::string &filename)
 	std::string filename_pos = filename + ".pos";
 	ifs.open(filename_pos.c_str());
 	if ( !ifs.good() ) {
-		std::cerr << "Unable to open " << filename_pos << std::endl;
+		LOG(ERROR) << "Unable to open " << filename_pos;
 		exit(-1);
 	}
 	ifs >> w_pos;
@@ -1194,7 +1190,7 @@ void Classifier::load(std::string &filename)
 	std::string filename_neg = filename + ".neg";
 	ifs.open(filename_neg.c_str());
 	if ( !ifs.good() ) {
-		std::cerr << "Unable to open " << filename_neg << std::endl;
+		LOG(ERROR) << "Unable to open " << filename_neg;
 		exit(-1);
 	}
 	ifs >> w_neg;
@@ -1217,7 +1213,7 @@ void Classifier::save(std::string &filename)
 	std::string filename_pos = filename + ".pos";
 	ifs.open(filename_pos.c_str());
 	if ( !ifs.good() ) {
-		std::cerr << "Unable to open " << filename_pos << std::endl;
+		LOG(ERROR) << "Unable to open " << filename_pos;
 		exit(-1);
 	}
 	ifs << w_pos;
@@ -1226,7 +1222,7 @@ void Classifier::save(std::string &filename)
 	std::string filename_neg = filename + ".neg";
 	ifs.open(filename_neg.c_str());
 	if ( !ifs.good() ) {
-		std::cerr << "Unable to open " << filename_neg << std::endl;
+		LOG(ERROR) << "Unable to open " << filename_neg;
 		exit(-1);
 	}
 	ifs << w_neg;
@@ -1245,10 +1241,10 @@ void Classifier::save(std::string &filename)
 void Classifier::w_star_mean(int &N)
 {
 	w_pos = w_pos_sum/N; 
-	std::cout << "w_pos_star = " << w_pos << std::endl;  
+	LOG(DEBUG) << "w_pos_star = " << w_pos ;
 	
 	w_neg = w_neg_sum/N; 
-	std::cout << "w_neg_star = " << w_neg << std::endl;
+	LOG(DEBUG) << "w_neg_star = " << w_neg ;
 }
 
 // --------------------- EOF ------------------------------------//

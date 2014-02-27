@@ -6,7 +6,7 @@ Author: Joseph Keshet, 18/11/2013
 """
 
 import argparse
-from utilities import *
+from autovot.utilities import *
 
 
 if __name__ == "__main__":
@@ -16,11 +16,12 @@ if __name__ == "__main__":
     parser.add_argument('features_filename', help="AutoVOT front end features file name (training)")
     parser.add_argument('labels_filename', help="AutoVOT front end labels file name (training)")
     parser.add_argument('model_filename', help="output model file name")
-    parser.add_argument('--log_filename', default='', help="log file name")
-    parser.add_argument("--debug", help="verbose printing", action='store_const', const=True, default=False)
+    parser.add_argument("--logging_level", help="print out level (DEBUG, INFO, WARNING or ERROR)", default="INFO")
     args = parser.parse_args()
 
+    logging_defaults(args.logging_level)
+
     # decoding
-    cmd_vot_decode = 'InitialVotDecode -pos_only %s %s %s' % (args.features_filename, args.labels_filename,
-                                                              args.model_filename)
-    easy_call(cmd_vot_decode, verbose=args.debug, log_filename=args.log_filename)
+    cmd_vot_decode = 'InitialVotDecode -verbose %s -pos_only %s %s %s' % (args.logging_level, args.features_filename,
+                                                                          args.labels_filename, args.model_filename)
+    easy_call(cmd_vot_decode)

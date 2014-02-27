@@ -41,11 +41,11 @@
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <PathRunnable
-         FilePath = "/Users/jkeshet/Projects/goldrick_projects/code/vot_predictor/_Darwin_Debug/VotFrontEnd2">
+         FilePath = "/Users/jkeshet/Projects/vot_measurement/published_code/auto_vot/code/vot_predictor/_Darwin_Debug/VotFrontEnd2">
       </PathRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/var/tmp/tmpbXfrFB/GC_9_2.input /var/tmp/tmpbXfrFB/GC_9_2.feature_filelist /var/tmp/tmpbXfrFB/GC_9_2.labels"
+            argument = "-verbose DEBUG config/fe_input_1.txt config/fe_features_1.txt config/fe_labels_1.txt"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

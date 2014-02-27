@@ -40,6 +40,7 @@
 #include <cmdline/cmd_line.h>
 #include "Classifier.h"
 #include "Dataset.h"
+#include "Logger.h"
 
 using namespace std;
 
@@ -67,6 +68,7 @@ int main(int argc, char **argv)
 	bool pos_only;
 	string kernel_expansion_name;
 	double sigma;
+	string verbose;
 	
 	learning::cmd_line cmdline;
 	cmdline.info("Initial VOT detection - Passive Aggressive decoding");
@@ -79,6 +81,7 @@ int main(int argc, char **argv)
 	cmdline.add("-pos_only", "Assume only positive VOTs", &pos_only, false);
   cmdline.add("-kernel_expansion", "use kernel expansion of type 'poly2' or 'rbf2'", &kernel_expansion_name, "");
   cmdline.add("-sigma", "if kernel is rbf2 or rbf3 this is the sigma", &sigma, 1.0);
+	cmdline.add("-verbose", "log reporting level [ERROR, WARNING, INFO, or DEBUG]", &verbose, "INFO");
 	cmdline.add_master_option("instances_filelist", &instances_filelist);
 	cmdline.add_master_option("labels_filename[can be `null` for no labels]", &labels_filename);
 	cmdline.add_master_option("classifier_filename", &classifier_filename);
@@ -88,11 +91,14 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 	
+	Log::ReportingLevel() = Log::FromString(verbose);
+	Log::ExecutableName() = basename(argv[0]);
+
 	// Initiate classifier
 	Classifier classifier(min_vot_length, max_vot_length, max_onset_time, 0.0, 0.0, 0.0, 0.0, kernel_expansion_name, sigma);
 	classifier.load(classifier_filename);
 	if (ignore_features_str != "") {
-		cout << "Info: ignoring features " << ignore_features_str << "." << endl;
+		LOG(INFO) << "Ignoring features " << ignore_features_str << ".";
 		classifier.ignore_features(ignore_features_str);
 	}
 	
@@ -127,7 +133,7 @@ int main(int argc, char **argv)
 	if (output_predictions_filename != "") {
 		output_predictions_ofs.open(output_predictions_filename.c_str());
 		if (!output_predictions_ofs.good()) {
-			cerr << "Error: unable to open " << output_predictions_filename << "for writing." << endl;
+			LOG(ERROR) << "Unable to open " << output_predictions_filename << "for writing.";
 		}
 	}
 	
@@ -138,7 +144,7 @@ int main(int argc, char **argv)
 		VotLocation y;
 		VotLocation y_hat;
 		
-		cout << "==================================================================================" << endl;
+		LOG(DEBUG) << "===========================================================";
 		
 		// read next example for dataset
 		test_dataset.read(x, y);
@@ -162,8 +168,8 @@ int main(int argc, char **argv)
 			for (uint j=0; j < sizeof(loss_resolutions)/sizeof(int); j++)
 				if ( offset_loss <= loss_resolutions[j] ) cum_loss_less_than[j]++;
 			
-			cout << "burst onset err: " << y_hat.burst - y.burst << endl;
-			cout << "voice onset err: " << y_hat.voice - y.voice << endl;
+			LOG(DEBUG) << "burst onset err: " << y_hat.burst - y.burst;
+			LOG(DEBUG) << "voice onset err: " << y_hat.voice - y.voice;
 			
 			int vot_loss = abs(y.voice-y.burst-(y_hat.voice-y_hat.burst));
 			for (uint j=0; j < sizeof(loss_resolutions)/sizeof(int); j++)
@@ -196,61 +202,49 @@ int main(int argc, char **argv)
 			}
 			
 			// labeled and predicted VOT
-			cout << "Labeled VOT: " << y.burst << " " << y.voice << endl;
-			cout << "Predicted VOT: " << y_hat.burst << " "
-			<< y_hat.voice << " conf: " << confidence << endl;
+			LOG(DEBUG) << "Labeled VOT: " << y.burst << " " << y.voice;
+			LOG(DEBUG) << "Predicted VOT: " << y_hat.burst << " " << y_hat.voice << " conf: " << confidence;
 			
 			// boundaries t<= table
-			cout << "Cum loss = " << cumulative_loss/double(num_boundaries) << endl;
+			LOG(DEBUG) << "Cum loss = " << cumulative_loss/double(num_boundaries);
 			for (uint j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
-				cout << "% Boundaries (t <= " << loss_resolutions[j] << "ms) = "
-				<< 100.0*cum_loss_less_than[j]/double(num_boundaries) << "\n";
+				LOG(DEBUG) << "% Boundaries (t <= " << loss_resolutions[j] << "ms) = "
+				<< 100.0*cum_loss_less_than[j]/double(num_boundaries) ;
 			}
-			
-			cout << endl;
-			
+
 			// VOT t<= table
-			cout << "Cum VOT loss = " << cumulative_vot_loss/double(num_vots) << endl;
+			LOG(DEBUG) << "Cum VOT loss = " << cumulative_vot_loss/double(num_vots);
 			for (uint j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
-				cout << "% VOT error (t <= " << loss_resolutions[j] << "ms) = "
-				<< 100.0*cum_vot_loss_less_than[j]/double(num_vots) << "\n";
+				LOG(DEBUG) << "% VOT error (t <= " << loss_resolutions[j] << "ms) = "
+				<< 100.0*cum_vot_loss_less_than[j]/double(num_vots);
 			}
-			
-			cout << endl;
-			
+
 			// percent misclassified
 			int num_misclassified = neg_mislabeled_pos + pos_mislabeled_neg;
 			int num_corr = num_vots - num_misclassified;
-			cout << "Total num misclassified = "
-			<< double(num_misclassified)/double(num_vots) << endl;
-			cout << "Num pos misclassified as neg = "
-			<< double(pos_mislabeled_neg)/double(num_pos) << endl;
-			cout << "Num neg misclassified as pos = "
-			<< double(neg_mislabeled_pos)/double(num_neg) << endl;
+			LOG(DEBUG) << "Total num misclassified = " << double(num_misclassified)/double(num_vots);
+			LOG(DEBUG) << "Num pos misclassified as neg = " << double(pos_mislabeled_neg)/double(num_pos);
+			LOG(DEBUG) << "Num neg misclassified as pos = " << double(neg_mislabeled_pos)/double(num_neg);
 			
 			// VOT t<= table for correctly classified data only
-			cout << "Cum VOT loss on correctly classified data = "
-			<< cumulative_corr_loss/double(num_corr)
-			<< endl;
+			LOG(DEBUG) << "Cum VOT loss on correctly classified data = " << cumulative_corr_loss/double(num_corr);
 			for (uint j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
-				cout << "% corr VOT error (t <= " << loss_resolutions[j] << "ms) = "
-				<< 100.0*cum_corr_loss_less_than[j]/double(num_corr) << "\n";
+				LOG(DEBUG) << "% corr VOT error (t <= " << loss_resolutions[j] << "ms) = "
+				<< 100.0*cum_corr_loss_less_than[j]/double(num_corr);
 			}
-			
-			cout << endl;
 		}
 	}
 	
 	rms_onset_loss /= double(num_vots);
 	rms_onset_loss = sqrt(num_vots);
 	
-	cout << "rms onset loss: " << rms_onset_loss << endl;
+	LOG(DEBUG) << "rms onset loss: " << rms_onset_loss;
 	
 	if (output_predictions_filename != "" && output_predictions_ofs.good())
 		output_predictions_ofs.close();
 	
 	delete [] cum_loss_less_than ;
-	cout << "Done." << endl;  
+	LOG(INFO) << "Decoding completed.";
 	
 	return EXIT_SUCCESS;
 	

@@ -2,12 +2,12 @@ SUBDIRS := infra2 cmdline htk_utils
 CURRENTDIR := $(shell basename `pwd` )
 
 all:
-	@echo ">>> Compiling ${CURRENTDIR} <<<"
+	@echo "[make] Compiling ${CURRENTDIR}."
 	@for subdir in ${SUBDIRS} ; do ( cd $$subdir ; ${MAKE} $@) || exit 10 ; done
-	@echo ">> !!! Ok !!! <<<"
+	@echo "[make] Compiling ${CURRENTDIR} completed."
 
 clean:
-	@echo ">>> Cleaning ${CURRENTDIR} <<<"
+	@echo "[make] Cleaning ${CURRENTDIR}."
 	@for subdir in ${SUBDIRS} ; do ( cd $$subdir ; ${MAKE} clean $@ ) || exit 10 ; done
-	@echo ">> !!! Ok !!! <<<"
+	@echo "[make] Cleaning ${CURRENTDIR} completed."
 

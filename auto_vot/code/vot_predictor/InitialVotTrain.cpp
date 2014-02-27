@@ -40,6 +40,7 @@
 #include <cmdline/cmd_line.h>
 #include "Classifier.h"
 #include "Dataset.h"
+#include "Logger.h"
 
 using namespace std;
 
@@ -75,6 +76,7 @@ int main(int argc, char **argv)
 	bool pos_only;
 	string kernel_expansion_name;
 	double sigma;
+	string verbose;
 	
 	learning::cmd_line cmdline;
 	cmdline.info("Initial VOT detection - Passive Aggressive training");
@@ -97,6 +99,7 @@ int main(int argc, char **argv)
   cmdline.add("-kernel_expansion", "use kernel expansion of type 'poly2' or 'rbf2'",
               &kernel_expansion_name, "");
   cmdline.add("-sigma", "if kernel is rbf2 or rbf3 this is the sigma", &sigma, 1.0);
+	cmdline.add("-verbose", "log reporting level [ERROR, WARNING, INFO, or DEBUG]", &verbose, "INFO");
 	cmdline.add_master_option("train_instances_filelist", &train_instances_filelist);
 	cmdline.add_master_option("train_labels_filename", &train_labels_filename);
 	cmdline.add_master_option("classifier_filename", &classifier_filename);
@@ -105,6 +108,9 @@ int main(int argc, char **argv)
 		cmdline.print_help();
 		return EXIT_FAILURE;
 	}
+	
+	Log::ReportingLevel() = Log::FromString(verbose);
+	Log::ExecutableName() = basename(argv[0]);
 	
 	// Initiate classifier
 	Classifier classifier(min_vot_length, max_vot_length, max_onset_time, C,
@@ -115,12 +121,13 @@ int main(int argc, char **argv)
 	}
 	
 	if (ignore_features_str != "") {
-		cout << "Info: ignoring features " << ignore_features_str << "." << endl;
+		LOG(INFO) << "Ignoring features " << ignore_features_str << ".";
 		classifier.ignore_features(ignore_features_str);
 	}
 	
-	if (training_method != "")
-		cout << "Info: training method is " << training_method << endl;
+	if (training_method != "") {
+		LOG(DEBUG) << "Training method is " << training_method;
+	}
 	
 	double loss;
 	double cum_loss = 0.0;
@@ -144,7 +151,7 @@ int main(int argc, char **argv)
 			SpeechUtterance x;
 			VotLocation y;
 			
-			cout << "==================================================================================" << endl;
+			LOG(DEBUG) << "=========================================================================";
 			
 			// read next example for dataset
 			training_dataset.read(x, y);
@@ -175,7 +182,7 @@ int main(int argc, char **argv)
 				loss = classifier.update(x, y, y_hat, vot_loss);
 			}
 			else {
-				std::cerr << "Error: unsupported training method" << std::endl;
+				LOG(ERROR) << "Unsupported training method";
 				return EXIT_FAILURE;
 			}
 			
@@ -186,7 +193,7 @@ int main(int argc, char **argv)
 			
 			// now, check the validations error
 			if ( val_instances_filelist != "" && classifier.was_changed() ) {
-				cout << "Validation...\n";
+				LOG(DEBUG) << "Validation...";
 				Dataset val_dataset(val_instances_filelist, val_labels_filename);
 				double this_w_loss = 0.0;
 				for (uint ii=0; ii < val_dataset.size(); ++ii) {
@@ -204,8 +211,8 @@ int main(int argc, char **argv)
 					best_validation_loss = this_w_loss;
 					classifier.save(classifier_filename);
 				}
-				cout << "i = " << i << ", this validation error = " << this_w_loss
-				<< ", best validation loss  = " << best_validation_loss << endl;
+				LOG(DEBUG) << "i = " << i << ", this validation error = " << this_w_loss
+				<< ", best validation loss  = " << best_validation_loss;
 				
 				// stopping criterion for iterate until convergence
 				//        if (best_validation_loss < 1.0)
@@ -216,8 +223,8 @@ int main(int argc, char **argv)
 		
 		avg_loss_in_epoch /=  training_dataset.size();
 		
-		cout << " average normalized loss = " << avg_loss_in_epoch
-		<< " best validation loss  = " << best_validation_loss << endl;
+		LOG(DEBUG) << " average normalized loss = " << avg_loss_in_epoch
+		<< " best validation loss  = " << best_validation_loss;
 	}
 	if (val_instances_filelist == ""){
 		// make w the mean of the w_i, over all examples and epochs:
@@ -225,10 +232,10 @@ int main(int argc, char **argv)
 		classifier.save(classifier_filename);
 	}
 	else {
-		cout << "Did not save the averaged classifier" << endl;
+		LOG(DEBUG) << "Did not save the averaged classifier";
 	}
 	
-	cout << "Done." << endl;  
+	LOG(INFO) << "Training completed.";
 	
 	return EXIT_SUCCESS;
 	

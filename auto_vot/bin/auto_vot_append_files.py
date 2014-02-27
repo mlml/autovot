@@ -6,7 +6,9 @@ Author: Joseph Keshet, 18/11/2013
 """
 
 import argparse
-
+import sys
+from os.path import basename 
+from autovot.utilities import *
 
 if __name__ == "__main__":
     # parse arguments
@@ -15,8 +17,10 @@ if __name__ == "__main__":
     parser.add_argument('labels_filename', help="front end labels file name")
     parser.add_argument('appended_features_filename', help="front end features file name to be appended")
     parser.add_argument('appended_labels_filename', help="front end labels file name to be appended")
-    parser.add_argument("--debug", help="verbose printing", action='store_const', const=True, default=False)
+    parser.add_argument("--logging_level", help="print out level (DEBUG, INFO, WARNING or ERROR)", default="INFO")
     args = parser.parse_args()
+
+    logging_defaults(args.logging_level)
 
     # open files
     in_features = open(args.features_filename)
@@ -36,8 +40,8 @@ if __name__ == "__main__":
     in_labels.close()
 
     if len(lines) != int(dims[0]):
-        print "Error: ", args.features_filename, " and ", args.labels_filename, " are not in the same length or ", \
-            args.labels_filename, "is missing a header"
+        logging.error("%s and %s are not of the same length or %s is missing a header" %
+            (args.features_filename, args.labels_filename, args.labels_filename))
         exit(-1)
 
     try:
@@ -63,13 +67,13 @@ if __name__ == "__main__":
 
         # assert header
         if len(lines) != int(dims[0])+int(app_dims[0]):
-            print "Error: something wrong with ", args.appended_labels_filename, " header"
+            logging.error("Something wrong with the header of %s" % args.appended_labels_filename)
             exit(-1)
     
     except Exception as exception:
         if exception.errno != 2:
-            print "Error: something wrong with opening %s and %s for reading." % (args.appended_features_filename,
-                                                                                  args.appended_labels_filename)
+            logging.error("Something wrong with opening %s and %s for reading." % \
+                (args.appended_features_filename, args.appended_labels_filename))
 
     # open appended files for writing
     out_features = open(args.appended_features_filename, 'w')

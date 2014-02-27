@@ -13,6 +13,7 @@
 #include <cfloat>
 #include <infra.h>
 #include <cmdline/cmd_line.h>
+#include "Logger.h"
 #include "Dataset.h"
 #include "infra_dsp.h"
 #include "get_f0s.h"
@@ -50,11 +51,13 @@ int main(int argc, char **argv)
 	bool labels_given;
 	bool dont_normalize;
 	int limit_instances;
+	string verbose;
 	
 	learning::cmd_line cmdline;
 	cmdline.info("Front end for VOT detection");
 	cmdline.add("-dont_normalize", "don't normalize features", &dont_normalize, false);
 	cmdline.add("-limit_instances", "number of instances to extract", &limit_instances, -1);
+	cmdline.add("-verbose", "log reporting level [ERROR, WARNING, INFO, or DEBUG]", &verbose, "INFO");
 	cmdline.add_master_option("input_filelist", &input_filelist);
 	cmdline.add_master_option("output_features_filelist", &output_features_filelist);
 	cmdline.add_master_option("output_labels (\"null\" if no labels are given) ", &output_labels);
@@ -63,6 +66,9 @@ int main(int argc, char **argv)
 		cmdline.print_help();
 		return EXIT_FAILURE;
 	}
+	
+	Log::ReportingLevel() = Log::FromString(verbose);
+	Log::ExecutableName() = basename(argv[0]);
 	
 	labels_given = (output_labels != "null");
 	
@@ -75,13 +81,13 @@ int main(int argc, char **argv)
 	output_features_filenames.read(output_features_filelist);
 	
 	if (output_features_filenames.size() != instances.size()) {
-		cerr << "Error: number of input files does not match the number of output features files" << endl;
+		LOG(ERROR) << "Number of input files does not match the number of output features files";
 		return EXIT_FAILURE;
 	}
 	
 	std::ofstream ofs_y(output_labels.c_str());
 	if (!ofs_y.good() && labels_given) {
-		cerr << "Error: unable to open " << output_labels << endl;
+		LOG(ERROR) << "Unable to open " << output_labels;
 		return EXIT_FAILURE;
 	}
 	if (labels_given)
@@ -90,9 +96,10 @@ int main(int argc, char **argv)
 	// process each line
 	if (limit_instances < 0)
 		limit_instances = instances.size();
+	LOG(INFO) << "Processing " << _min(limit_instances,instances.size()) << " files...";
 	for (unsigned int i=0; i < _min(limit_instances,instances.size()); i++) {
 		
-		cout << "Processing " << (i+1) << " of " << instances.size() << endl;
+		LOG(DEBUG) << "Processing " << (i+1) << " of " << instances.size();
 		
 		// read samples
 		infra::vector samples;
@@ -104,16 +111,16 @@ int main(int argc, char **argv)
 		}
 
 		if (instances.word_end[i] >= samples.size()/double(sampling_rate)) {
-			cerr << "Error: word end (" << instances.word_end[i] << ") is greater than " ;
-			cerr << "the length of " << instances.file_list[i] << endl;
+			LOG(ERROR) << "Word end (" << instances.word_end[i] << ") is greater than "
+			<< "the length of " << instances.file_list[i];
 			return EXIT_FAILURE;
 		}
 		
 		if (labels_given) {
 			int vot_offset = instances.vot_burst[i] > instances.vot_voice[i] ? instances.vot_burst[i] : instances.vot_voice[i];
 			if (vot_offset >= samples.size()/double(sampling_rate)) {
-				cerr << "Error: burst onset or voice onset: (" << vot_offset << ") is greater than " ;
-				cerr << "the length of " << instances.file_list[i] << endl;
+				LOG(ERROR) << "Burst onset or voice onset: (" << vot_offset << ") is greater than the length of "
+				<< instances.file_list[i];
 				return EXIT_FAILURE;
 			}
 		}
@@ -436,6 +443,8 @@ int main(int argc, char **argv)
 	
 	if (ofs_y.good()) 
 		ofs_y.close();
+	
+	LOG(INFO) << "Features extraction completed.";
 	
 	return EXIT_SUCCESS;
 	

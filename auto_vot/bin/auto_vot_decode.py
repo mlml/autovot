@@ -9,8 +9,8 @@ import argparse
 import os
 import tempfile
 from auto_vot_extract_features import *
-from utilities import *
-from textgrid import *
+from autovot.utilities import *
+from autovot.textgrid import *
 import shutil
 
 
@@ -35,20 +35,16 @@ if __name__ == "__main__":
 
     parser.add_argument('--min_vot_length', help='minimum allowed length of predicted VOT (in msec) in decoding',
                         default=15, type=int)
-    ## MS: set to 15 because that's the default for InitialVotDecode
-
     parser.add_argument('--max_vot_length', help='maximum allowed length of predicted VOT (in msec) in decoding',
                         default=250, type=int)
-
-    ## MS: set to 250 because that's what was in the call to
-    ## InitialVotDecode below, before I changed it
-
-    parser.add_argument("--debug", help="verbose printing", action='store_const', const=True, default=False)
+    parser.add_argument("--logging_level", help="print out level (DEBUG, INFO, WARNING or ERROR)", default="INFO")
     args = parser.parse_args()
 
+    logging_defaults(args.logging_level)
+
     if args.wav_filename == '' and args.textgrid_filename == '':
-        print 'Error: either the parameters --wav_filename and --textgrid_filename should be given or ' \
-              'the parameters --features_filename and --labels_filename should be given.'
+        logging.error('Either the parameters --wav_filename and --textgrid_filename should be given or ' \
+                      'the parameters --features_filename and --labels_filename should be given.')
         exit(-1)
 
     # extract tier definitions
@@ -58,39 +54,40 @@ if __name__ == "__main__":
     # intermediate files that will be used to represent the locations of the VOTs, their windows and the features
     working_dir = tempfile.mkdtemp()
     features_dir = working_dir + "/features"
-    basename = os.path.splitext(os.path.basename(args.wav_filename))[0]
-    basename = working_dir + "/" + basename
+    my_basename = os.path.splitext(os.path.basename(args.wav_filename))[0]
+    my_basename = working_dir + "/" + my_basename
     os.makedirs(features_dir)
-    input_filename = basename + ".input"
-    features_filename = basename + ".feature_filelist"
-    labels_filename = basename + ".labels"
-    preds_filename = basename + ".preds"
-    final_vot_filename = basename + ".vot"
+    input_filename = my_basename + ".input"
+    features_filename = my_basename + ".feature_filelist"
+    labels_filename = my_basename + ".labels"
+    preds_filename = my_basename + ".preds"
+    final_vot_filename = my_basename + ".vot"
 
-    textgrid_list = basename + ".tg_list"
+    textgrid_list = my_basename + ".tg_list"
     f = open(textgrid_list, 'w')
     f.write(args.textgrid_filename + '\n')
     f.close()
 
-    wav_list = basename + ".wav_list"
+    wav_list = my_basename + ".wav_list"
     f = open(wav_list, 'w')
     f.write(args.wav_filename + '\n')
     f.close()
 
-    if args.debug:
-        print "working_dir=", working_dir
+    logging.debug("working_dir=%s" % working_dir)
 
     # call front end
     textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename, features_dir, tier_definitions,
                        decoding=False)
-    cmd_vot_front_end = 'VotFrontEnd2 %s %s %s' % (input_filename, features_filename, labels_filename)
-    easy_call(cmd_vot_front_end, verbose=args.debug)
+    cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, input_filename, features_filename,
+                                                               labels_filename)
+    easy_call(cmd_vot_front_end)
 
     # testing
-    cmd_vot_decode = 'InitialVotDecode -max_onset 200 -min_vot_length %d -max_vot_length %d -output_predictions %s ' \
-                     '%s %s %s' % (args.min_vot_length, args.max_vot_length, preds_filename, features_filename,
-                                   labels_filename, args.model_filename)
-    easy_call(cmd_vot_decode, verbose=args.debug)
+    cmd_vot_decode = 'InitialVotDecode -verbose %s -max_onset 200 -min_vot_length %d -max_vot_length %d ' \
+                     '-output_predictions %s %s %s %s' % (args.logging_level, args.min_vot_length,
+                                                          args.max_vot_length, preds_filename, features_filename,
+                                                          labels_filename, args.model_filename)
+    easy_call(cmd_vot_decode)
 
 
     # convert decoding back to TextGrid
@@ -118,9 +115,8 @@ if __name__ == "__main__":
             xmin_preds.append(xmin_proc_win[k] + xmax/1000)
             xmax_preds.append(xmin_proc_win[k] + xmin/1000)
             mark_preds.append("neg " + confidence)
-        if args.debug:
-            print confidence, (xmin/1000), (xmax/1000), xmin_proc_win[k], " --> ", xmin_proc_win[k] + (xmin/1000), \
-                xmin_proc_win[k] + (xmax/1000), " [", confidence, "]"
+            # print confidence, (xmin/1000), (xmax/1000), xmin_proc_win[k], " --> ", xmin_proc_win[k] + (xmin/1000), \
+            #     xmin_proc_win[k] + (xmax/1000), " [", confidence, "]"
         k += 1
 
     # add "AutoVOT" tier to textgrid_filename
@@ -142,5 +138,5 @@ if __name__ == "__main__":
     textgrid.write(args.textgrid_filename)
 
     # delete the working directory at the end
-    if not args.debug:
+    if args.logging_level != "DEBUG":
         shutil.rmtree(path=working_dir, ignore_errors=True)

@@ -2,6 +2,12 @@
 
 import subprocess
 import random
+import logging
+
+
+def logging_defaults(logging_level="INFO"):
+    logging.basicConfig(level=logging_level, format='%(asctime)s.%(msecs)d [%(filename)s] %(levelname)s: %(message)s',
+                        datefmt='%H:%M:%S')
 
 
 def num_lines(filename):
@@ -11,29 +17,17 @@ def num_lines(filename):
     return lines
 
 
-def easy_call(command, verbose=False, log_filename='', fake=False):
-    #os.environ['DYLD_LIBRARY_PATH'] = \
-    #    '/Users/jkeshet/Projects/goldrick_projects/code/audiofile-0.3.4/libaudiofile/.libs'
+def easy_call(command):
     try:
-        if not log_filename == '':
-            with open(log_filename, "a") as myfile:
-                myfile.write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
-                myfile.write(command)
-                myfile.write("\n")
-            command += " | tee -a %s" % log_filename
-        if verbose:
-            print command
-        if not fake:
-            return_code = subprocess.call(command, shell=True)
-            if verbose:
-                print "return_code", return_code
-            if return_code == 127:
-                exit(-1)
+        logging.debug(command)
+        return_code = subprocess.call(command, shell=True)
+        logging.debug('Return code: %d' % return_code)
+        if return_code == 127 or return_code < 0:
+            exit(-1)
     except Exception as exception:
-        print "Error: could not execute the following"
-        print ">>", command
-        print type(exception)     # the exception instance
-        print exception.args      # arguments stored in .args
+        logging.error('Could not execute the following:')
+        logging.error(command)
+        logging.error('%s - %s' % (type(exception), exception.args))
         exit(-1)
 
 

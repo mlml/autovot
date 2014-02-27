@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include "KernelExpansion.h"
+#include "Logger.h"
 
 KernelExpansion::KernelExpansion(std::string _kernel_name, int _d, double _sigma)
 {
@@ -29,7 +30,7 @@ int KernelExpansion::features_dim()
   else if  (kernel_name == "" || kernel_name == "none")
     D = d;
   else {
-    std::cerr << "Error: this type of kernel expansion is not supported" << std::endl;
+    LOG(ERROR) << "This type of kernel expansion is not supported" ;
     exit (-1);
   }
   return D;
