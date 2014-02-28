@@ -3,7 +3,7 @@
 import subprocess
 import random
 import logging
-
+import os.path
 
 def logging_defaults(logging_level="INFO"):
     logging.basicConfig(level=logging_level, format='%(asctime)s.%(msecs)d [%(filename)s] %(levelname)s: %(message)s',
@@ -21,8 +21,8 @@ def easy_call(command):
     try:
         logging.debug(command)
         return_code = subprocess.call(command, shell=True)
-        logging.debug('Return code: %d' % return_code)
         if return_code == 127 or return_code < 0:
+            logging.debug('Return code: %d' % return_code)
             exit(-1)
     except Exception as exception:
         logging.error('Could not execute the following:')
@@ -46,8 +46,8 @@ def random_shuffle_data(in_features_filename, in_labels_filename, out_features_f
     for x, y in zip(in_features, in_labels):
         lines.append((x, y))
     if len(lines) != int(dims[0]):
-        print "Error: either the feature file and the label file are not the same length of label file missing a " \
-              "header"
+        logging.error("Either the feature file and the label file are not the same length of label file missing a "
+                      "header")
         exit(-1)
 
     # close files
@@ -80,7 +80,7 @@ def random_shuffle_data(in_features_filename, in_labels_filename, out_features_f
 def extract_lines(input_filename, output_filename, lines_range, has_header=False):
 
     if lines_range[0] >= lines_range[1]:
-        print "Error: range should be causal."
+        logging.error("Range should be causal.")
         exit(-1)
     input_file = open(input_filename)
     output_file = open(output_filename, 'w')
@@ -102,3 +102,7 @@ def is_textgrid(filename):
         return True
     return False
 
+
+def is_a_single_file(filename, extension):
+    basename, ext = os.path.splitext(filename)
+    return extension == ext

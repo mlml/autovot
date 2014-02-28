@@ -4,7 +4,7 @@
 
 # TODO: documentation
 
-
+import logging
 import re
 
 
@@ -146,7 +146,7 @@ class TextGrid:
                         #
                         itie.append(Interval(jmin, jmax, jmrk))
                     except:
-                        print "Error: unable to parse TextGrid %s." % text.name
+                        logging.error("Unable to parse TextGrid %s." % text.name)
 
                 self.append(itie) 
             else: # pointTier
@@ -239,9 +239,7 @@ class IntervalTier:
 
     # # MS added
     def remove(self, interval):
-        print "removing %d" % interval.xmin()
-        if(round(interval.xmin(),5)==112.55395):
-                        print "hi"
+        logging.debug("removing %d" % interval.xmin())
         self.__intervals.remove(interval)
         self.__n -= 1
 
