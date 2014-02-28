@@ -1,13 +1,12 @@
 #! /usr/bin/env python
 
 """
-concate_feature_and_labels_files.py
+auto_vot_append_files.py
 Author: Joseph Keshet, 18/11/2013
 """
 
 import argparse
-import sys
-from os.path import basename 
+
 from autovot.utilities import *
 
 if __name__ == "__main__":
@@ -40,8 +39,9 @@ if __name__ == "__main__":
     in_labels.close()
 
     if len(lines) != int(dims[0]):
-        logging.error("%s and %s are not of the same length or %s is missing a header" %
-            (args.features_filename, args.labels_filename, args.labels_filename))
+        logging.error("%s and %s are not of the same length or %s is missing a header" % (args.features_filename,
+                                                                                          args.labels_filename,
+                                                                                          args.labels_filename))
         exit(-1)
 
     try:
@@ -72,8 +72,8 @@ if __name__ == "__main__":
     
     except Exception as exception:
         if exception.errno != 2:
-            logging.error("Something wrong with opening %s and %s for reading." % \
-                (args.appended_features_filename, args.appended_labels_filename))
+            logging.error("Something wrong with opening %s and %s for reading." % (args.appended_features_filename,
+                                                                                   args.appended_labels_filename))
 
     # open appended files for writing
     out_features = open(args.appended_features_filename, 'w')
