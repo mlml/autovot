@@ -102,7 +102,3 @@ def is_textgrid(filename):
         return True
     return False
 
-
-if __name__ == "__main__":
-    easy_call("ls -al", log_filename='log.txt', verbose=True)
-
