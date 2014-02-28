@@ -7,10 +7,11 @@ Author: Joseph Keshet, 18/11/2013
 
 import argparse
 import wave
+from os.path import splitext, basename
+
 from autovot.textgrid import *
 from autovot.utilities import *
-import sys
-from os.path import splitext, basename
+
 
 class Instance:
     def __init__(self):
