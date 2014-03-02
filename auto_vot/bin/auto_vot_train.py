@@ -4,10 +4,11 @@
 auto_vot_train.py
 Author: Joseph Keshet, 18/11/2013
 """
-import os
 
+import os
 import shutil
 import tempfile
+
 from auto_vot_extract_features import *
 from autovot.utilities import *
 
@@ -20,17 +21,8 @@ if __name__ == "__main__":
     parser.add_argument('model_filename', help="output model file name")
     parser.add_argument('--vot_tier', default='vot', help='name of the tier to extract VOTs from')
     parser.add_argument('--vot_mark', default='*', help='VOT mark value (e.g., "pos", "neg") or "*" for any string')
-    parser.add_argument('--window_tier', default='', help='used this window as a search window for training. If not '
-                                                          'given, a constant window with parameters [window_min, '
-                                                          'window_max] around the manually labeled VOT will be used')
-    parser.add_argument('--window_mark', default='', help='window mark value or "*" for any string')
-    parser.add_argument('--window_min', default=-0.05, type=float, help='window left boundary (in msec) relative to '
-                                                                        'the VOT right boundary (usually should be '
-                                                                        'negative, that is, before the VOT right '
-                                                                        'boundary.)')
-    parser.add_argument('--window_max', default=0.8, type=float, help='window right boundary (in msec) relative to '
-                                                                      'the VOT right boundary (usually should be '
-                                                                      'positive, that is, after the VOT left boundary)')
+    parser.add_argument('--cv_auto', help='use 20% of the training set for cross validation', action='store_const',
+                        const=True, default=False)
     parser.add_argument('--cv_textgrid_list', default='', help='list of manually labeled TextGrid files for '
                                                                'cross-validation')
     parser.add_argument('--cv_wav_list', default='', help='list of WAV files for cross-validation')
@@ -59,7 +51,7 @@ if __name__ == "__main__":
 
     # call front end
     cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, input_filename, features_filename,
-                                                              labels_filename)
+                                                               labels_filename)
     easy_call(cmd_vot_front_end)
 
     # random file lines
@@ -68,7 +60,7 @@ if __name__ == "__main__":
     num_instances = random_shuffle_data(features_filename, labels_filename, features_filename_rs, labels_filename_rs)
 
     # Split files to cross-validation
-    if args.cv_textgrid_list == '':
+    if args.cv_textgrid_list == '' and args.cv_auto:
         logging.debug("Using 20% of the data for cross-validation")
         num_instances_for_training = int(num_instances * 0.80)
         instance_range_for_training = (0, num_instances_for_training - 1)
@@ -85,7 +77,17 @@ if __name__ == "__main__":
         extract_lines(features_filename_rs, features_filename_test, instance_range_for_test)
         labels_filename_test = labels_filename_rs + ".test"
         extract_lines(labels_filename_rs, labels_filename_test, instance_range_for_test, has_header=True)
-    else:
+        # Training
+        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 %s %s %s' % \
+            (args.logging_level, features_filename_training, labels_filename_training, args.model_filename)
+        easy_call(cmd_vot_training)
+        # Test
+        cmd_vot_decode = 'InitialVotDecode -verbose %s %s %s %s' % (args.logging_level, features_filename_test,
+            labels_filename_test, args.model_filename)
+        easy_call(cmd_vot_decode)
+
+    elif args.cv_textgrid_list != '':
+        logging.debug("Using user data for cross-validation")
         features_filename_training = features_filename_rs
         labels_filename_training = labels_filename_rs
         input_filename_test = working_dir + "/training.input.test"
@@ -96,18 +98,24 @@ if __name__ == "__main__":
                            features_dir, tier_definitions)
         # call front end
         cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, input_filename_test,
-                                                                   features_filename_test, labels_filename_test)
+            features_filename_test, labels_filename_test)
         easy_call(cmd_vot_front_end)
+        # Training
+        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 %s %s %s' % \
+            (args.logging_level, features_filename_training, labels_filename_training, args.model_filename)
+        easy_call(cmd_vot_training)
+        # Test
+        cmd_vot_decode = 'InitialVotDecode -verbose %s %s %s %s' % (args.logging_level, features_filename_test,
+            labels_filename_test, args.model_filename)
+        easy_call(cmd_vot_decode)
 
-    # Training
-    cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 %s %s %s' % \
-                       (args.logging_level, features_filename_training, labels_filename_training, args.model_filename)
-    easy_call(cmd_vot_training)
-
-    # Test
-    cmd_vot_decode = 'InitialVotDecode -verbose %s %s %s %s' % (args.logging_level, features_filename_test,
-                                                                labels_filename_test, args.model_filename)
-    easy_call(cmd_vot_decode)
+    else:
+        features_filename_training = features_filename_rs
+        labels_filename_training = labels_filename_rs
+        # Training
+        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 %s %s %s' % \
+            (args.logging_level, features_filename_training, labels_filename_training, args.model_filename)
+        easy_call(cmd_vot_training)
 
     # remove working directory and its content
     if args.logging_level != "DEBUG":
