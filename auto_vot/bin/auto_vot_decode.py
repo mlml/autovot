@@ -70,10 +70,13 @@ if __name__ == "__main__":
     # run over files
     for wav_file, textgrid_file in zip(wav_files, textgrid_files):
 
+        wav_file = wav_file.strip()
+        textgrid_file = textgrid_file.strip()
+
         # intermediate files that will be used to represent the locations of the VOTs, their windows and the features
         working_dir = tempfile.mkdtemp()
         features_dir = working_dir + "/features"
-        my_basename = os.path.splitext(os.path.basename(args.wav_filename))[0]
+        my_basename = os.path.splitext(os.path.basename(wav_file))[0]
         my_basename = working_dir + "/" + my_basename
         os.makedirs(features_dir)
         input_filename = my_basename + ".input"
@@ -84,12 +87,12 @@ if __name__ == "__main__":
 
         textgrid_list = my_basename + ".tg_list"
         f = open(textgrid_list, 'w')
-        f.write(args.textgrid_filename + '\n')
+        f.write(textgrid_file + '\n')
         f.close()
 
         wav_list = my_basename + ".wav_list"
         f = open(wav_list, 'w')
-        f.write(args.wav_filename + '\n')
+        f.write(wav_file + '\n')
         f.close()
 
         logging.debug("working_dir=%s" % working_dir)
@@ -139,7 +142,7 @@ if __name__ == "__main__":
 
         # add "AutoVOT" tier to textgrid_filename
         textgrid = TextGrid()
-        textgrid.read(args.textgrid_filename)
+        textgrid.read(textgrid_file)
         auto_vot_tier = IntervalTier(name='AutoVOT', xmin=textgrid.xmin(), xmax=textgrid.xmax())
         auto_vot_tier.append(Interval(textgrid.xmin(), xmin_preds[0], ''))
         # print textgrid.xmin(), xmin_preds[0], ''
@@ -153,7 +156,7 @@ if __name__ == "__main__":
         auto_vot_tier.append(Interval(xmax_preds[-1], textgrid.xmax(), ''))
         # print xmax_preds[-1], textgrid.xmax(), ''
         textgrid.append(auto_vot_tier)
-        textgrid.write(args.textgrid_filename)
+        textgrid.write(textgrid_file)
 
         # delete the working directory at the end
         if args.logging_level != "DEBUG":
