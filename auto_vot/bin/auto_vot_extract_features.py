@@ -45,19 +45,37 @@ class TierDefinitions:
         self.window_mark = ''
         self.window_min = 0
         self.window_max = 0
-        self.max_num_instances = 0
+        self.max_num_instances = -1
 
     def extract_definition(self, args):
-        self.vot_tier = args.vot_tier
-        self.vot_mark = args.vot_mark
-        self.window_tier = args.window_tier
-        self.window_mark = args.window_mark
-        self.window_min = args.window_min
-        self.window_max = args.window_max
+        try:
+            self.vot_tier = args.vot_tier
+        except:
+            pass
+        try:
+            self.vot_mark = args.vot_mark
+        except:
+            pass
+        try:
+            self.window_tier = args.window_tier
+        except:
+            pass
+        try:
+            self.window_mark = args.window_mark
+        except:
+            pass
+        try:
+            self.window_min = args.window_min
+        except:
+            pass
+        try:
+            self.window_max = args.window_max
+        except:
+            pass
         try:
             self.max_num_instances = args.max_num_instances
-        except Exception as exception:
-            self.max_num_instances = -1
+        except:
+            pass
 
 
 def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename, features_dir, definitions,
@@ -75,6 +93,8 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
     for textgrid_filename, wav_filename in zip(textgrid_list, wav_list):
         textgrid_filename = textgrid_filename.strip()
         wav_filename = wav_filename.strip()
+        if not textgrid_filename or not  wav_filename:
+            continue
         logging.debug('%s %s' % (textgrid_filename, wav_filename))
 
         # check the sampling rate and number bits of the WAV
