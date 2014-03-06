@@ -172,10 +172,8 @@ if __name__ == "__main__":
                 textgrid.append(auto_vot_tier)
                 textgrid.write(textgrid_file)
             else:
-                print "new AutoVOT tier is *not* being written to the file"
-                print "use the --ignore_existing_tiers flag if you'd like to do so"
-                print "press enter to continue"
-                raw_input()
+                logging.warning("new AutoVOT tier is *not* being written to the file")
+                logging.warning("use the --ignore_existing_tiers flag if you'd like to do so")
 
 
         # delete the working directory at the end
