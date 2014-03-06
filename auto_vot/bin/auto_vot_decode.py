@@ -23,12 +23,12 @@ if __name__ == "__main__":
     parser.add_argument('model_filename', help="output model file name")
     parser.add_argument('--single_file', help="wav_filenames and textgrid_filenames are single file names",
                         action='store_const', const=True, default=False)
-    parser.add_argument('--vot_tier', help='name of the tier to extract VOTs from', default='vot')
+    parser.add_argument('--vot_tier', help='name of the tier to extract VOTs from', default='')
     parser.add_argument('--vot_mark', help='VOT mark value (e.g., "pos", "neg") or "*" for any string', default='*')
     parser.add_argument('--window_tier', help='used this window as a search window for training. If not given, '
                                               'a constant window with parameters [window_min, window_max] around the '
                                               'manually labeled VOT will be used', default='')
-    parser.add_argument('--window_mark', help='window mark value or "*" for any string', default='')
+    parser.add_argument('--window_mark', help='window mark value or "*" for any string', default='*')
     parser.add_argument('--window_min', help='window left boundary (in msec) relative to the VOT right boundary '
                                              '(usually should be negative, that is, before the VOT right boundary.)',
                         default=-0.05, type=float)
@@ -58,8 +58,8 @@ if __name__ == "__main__":
         textgrid_files = [args.textgrid_filenames]
     else:
         if num_lines(args.wav_filenames) != num_lines(args.textgrid_filenames):
-            print "Error: the files %s and %s should have the same number of lines" % (args.labeled_textgrid_list,
-                                                                                       args.predicted_vot_tier)
+            logging.error("The files %s and %s should have the same number of lines" % (args.wav_filenames,
+                                                                                        args.textgrid_filenames))
             exit()
 
         f = open(args.wav_filenames)
@@ -75,6 +75,9 @@ if __name__ == "__main__":
 
         wav_file = wav_file.strip()
         textgrid_file = textgrid_file.strip()
+
+        if wav_file == "" or textgrid_file == "":
+            continue
 
         # intermediate files that will be used to represent the locations of the VOTs, their windows and the features
         working_dir = tempfile.mkdtemp()
@@ -100,12 +103,12 @@ if __name__ == "__main__":
 
         logging.debug("working_dir=%s" % working_dir)
 
-        print textgrid_list, wav_list
-        print input_filename
+        logging.debug("%s, %s" % (textgrid_list, wav_list))
+        logging.debug("%s" % input_filename)
 
         # call front end
         textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename, features_dir, tier_definitions,
-                           decoding=False)
+                           decoding=True)
         cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, input_filename, features_filename,
                                                                    labels_filename)
         easy_call(cmd_vot_front_end)
@@ -162,18 +165,17 @@ if __name__ == "__main__":
         auto_vot_tier.append(Interval(xmax_preds[-1], textgrid.xmax(), ''))
         # print xmax_preds[-1], textgrid.xmax(), ''
 
-
         ## check if target textgrid already has a tier named "AutoVOT", modulo preceding or trailing spaces or case
-        existing_tiers = [n.strip() for n in textgrid.tierNames(case="lower") if n.strip()=='autovot']
-        if len(existing_tiers)>0:
-            print "WARNING: file %s already contains >=1 tier with a name similar to AutoVOT" % textgrid_file
+        existing_tiers = [n.strip() for n in textgrid.tierNames(case="lower") if n.strip() == 'autovot']
+        if len(existing_tiers) > 0:
+            logging.warning("File %s already contains a tier with the name \"AutoVOT\"" % textgrid_file)
             if args.ignore_existing_tiers:
-                print "--ignore_existing_tiers flag used: writing a new AutoVOT tier (in addition to existing one(s))"
+                logging.warning("Writing a new AutoVOT tier (in addition to existing one(s))")
                 textgrid.append(auto_vot_tier)
                 textgrid.write(textgrid_file)
             else:
-                logging.warning("new AutoVOT tier is *not* being written to the file")
-                logging.warning("use the --ignore_existing_tiers flag if you'd like to do so")
+                logging.warning("New \"AutoVOT\" tier is NOT being written to the file.")
+                logging.warning("(use the --ignore_existing_tiers flag if you'd like to do so)")
 
 
         # delete the working directory at the end
