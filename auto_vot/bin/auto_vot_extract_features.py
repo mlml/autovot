@@ -114,6 +114,8 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
         # extract tier names
         tier_names = textgrid.tierNames()
 
+        instances = list()
+
         if decoding:
 
             if definitions.window_tier == "":
@@ -122,8 +124,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
 
             # check if the window tier is one of the tiers in the TextGrid
             if definitions.window_tier in tier_names:
-                tier_index = tier_names.index(definitions.vot_tier)
-                instances = list()
+                tier_index = tier_names.index(definitions.window_tier)
                 # run over all intervals in the tier
                 for interval in textgrid[tier_index]:
                     if (definitions.window_mark == "*" and re.search(r'\S', interval.mark())) \
@@ -139,13 +140,16 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                                                                                         definitions.window_tier,
                                                                                         textgrid_filename))
                     continue
+            else:
+                logging.error("The window tier '%s' has not found in %s" % (definitions.window_tier, textgrid_filename))
+                exit()
+
         else:
 
             # check if the VOT tier is one of the tiers in the TextGrid
             if definitions.vot_tier in tier_names:
                 tier_index = tier_names.index(definitions.vot_tier)
                 # run over all intervals in the tier
-                instances = list()
                 for interval in textgrid[tier_index]:
                     if (definitions.vot_mark == "*" and re.search(r'\S', interval.mark())) \
                         or (interval.mark() == definitions.vot_mark):
@@ -163,7 +167,6 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             else:
                 logging.error("The VOT tier '%s' has not found in %s" % (definitions.vot_tier, textgrid_filename))
                 exit()
-
 
             # if the window tier is empty and not decoding, fix window information
             if definitions.window_tier == "":
@@ -215,12 +218,12 @@ if __name__ == "__main__":
                                            'ignored), otherwise extract features for training based on manual '
                                            'labeling given in the vot_tier', action='store_const', const=True,
                         default=False)
-    parser.add_argument('--vot_tier', help='name of the tier to extract VOTs from', default='vot')
+    parser.add_argument('--vot_tier', help='name of the tier to extract VOTs from', default='')
     parser.add_argument('--vot_mark', help='VOT mark value (e.g., "pos", "neg") or "*" for any string', default='*')
     parser.add_argument('--window_tier', help='used this window as a search window for training. If not given, '
                                               'a constant window with parameters [window_min, window_max] around the '
                                               'manually labeled VOT will be used', default='')
-    parser.add_argument('--window_mark', help='window mark value or "*" for any string', default='')
+    parser.add_argument('--window_mark', help='window mark value or "*" for any string', default='*')
     parser.add_argument('--window_min', help='window left boundary (in msec) relative to the VOT right boundary '
                                              '(usually should be negative, that is, before the VOT right boundary.)',
                         default=-0.05, type=float)
