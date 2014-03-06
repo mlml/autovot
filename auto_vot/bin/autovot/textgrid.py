@@ -1,8 +1,6 @@
 # classes for Praat TextGrid data structures, and HTK .mlf files
 # Kyle Gorman <kgorman@ling.upenn.edu>
-# (edited slightly by MS)
-
-# TODO: documentation
+# (edited slightly by Morgan Sonderegger and Joseph Keshet)
 
 import logging
 import re
