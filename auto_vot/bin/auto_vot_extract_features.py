@@ -160,6 +160,10 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                                                                                         definitions.vot_tier,
                                                                                         textgrid_filename))
                     continue
+            else:
+                logging.error("The VOT tier '%s' has not found in %s" % (definitions.vot_tier, textgrid_filename))
+                exit()
+
 
             # if the window tier is empty and not decoding, fix window information
             if definitions.window_tier == "":
