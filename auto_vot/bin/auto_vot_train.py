@@ -16,11 +16,17 @@ from autovot.utilities import *
 if __name__ == "__main__":
     # parse arguments
     parser = argparse.ArgumentParser(description='Training of AutoVOT')
-    parser.add_argument('textgrid_list', help="list of manually labeled TextGrid files")
     parser.add_argument('wav_list', help="list of WAV files")
+    parser.add_argument('textgrid_list', help="list of manually labeled TextGrid files")
     parser.add_argument('model_filename', help="output model file name")
     parser.add_argument('--vot_tier', default='vot', help='name of the tier to extract VOTs from')
     parser.add_argument('--vot_mark', default='*', help='VOT mark value (e.g., "pos", "neg") or "*" for any string')
+    parser.add_argument('--window_min', help='window left boundary (in msec) relative to the VOT right boundary ('
+                                             'usually should be negative, that is, before the VOT right boundary.)',
+                        default=-0.05, type=float)
+    parser.add_argument('--window_max', help='window right boundary (in msec) relative to the VOT right boundary ( '
+                                             'usually should be positive, that is, after the VOT left boundary.)',
+                        default=0.8, type=float)
     parser.add_argument('--cv_auto', help='use 20% of the training set for cross validation', action='store_const',
                         const=True, default=False)
     parser.add_argument('--cv_textgrid_list', default='', help='list of manually labeled TextGrid files for '
@@ -101,8 +107,9 @@ if __name__ == "__main__":
             features_filename_test, labels_filename_test)
         easy_call(cmd_vot_front_end)
         # Training
-        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 %s %s %s' % \
-            (args.logging_level, features_filename_training, labels_filename_training, args.model_filename)
+        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 ' \
+                           '- C 50 %s %s %s' % (args.logging_level, features_filename_training,
+                                                labels_filename_training, args.model_filename)
         easy_call(cmd_vot_training)
         # Test
         cmd_vot_decode = 'InitialVotDecode -verbose %s %s %s %s' % (args.logging_level, features_filename_test,
@@ -113,8 +120,9 @@ if __name__ == "__main__":
         features_filename_training = features_filename_rs
         labels_filename_training = labels_filename_rs
         # Training
-        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 %s %s %s' % \
-            (args.logging_level, features_filename_training, labels_filename_training, args.model_filename)
+        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 ' \
+                           '-C 50 %s %s %s' % (args.logging_level, features_filename_training,
+                                               labels_filename_training, args.model_filename)
         easy_call(cmd_vot_training)
 
     # remove working directory and its content
