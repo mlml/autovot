@@ -128,3 +128,5 @@ if __name__ == "__main__":
     # remove working directory and its content
     if args.logging_level != "DEBUG":
         shutil.rmtree(path=working_dir, ignore_errors=True)
+
+    logging.info("All done.")
