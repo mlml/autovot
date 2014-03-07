@@ -181,3 +181,5 @@ if __name__ == "__main__":
         # delete the working directory at the end
         if args.logging_level != "DEBUG":
             shutil.rmtree(path=working_dir, ignore_errors=True)
+
+    logging.info("All done.")
