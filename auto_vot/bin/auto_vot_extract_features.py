@@ -130,7 +130,14 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
         textgrid = TextGrid()
 
         # read TextGrid
-        textgrid.read(textgrid_filename)
+        try:
+            textgrid.read(textgrid_filename)
+            assert is_textgrid(textgrid_filename)
+        except:
+            logging.error("Couldn't read textgrid file %s" % textgrid_filename)
+            logging.error("Make sure it's been saved as a text file in Praat (using Save -> Save as text file...")
+            logging.error("And not as a 'short text file' or 'binary file'")
+            exit(-1)
 
         # extract tier names
         tier_names = textgrid.tierNames()
