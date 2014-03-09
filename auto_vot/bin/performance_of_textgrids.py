@@ -43,9 +43,9 @@ if __name__ == "__main__":
                                                  'and a set of labeled textgrid files.')
     parser.add_argument('labeled_textgrid_list', help="list of manually labeled TextGrid files")
     parser.add_argument('predicted_textgrid_list', help="list of predicted TextGrid files")
-    parser.add_argument('--labeled_vot_tier', help='name of the VOT tier of the manual labeled TextGrids',
+    parser.add_argument('labeled_vot_tier', help='name of the VOT tier of the manual labeled TextGrids',
                         default='vot')
-    parser.add_argument('--predicted_vot_tier', help='name of the VOT tier to predicted TetGrids', default='vot')
+    parser.add_argument('predicted_vot_tier', help='name of the VOT tier to predicted TetGrids', default='vot')
     parser.add_argument("--debug", help="verbose printing", action='store_const', const=True, default=False)
     args = parser.parse_args()
 
