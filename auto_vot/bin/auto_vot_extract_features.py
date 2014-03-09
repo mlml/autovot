@@ -107,8 +107,15 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
     for textgrid_filename, wav_filename in zip(textgrid_list, wav_list):
         textgrid_filename = textgrid_filename.strip()
         wav_filename = wav_filename.strip()
-        if not textgrid_filename or not  wav_filename:
+        # skip if file has empty name (usually happens in the last line of the list)
+        if not textgrid_filename or not wav_filename:
             continue
+        if not is_textgrid(textgrid_filename):
+            logging.error("%s is not a valid TextGrid." % textgrid_filename)
+            exit()
+        if not is_valid_wav(wav_filename):
+            logging.error("%s is not a valid WAV." % wav_filename)
+            exit()
         logging.debug('%s %s' % (textgrid_filename, wav_filename))
 
         # check the sampling rate and number bits of the WAV
