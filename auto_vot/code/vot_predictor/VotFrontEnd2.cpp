@@ -96,10 +96,10 @@ int main(int argc, char **argv)
 	// process each line
 	if (limit_instances < 0)
 		limit_instances = instances.size();
-	LOG(INFO) << "Processing " << _min(limit_instances,instances.size()) << " files...";
+	LOG(INFO) << "Processing " << _min(limit_instances,instances.size()) << " files.h";
 	for (unsigned int i=0; i < _min(limit_instances,instances.size()); i++) {
 		
-		LOG(DEBUG) << "Processing " << (i+1) << " of " << instances.size();
+		LOG(INFO) << "Processing " << instances.file_list[i] << " (" << (i+1) << " of " << instances.size() << ")";
 		
 		// read samples
 		infra::vector samples;
