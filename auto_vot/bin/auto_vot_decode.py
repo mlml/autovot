@@ -55,6 +55,14 @@ if __name__ == "__main__":
         logging.info("Input arguments consist of a single WAV and a single TextGrid.")
         wav_files = [args.wav_filenames]
         textgrid_files = [args.textgrid_filenames]
+    elif is_valid_wav(args.wav_filenames) and not is_textgrid(args.textgrid_filenames):
+        logging.error("%s valid WAV file while %s is not a valid TextGrid." % (args.wav_filenames,
+                                                                               args.textgrid_filenames))
+        exit()
+    elif not is_valid_wav(args.wav_filenames) and is_textgrid(args.textgrid_filenames):
+        logging.error("%s not valid WAV file while %s is a valid TextGrid." % (args.wav_filenames,
+                                                                               args.textgrid_filenames))
+        exit()
     else:
         if num_lines(args.wav_filenames) != num_lines(args.textgrid_filenames):
             logging.error("The files %s and %s should have the same number of lines" % (args.wav_filenames,

@@ -96,8 +96,11 @@ def extract_lines(input_filename, output_filename, lines_range, has_header=False
 
 
 def is_textgrid(filename):
-    file = open(filename)
-    first_line = file.readline()
+    try:
+        file = open(filename)
+        first_line = file.readline()
+    except:
+        return False
     if "ooTextFile" in first_line:
         return True
     return False
