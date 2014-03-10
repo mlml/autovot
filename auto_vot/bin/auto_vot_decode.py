@@ -21,8 +21,6 @@ if __name__ == "__main__":
     parser.add_argument('wav_filenames', default='', help="a list of WAV files.")
     parser.add_argument('textgrid_filenames', default='', help="a list of TextGrid files.")
     parser.add_argument('model_filename', help="output model file name")
-    parser.add_argument('--single_file', help="wav_filenames and textgrid_filenames are single file names",
-                        action='store_const', const=True, default=False)
     parser.add_argument('--vot_tier', help='name of the tier to extract VOTs from', default='')
     parser.add_argument('--vot_mark', help='VOT mark value (e.g., "pos", "neg") or "*" for any string', default='*')
     parser.add_argument('--window_tier', help='used this window as a search window for training. If not given, '
@@ -53,7 +51,8 @@ if __name__ == "__main__":
     tier_definitions = TierDefinitions()
     tier_definitions.extract_definition(args)
 
-    if args.single_file:
+    if is_valid_wav(args.wav_filenames) and is_textgrid(args.textgrid_filenames):
+        logging.info("Input arguments consist of a single WAV and a single TextGrid.")
         wav_files = [args.wav_filenames]
         textgrid_files = [args.textgrid_filenames]
     else:
