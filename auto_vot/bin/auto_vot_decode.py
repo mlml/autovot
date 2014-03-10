@@ -183,7 +183,9 @@ if __name__ == "__main__":
             else:
                 logging.warning("New \"AutoVOT\" tier is NOT being written to the file.")
                 logging.warning("(use the --ignore_existing_tiers flag if you'd like to do so)")
-
+        else:
+            textgrid.append(auto_vot_tier)
+            textgrid.write(textgrid_file)
 
         # delete the working directory at the end
         if args.logging_level != "DEBUG":
