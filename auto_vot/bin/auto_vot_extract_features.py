@@ -86,6 +86,8 @@ class TierDefinitions:
 def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename, features_dir, definitions,
                        decoding=False):
 
+    problematic_files = list()
+
     # check if files exists
     if not isfile(textgrid_list):
         logging.error('Unable to find %s' % textgrid_list)
@@ -112,10 +114,12 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             continue
         if not is_textgrid(textgrid_filename):
             logging.error("%s is not a valid TextGrid." % textgrid_filename)
-            exit()
+            problematic_files.append(textgrid_filename)
+            continue
         if not is_valid_wav(wav_filename):
             logging.error("%s is not a valid WAV." % wav_filename)
-            exit()
+            problematic_files.append(wav_filename)
+            continue
         logging.debug('%s %s' % (textgrid_filename, wav_filename))
 
         # check the sampling rate and number bits of the WAV
@@ -126,18 +130,12 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             logging.error('Consider changing the file parameters with a utility such as \'sox\' as follows:')
             logging.error('              sox input.wav  -c 1 -r 16000 output.wav')
             logging.error('(sox can be downloaded from http://sox.sourceforge.net)')
-            exit(-1)
+            problematic_files.append(wav_filename)
+            continue
         textgrid = TextGrid()
 
         # read TextGrid
-        try:
-            textgrid.read(textgrid_filename)
-            assert is_textgrid(textgrid_filename)
-        except:
-            logging.error("Couldn't read textgrid file %s" % textgrid_filename)
-            logging.error("Make sure it's been saved as a text file in Praat (using Save -> Save as text file...")
-            logging.error("And not as a 'short text file' or 'binary file'")
-            exit(-1)
+        textgrid.read(textgrid_filename)
 
         # extract tier names
         tier_names = textgrid.tierNames()
@@ -165,6 +163,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                 logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.vot_mark,
                                                                                     definitions.vot_tier,
                                                                                     textgrid_filename))
+                problematic_files(textgrid_filename)
                 continue
 
             # if the window tier is empty and not decoding, fix window information
@@ -183,10 +182,12 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                         or instances[i].window_min > instances[i].vot_max \
                         or instances[i].window_max < instances[i].vot_max:
                         logging.error("Something wrong in the TextGrid VOT tier: %s" % instances[i])
+                        problematic_files(textgrid_filename)
 
         elif definitions.vot_tier != "":
             logging.error("The VOT tier '%s' has not found in %s" % (definitions.vot_tier, textgrid_filename))
-            exit()
+            problematic_files(textgrid_filename)
+            continue
 
         # check if the window tier is one of the tiers in the TextGrid
         if definitions.window_tier in tier_names:
@@ -205,10 +206,12 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                 logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.window_mark,
                                                                                     definitions.window_tier,
                                                                                     textgrid_filename))
+                problematic_files(textgrid_filename)
                 continue
         elif definitions.window_tier != "":
             logging.error("The window tier '%s' has not found in %s" % (definitions.window_tier, textgrid_filename))
-            exit()
+            problematic_files(textgrid_filename)
+            continue
 
         # write out the information
         max_num_instances = definitions.max_num_instances
@@ -226,6 +229,8 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
     feature_file.close()
     textgrid_list.close()
     wav_list.close()
+
+    return problematic_files
 
 
 if __name__ == "__main__":
@@ -267,10 +272,16 @@ if __name__ == "__main__":
     tier_definitions.extract_definition(args)
 
     # prepare files for front end
-    textgrid2front_end(args.textgrid_list, args.wav_list, args.input_filename, args.features_filename,
-                       args.features_dir, tier_definitions, args.decoding)
+    problematic_files = textgrid2front_end(args.textgrid_list, args.wav_list, args.input_filename,
+                                           args.features_filename, args.features_dir, tier_definitions, args.decoding)
 
     # call front end
     cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, args.input_filename,
                                                                args.features_filename, args.labels_filename)
     easy_call(cmd_vot_front_end)
+
+    if len(problematic_files):
+        logging.warning("Features extracted for all files except these ones, where something was wrong:")
+        logging.warning(problematic_files)
+        logging.warning("Look for lines beginning with WARNING or ERROR in the program's output to see what went "
+                        "wrong.")

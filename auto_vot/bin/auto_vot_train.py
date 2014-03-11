@@ -52,8 +52,8 @@ if __name__ == "__main__":
     tier_definitions.extract_definition(args)
 
     # prepare configuration files for the front end (means acoustic features extraction)
-    textgrid2front_end(args.textgrid_list, args.wav_list, input_filename, features_filename, features_dir,
-                       tier_definitions)
+    problematic_files = textgrid2front_end(args.textgrid_list, args.wav_list, input_filename, features_filename,
+                                           features_dir, tier_definitions)
 
     # call front end
     cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, input_filename, features_filename,
@@ -100,8 +100,8 @@ if __name__ == "__main__":
         features_filename_test = working_dir + "/training.feature_filelist.test"
         labels_filename_test = working_dir + "/training.labels.test"
         # prepare configuration files for the front end (means acoustic features extraction)
-        textgrid2front_end(args.cv_textgrid_list, args.cv_wav_list, input_filename_test, features_filename_test,
-                           features_dir, tier_definitions)
+        problematic_files += textgrid2front_end(args.cv_textgrid_list, args.cv_wav_list, input_filename_test,
+                                                features_filename_test, features_dir, tier_definitions)
         # call front end
         cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, input_filename_test,
             features_filename_test, labels_filename_test)
@@ -128,5 +128,11 @@ if __name__ == "__main__":
     # remove working directory and its content
     if args.logging_level != "DEBUG":
         shutil.rmtree(path=working_dir, ignore_errors=True)
+
+    if len(problematic_files):
+        logging.warning("Prediction made for all files except these ones, where something was wrong:")
+        logging.warning(problematic_files)
+        logging.warning("Look for lines beginning with WARNING or ERROR in the program's output to see what went "
+                        "wrong.")
 
     logging.info("All done.")

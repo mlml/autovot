@@ -114,8 +114,8 @@ if __name__ == "__main__":
         logging.debug("%s" % input_filename)
 
         # call front end
-        textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename, features_dir, tier_definitions,
-                           decoding=True)
+        problematic_files = textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename,
+                                               features_dir, tier_definitions, decoding=True)
         cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, input_filename, features_filename,
                                                                    labels_filename)
         easy_call(cmd_vot_front_end)
@@ -190,5 +190,11 @@ if __name__ == "__main__":
         # delete the working directory at the end
         if args.logging_level != "DEBUG":
             shutil.rmtree(path=working_dir, ignore_errors=True)
+
+    if len(problematic_files):
+        logging.warning("Prediction made for all files except these ones, where something was wrong:")
+        logging.warning(problematic_files)
+        logging.warning("Look for lines beginning with WARNING or ERROR in the program's output to see what went "
+                        "wrong.")
 
     logging.info("All done.")
