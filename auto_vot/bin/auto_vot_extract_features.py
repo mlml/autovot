@@ -7,7 +7,7 @@ Author: Joseph Keshet, 18/11/2013
 
 import argparse
 import wave
-from os.path import splitext, basename
+from os.path import splitext, basename, isfile
 
 from autovot.textgrid import *
 from autovot.utilities import *
@@ -40,9 +40,9 @@ class Instance:
 class TierDefinitions:
     def __init__(self):
         self.vot_tier = ''
-        self.vot_mark = ''
+        self.vot_mark = '*'
         self.window_tier = ''
-        self.window_mark = ''
+        self.window_mark = '*'
         self.window_min = 0
         self.window_max = 0
         self.max_num_instances = -1
@@ -77,9 +77,25 @@ class TierDefinitions:
         except:
             pass
 
+    def __str__(self):
+        return "vot tier=%s mark=%s  window tier=%s mark=%s min=%d max=%d  max_num_instances=%d" % \
+        (self.vot_tier, self.vot_mark, self.window_tier, self.window_mark, self.window_min, self.window_max,
+         self.max_num_instances)
+
 
 def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename, features_dir, definitions,
                        decoding=False):
+
+    problematic_files = list()
+
+    # check if files exists
+    if not isfile(textgrid_list):
+        logging.error('Unable to find %s' % textgrid_list)
+        exit()
+
+    if not isfile(wav_list):
+        logging.error('Unable to find %s' % wav_list)
+        exit()
 
     # check the number of TextGrid files is the same as WAV files.
     if not num_lines(wav_list) == num_lines(textgrid_list):
@@ -93,7 +109,16 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
     for textgrid_filename, wav_filename in zip(textgrid_list, wav_list):
         textgrid_filename = textgrid_filename.strip()
         wav_filename = wav_filename.strip()
-        if not textgrid_filename or not  wav_filename:
+        # skip if file has empty name (usually happens in the last line of the list)
+        if not textgrid_filename or not wav_filename:
+            continue
+        if not is_textgrid(textgrid_filename):
+            logging.error("%s is not a valid TextGrid." % textgrid_filename)
+            problematic_files.append(textgrid_filename)
+            continue
+        if not is_valid_wav(wav_filename):
+            logging.error("%s is not a valid WAV." % wav_filename)
+            problematic_files.append(wav_filename)
             continue
         logging.debug('%s %s' % (textgrid_filename, wav_filename))
 
@@ -105,7 +130,8 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             logging.error('Consider changing the file parameters with a utility such as \'sox\' as follows:')
             logging.error('              sox input.wav  -c 1 -r 16000 output.wav')
             logging.error('(sox can be downloaded from http://sox.sourceforge.net)')
-            exit(-1)
+            problematic_files.append(wav_filename)
+            continue
         textgrid = TextGrid()
 
         # read TextGrid
@@ -114,55 +140,35 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
         # extract tier names
         tier_names = textgrid.tierNames()
 
-        if decoding:
+        instances = list()
 
-            if definitions.window_tier == "":
-                logging.error("When extracting features for decoding the window tier name has to be given")
-                exit(-1)
-
-            # check if the window tier is one of the tiers in the TextGrid
-            if definitions.window_tier in tier_names:
-                tier_index = tier_names.index(definitions.vot_tier)
-                instances = list()
-                # run over all intervals in the tier
-                for interval in textgrid[tier_index]:
-                    if (definitions.window_mark == "*" and re.search(r'\S', interval.mark())) \
-                        or (interval.mark() == definitions.window_mark):
-                        window_min = interval.xmin()
-                        window_max = interval.xmax()
-                        new_instance = Instance()
-                        new_instance.set(wav_filename, window_min, window_max, window_min, window_max)
-                        instances.append(new_instance)
-                # check if the given mark was ever found
-                if not instances:
-                    logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.window_mark,
-                                                                                        definitions.window_tier,
-                                                                                        textgrid_filename))
-                    continue
-        else:
+        if definitions.window_tier == "" and definitions.vot_tier == "":
+            logging.error("Either --window_tier or --vot_tier should be given.")
+            exit(-1)
 
             # check if the VOT tier is one of the tiers in the TextGrid
-            if definitions.vot_tier in tier_names:
-                tier_index = tier_names.index(definitions.vot_tier)
-                # run over all intervals in the tier
-                instances = list()
-                for interval in textgrid[tier_index]:
-                    if (definitions.vot_mark == "*" and re.search(r'\S', interval.mark())) \
-                        or (interval.mark() == definitions.vot_mark):
-                        window_min = max(interval.xmin() + definitions.window_min, 0)
-                        window_max = min(interval.xmax() + definitions.window_max, textgrid.xmax())
-                        new_instance = Instance()
-                        new_instance.set(wav_filename, window_min, window_max, interval.xmin(), interval.xmax())
-                        instances.append(new_instance)
-                # check if the given mark was ever found
-                if not instances:
-                    logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.vot_mark,
-                                                                                        definitions.vot_tier,
-                                                                                        textgrid_filename))
-                    continue
+        if definitions.vot_tier in tier_names:
+            tier_index = tier_names.index(definitions.vot_tier)
+            # run over all intervals in the tier
+            for interval in textgrid[tier_index]:
+                if (definitions.vot_mark == "*" and re.search(r'\S', interval.mark())) \
+                    or (interval.mark() == definitions.vot_mark):
+                    window_min = max(interval.xmin() + definitions.window_min, 0)
+                    window_max = min(interval.xmax() + definitions.window_max, textgrid.xmax())
+                    new_instance = Instance()
+                    new_instance.set(wav_filename, window_min, window_max, interval.xmin(), interval.xmax())
+                    instances.append(new_instance)
+            # check if the given mark was ever found
+            if not instances:
+                logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.vot_mark,
+                                                                                    definitions.vot_tier,
+                                                                                    textgrid_filename))
+                problematic_files(textgrid_filename)
+                continue
 
             # if the window tier is empty and not decoding, fix window information
             if definitions.window_tier == "":
+                logging.debug("--window_tier and --window_mark were not given - using defaults.")
                 for i in xrange(1, len(instances)-1):
                     # check if window_min is less than the previous vot_max
                     if instances[i].window_min < instances[i-1].vot_max:
@@ -176,9 +182,36 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                         or instances[i].window_min > instances[i].vot_max \
                         or instances[i].window_max < instances[i].vot_max:
                         logging.error("Something wrong in the TextGrid VOT tier: %s" % instances[i])
-            else:
-                logging.info("--window_tier and --window_mark for training mode need to be implemented. Using "
-                             "defaults.")
+                        problematic_files(textgrid_filename)
+
+        elif definitions.vot_tier != "":
+            logging.error("The VOT tier '%s' has not found in %s" % (definitions.vot_tier, textgrid_filename))
+            problematic_files(textgrid_filename)
+            continue
+
+        # check if the window tier is one of the tiers in the TextGrid
+        if definitions.window_tier in tier_names:
+            tier_index = tier_names.index(definitions.window_tier)
+            # run over all intervals in the tier
+            for interval in textgrid[tier_index]:
+                if (definitions.window_mark == "*" and re.search(r'\S', interval.mark())) \
+                    or (interval.mark() == definitions.window_mark):
+                    window_min = interval.xmin()
+                    window_max = interval.xmax()
+                    new_instance = Instance()
+                    new_instance.set(wav_filename, window_min, window_max, window_min, window_max)
+                    instances.append(new_instance)
+            # check if the given mark was ever found
+            if not instances:
+                logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.window_mark,
+                                                                                    definitions.window_tier,
+                                                                                    textgrid_filename))
+                problematic_files(textgrid_filename)
+                continue
+        elif definitions.window_tier != "":
+            logging.error("The window tier '%s' has not found in %s" % (definitions.window_tier, textgrid_filename))
+            problematic_files(textgrid_filename)
+            continue
 
         # write out the information
         max_num_instances = definitions.max_num_instances
@@ -197,6 +230,8 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
     textgrid_list.close()
     wav_list.close()
 
+    return problematic_files
+
 
 if __name__ == "__main__":
     # parse arguments
@@ -211,12 +246,12 @@ if __name__ == "__main__":
                                            'ignored), otherwise extract features for training based on manual '
                                            'labeling given in the vot_tier', action='store_const', const=True,
                         default=False)
-    parser.add_argument('--vot_tier', help='name of the tier to extract VOTs from', default='vot')
+    parser.add_argument('--vot_tier', help='name of the tier to extract VOTs from', default='')
     parser.add_argument('--vot_mark', help='VOT mark value (e.g., "pos", "neg") or "*" for any string', default='*')
     parser.add_argument('--window_tier', help='used this window as a search window for training. If not given, '
                                               'a constant window with parameters [window_min, window_max] around the '
                                               'manually labeled VOT will be used', default='')
-    parser.add_argument('--window_mark', help='window mark value or "*" for any string', default='')
+    parser.add_argument('--window_mark', help='window mark value or "*" for any string', default='*')
     parser.add_argument('--window_min', help='window left boundary (in msec) relative to the VOT right boundary '
                                              '(usually should be negative, that is, before the VOT right boundary.)',
                         default=-0.05, type=float)
@@ -237,10 +272,16 @@ if __name__ == "__main__":
     tier_definitions.extract_definition(args)
 
     # prepare files for front end
-    textgrid2front_end(args.textgrid_list, args.wav_list, args.input_filename, args.features_filename,
-                       args.features_dir, tier_definitions, args.decoding)
+    problematic_files = textgrid2front_end(args.textgrid_list, args.wav_list, args.input_filename,
+                                           args.features_filename, args.features_dir, tier_definitions, args.decoding)
 
     # call front end
     cmd_vot_front_end = 'VotFrontEnd2 -verbose %s %s %s %s' % (args.logging_level, args.input_filename,
                                                                args.features_filename, args.labels_filename)
     easy_call(cmd_vot_front_end)
+
+    if len(problematic_files):
+        logging.warning("Features extracted for all files except these ones, where something was wrong:")
+        logging.warning(problematic_files)
+        logging.warning("Look for lines beginning with WARNING or ERROR in the program's output to see what went "
+                        "wrong.")

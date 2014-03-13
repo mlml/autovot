@@ -225,21 +225,21 @@ int main(int argc, char **argv)
 	// percent misclassified
 	int num_misclassified = neg_mislabeled_pos + pos_mislabeled_neg;
 	int num_corr = num_vots - num_misclassified;
-	LOG(INFO) << "Total num misclassified = " << double(num_misclassified)/double(num_vots);
-	LOG(INFO) << "Num pos misclassified as neg = " << double(pos_mislabeled_neg)/double(num_pos);
-	LOG(INFO) << "Num neg misclassified as pos = " << double(neg_mislabeled_pos)/double(num_neg);
+	LOG(DEBUG) << "Total num misclassified = " << double(num_misclassified)/double(num_vots);
+	LOG(DEBUG) << "Num pos misclassified as neg = " << double(pos_mislabeled_neg)/double(num_pos);
+	LOG(DEBUG) << "Num neg misclassified as pos = " << double(neg_mislabeled_pos)/double(num_neg);
 	
 	// VOT t<= table for correctly classified data only
-	LOG(INFO) << "Cum VOT loss on correctly classified data = " << cumulative_corr_loss/double(num_corr);
-	for (uint j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
-		LOG(INFO) << "% corr VOT error (t <= " << loss_resolutions[j] << "ms) = "
+	LOG(DEBUG) << "Cum VOT loss on correctly classified data = " << cumulative_corr_loss/double(num_corr);
+	for (int j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
+		LOG(DEBUG) << "% corr VOT error (t <= " << loss_resolutions[j] << "ms) = "
 		<< 100.0*cum_corr_loss_less_than[j]/double(num_corr);
 	}
 
 	rms_onset_loss /= double(num_vots);
 	rms_onset_loss = sqrt(num_vots);
 	
-	LOG(INFO) << "rms onset loss: " << rms_onset_loss;
+	LOG(DEBUG) << "rms onset loss: " << rms_onset_loss;
 	
 	if (output_predictions_filename != "" && output_predictions_ofs.good())
 		output_predictions_ofs.close();

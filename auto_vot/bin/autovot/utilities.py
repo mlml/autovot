@@ -3,7 +3,7 @@
 import subprocess
 import random
 import logging
-import os.path
+import wave
 
 def logging_defaults(logging_level="INFO"):
     logging.basicConfig(level=logging_level, format='%(asctime)s.%(msecs)d [%(filename)s] %(levelname)s: %(message)s',
@@ -96,13 +96,23 @@ def extract_lines(input_filename, output_filename, lines_range, has_header=False
 
 
 def is_textgrid(filename):
-    file = open(filename)
-    first_line = file.readline()
+    try:
+        file = open(filename)
+        first_line = file.readline()
+    except:
+        return False
     if "ooTextFile" in first_line:
         return True
     return False
 
 
-def is_a_single_file(filename, extension):
-    basename, ext = os.path.splitext(filename)
-    return extension == ext
+def is_valid_wav(filename):
+    # check the sampling rate and number bits of the WAV
+    try:
+        wav_file = wave.Wave_read(filename)
+    except:
+        return False
+    if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
+        or wav_file.getcomptype() != 'NONE':
+        return False
+    return True
