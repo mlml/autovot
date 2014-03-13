@@ -9,11 +9,12 @@
 
 #include <iostream>
 #include "KernelExpansion.h"
+#include "Logger.h"
 
-KernelExpansion::KernelExpansion(std::string _kernel_name, int _mfcc_dim, double _sigma) 
+KernelExpansion::KernelExpansion(std::string _kernel_name, int _d, double _sigma)
 {
   kernel_name = _kernel_name;
-  d = _mfcc_dim;
+  d = _d;
   sigma = _sigma;
 }
 
@@ -29,7 +30,7 @@ int KernelExpansion::features_dim()
   else if  (kernel_name == "" || kernel_name == "none")
     D = d;
   else {
-    std::cerr << "Error: this type of kernel expansion is not supported" << std::endl;
+		LOG(ERROR) << "This type of kernel expansion is not supported" ;
     exit (-1);
   }
   return D;
@@ -156,18 +157,3 @@ infra::vector_view KernelExpansion::expand(infra::vector_base x)
 }
 
 
-
-
-
-void KernelExpansion::expand_inplace(InstanceType &X)
-{
-  InstanceType Xnew;
-  Xnew.mfcc.resize(X.mfcc.height(), features_dim());
-  
-  for (int i=0; i < int(X.mfcc.height()); i++)
-    Xnew.mfcc.row(i) = expand(X.mfcc.row(i));
-
-  X.mfcc.swap(Xnew.mfcc);
-}
-
-  
