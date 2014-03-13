@@ -163,7 +163,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                 logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.vot_mark,
                                                                                     definitions.vot_tier,
                                                                                     textgrid_filename))
-                problematic_files(textgrid_filename)
+                problematic_files.append(textgrid_filename)
                 continue
 
             # if the window tier is empty and not decoding, fix window information
@@ -182,11 +182,11 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                         or instances[i].window_min > instances[i].vot_max \
                         or instances[i].window_max < instances[i].vot_max:
                         logging.error("Something wrong in the TextGrid VOT tier: %s" % instances[i])
-                        problematic_files(textgrid_filename)
+                        problematic_files.append(textgrid_filename)
 
         elif definitions.vot_tier != "":
             logging.error("The VOT tier '%s' has not found in %s" % (definitions.vot_tier, textgrid_filename))
-            problematic_files(textgrid_filename)
+            problematic_files.append(textgrid_filename)
             continue
 
         # check if the window tier is one of the tiers in the TextGrid
@@ -206,11 +206,11 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                 logging.warning("The mark '%s' has not found in tier '%s' of %s" % (definitions.window_mark,
                                                                                     definitions.window_tier,
                                                                                     textgrid_filename))
-                problematic_files(textgrid_filename)
+                problematic_files.append(textgrid_filename)
                 continue
         elif definitions.window_tier != "":
             logging.error("The window tier '%s' has not found in %s" % (definitions.window_tier, textgrid_filename))
-            problematic_files(textgrid_filename)
+            problematic_files.append(textgrid_filename)
             continue
 
         # write out the information
