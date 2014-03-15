@@ -249,8 +249,8 @@ labeled textgrid files.*
 ## Mode 1
 ### Arguments used in this example:
 
-    newseg = name of tier containing hand corrected VOT for training
-	PX = label of hand corrected voiceless VOT
+	vot_tier = vot
+ 	vot = label of hand corrected VOT
 	BX = label of hand corrected voiced VOT
 	voicelessTrainTgList.txt = user generated list of TextGrids for voiceless training
 	voicelessTrainWavList.txt = user generated list of wav files for voiceless training	voicedTrainTgList.txt = user generated list of TextGrids for voiced training
