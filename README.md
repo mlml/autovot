@@ -1,11 +1,5 @@
 autovot
 =======
-
-## Assumptions
-
-- The user has backed up their data; input files will be overwritten.
-- TextGrids have been saved as text files with .TextGrid extension
-- Wav files are sampled at 16kHz
     
 ## Out of the box
 
@@ -23,6 +17,8 @@ autovot
 * **Mode2:** Training and decoding is done after feature extraction. Features are extracted to a known directory once after which training and decoding may be done as needed. Mode 2 is ideal if you have a large quantity of data.
 
 ## User provided files and directories
+***Important:*** Input files will be overwritten. If you wish to access your original files, be sure to back them up elsewhere.
+
 #### Sound file format
 * Wav files sampled at 16kHz
 
@@ -56,58 +52,64 @@ Move makeConfigFiles.sh to data/. Navigate to this folder and run:
 If successful, a .txt file will be generated for all voiced and voiceless TextGrids and wav files in each train and test directory
     
 # Getting Started
-## Compiling
+## Compiling (TODO: fix layout)
 ### Compile Audiofile Library
 
-    Navigate to auto_vot/code/audiofile-0.3.4/
-    Run:
+    Navigate to auto_vot/code/audiofile-0.3.4/ and run:
         $ make
     If successful, the command line will print out a lot of text. The last line should be:
         make[2]: Nothing to be done for 'all-am'.
 
 ### Compile Code
 
-*Navigate to auto_vot/code/ and run:*
+    Navigate to auto_vot/code/ and run:
+        $ make clean
+    If successful, the output should be:
+        [make] Cleaning completed
+    Then, run:
+        $ make
+    Output should be:
+        [make] Compiling completed
+    
 
-    $ make clean
-
-*Output:*
-
-    [make] Cleaning completed
-
-*Run:*
-
-    $ make
-
-*Output:*
-
-    [make] Compiling completed
-
-*Navigate to experiments/ and run:*
-
-    $ export PATH=$PATH:*full path here*/autovot/auto_vot/bin
-
-***TODO: Run:***
-
-    $ make install
+    Then navigate to experiments/ and run:
+        $ export PATH=$PATH:*full path here*/autovot/auto_vot/bin
+        
+        
+    TODO: Run:
+        $ make install
 
 # Script Usage
 Tutorial to follow
 
-## Training
+## Training and feature extraction
 
-#### Mode 1:  *auto\_vot\_extract_features.py*
+#### Mode 1:  
+###### Usage: auto\_vot\_train.py [OPTIONS] wav\_list textgrid\_list model_filename 
 
-                        [-h] [--vot\_tier VOT\_TIER] [--vot\_mark VOT_MARK]
-                        [--window\_tier WINDOW_TIER]
-                        [--window\_mark WINDOW\_MARK] [--window\_min WINDOW_MIN]
-                        [--window\_max WINDOW_MAX]
-                        [--cv\_textgrid\_list CV\_TEXTGRID_LIST]
-                        [--cv\_wav\_list CV\_WAV_LIST]
-                        [--max\_num\_instances MAX\_NUM_INSTANCES]
-                        [--logging\_level LOGGING_LEVEL]
+    Option                                      Function
+    
+    [-h]                                        Dispaly help options
+    [--vot_tier VOT_TIER] 
+    [--vot_mark VOT_MARK]
+    [--window_min WINDOW_MIN] 
+    [--window_max WINDOW_MAX]
+    [--cv_auto] 
+    [--cv_textgrid_list CV_TEXTGRID_LIST]
+    [--cv_wav_list CV_WAV_LIST]
+    [--max_num_instances MAX_NUM_INSTANCES]
+    [--logging_level LOGGING_LEVEL]
 
-#### Mode 2: *auto\_vot\_extract_features.py*
+
+    Positional Arguments
+    
+    wav_list 
+    textgrid_list 
+    model_filename
+                
+
+#### Mode 2: 
+##### auto\_vot\_extract_features.py
 
                         [-h] [--decoding] [--vot\_tier VOT_TIER]
                         [--vot\_mark VOT_MARK]
@@ -120,6 +122,12 @@ Tutorial to follow
                         textgrid\_list wav\_list input_filename
                         features\_filename labels_filename
                         features_dir
+                        
+##### auto\_vot\_train\_after_fe.py
+
+                        [-h] [--logging_level LOGGING_LEVEL]
+                        features_filename labels_filename
+                        model_filename
 
 
 
