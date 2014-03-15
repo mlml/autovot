@@ -22,18 +22,15 @@ if __name__ == "__main__":
     parser.add_argument('--vot_tier', default='vot', help='name of the tier to extract VOTs from')
     parser.add_argument('--vot_mark', default='*', help='VOT mark value (e.g., "pos", "neg") or "*" for any string')
     parser.add_argument('--window_min', help='window left boundary (in msec) relative to the VOT right boundary ('
-                                             'usually should be negative, that is, before the VOT right boundary.)',
-                        default=-0.05, type=float)
+                                              'usually should be negative, that is, before the VOT right boundary.)',default=-0.05, type=float)
     parser.add_argument('--window_max', help='window right boundary (in msec) relative to the VOT right boundary ( '
-                                             'usually should be positive, that is, after the VOT left boundary.)',
-                        default=0.8, type=float)
-    parser.add_argument('--cv_auto', help='use 20% of the training set for cross validation', action='store_const',
-                        const=True, default=False)
+                        'usually should be positive, that is, after the VOT left boundary.)', default=0.8, type=float)
+    parser.add_argument('--cv_auto', help='use 20%% of the training set for cross validation', action='store_true', default=False)
     parser.add_argument('--cv_textgrid_list', default='', help='list of manually labeled TextGrid files for '
-                                                               'cross-validation')
+                                                                'cross-validation')
     parser.add_argument('--cv_wav_list', default='', help='list of WAV files for cross-validation')
     parser.add_argument('--max_num_instances', default=0, type=int, help='max number of instances per file to use ('
-                                                                         'default is to use everything)')
+                                                                          'default is to use everything)')
     parser.add_argument("--logging_level", help="print out level (DEBUG, INFO, WARNING or ERROR)", default="INFO")
     args = parser.parse_args()
 
