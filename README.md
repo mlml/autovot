@@ -67,15 +67,13 @@ If successful, a .txt file will be generated for all voiced and voiceless TextGr
 
 ### Compile Code
 
-*Navigate to auto_vot/code/*
-*Run:*
+*Navigate to auto_vot/code/ and run:*
 
     $ make clean
 
 *Output:*
 
     [make] Cleaning completed
-
 
 *Run:*
 
@@ -85,9 +83,7 @@ If successful, a .txt file will be generated for all voiced and voiceless TextGr
 
     [make] Compiling completed
 
-*Navigate to experiments/*
-
-*Run:*
+*Navigate to experiments/ and run:*
 
     $ export PATH=$PATH:*full path here*/autovot/auto_vot/bin
 
@@ -97,6 +93,33 @@ If successful, a .txt file will be generated for all voiced and voiceless TextGr
 
 # Script Usage
 Tutorial to follow
+
+## Training
+
+#### Mode 1:  *auto\_vot\_extract_features.py*
+
+                        [-h] [--vot\_tier VOT\_TIER] [--vot\_mark VOT_MARK]
+                        [--window\_tier WINDOW_TIER]
+                        [--window\_mark WINDOW\_MARK] [--window\_min WINDOW_MIN]
+                        [--window\_max WINDOW_MAX]
+                        [--cv\_textgrid\_list CV\_TEXTGRID_LIST]
+                        [--cv\_wav\_list CV\_WAV_LIST]
+                        [--max\_num\_instances MAX\_NUM_INSTANCES]
+                        [--logging\_level LOGGING_LEVEL]
+
+#### Mode 2: *auto\_vot\_extract_features.py*
+
+                        [-h] [--decoding] [--vot\_tier VOT_TIER]
+                        [--vot\_mark VOT_MARK]
+                        [--window\_tier WINDOW_TIER]
+                        [--window\_mark WINDOW_MARK]
+                        [--window\_min WINDOW_MIN]
+                        [--window\_max WINDOW_MAX]
+                        [--max\_num\_instances MAX\_NUM_INSTANCES]
+                        [--logging\_level LOGGING_LEVEL]
+                        textgrid\_list wav\_list input_filename
+                        features\_filename labels_filename
+                        features_dir
 
 
 
