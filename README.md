@@ -216,14 +216,11 @@ Tutorial to follow
 ##### *Decode AutoVOT after features extraction*
 ###### Usage: auto_vot_decode_after_fe.py [OPTIONS] features_filename labels_filename model_filename
 
-Decode AutoVOT after features extraction
+    Positional arguments:                       Description:
+    features_filename                           AutoVOT front end features file name (training)
+    labels_filename                             AutoVOT front end labels file name (training)
+    model_filename                              output model file name
 
-positional arguments:
-  features_filename     AutoVOT front end features file name (training)
-  labels_filename       AutoVOT front end labels file name (training)
-  model_filename        output model file name
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --logging_level LOGGING_LEVEL
-                        print out level (DEBUG, INFO, WARNING or ERROR)
+    Optional arguments:                         Description:
+    -h, --help                                  show this help message and exit
+    --logging_level LOGGING_LEVEL               print out level (DEBUG, INFO, WARNING or ERROR)
