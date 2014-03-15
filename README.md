@@ -13,7 +13,7 @@ autovot
             vot_predictor/
             
 **There are two modes for training and decoding:**
-* **Mode1:** The handling of feature extraction is hidden. The train can get cross-validation set or automatically select 20% of the training data. 
+* **Mode1:** The handling of feature extraction is hidden. The train can get cross-validation set or automatically select 20% of the training data.
 * **Mode2:** Training and decoding is done after feature extraction. Features are extracted to a known directory once after which training and decoding may be done as needed. Mode 2 is ideal if you have a large quantity of data.
 
 ## User provided files and directories
@@ -84,21 +84,23 @@ Tutorial to follow
 
 ## Training and feature extraction
 
-#### Mode 1:  
+#### Mode 1:
+##### *Train AutoVOT*
 ###### Usage: auto\_vot\_train.py [OPTIONS] wav\_list textgrid\_list model_filename 
 
-    Optional arguments                          Function
+    Optional arguments                          Description
     
-    [-h]                                        Dispaly help options
-    [--vot\_tier VOT_TIER] 
-    [--vot\_mark VOT_MARK]
-    [--window\_min WINDOW_MIN] 
-    [--window\_max WINDOW_MAX]
-    [--cv_auto] 
-    [--cv\_textgrid\_list CV\_TEXTGRID_LIST]
-    [--cv\_wav\_list CV\_WAV_LIST]
-    [--max\_num\_instances MAX\_NUM_INSTANCES]
-    [--logging\_level LOGGING_LEVEL]
+    -h                                          Dispaly help options
+    --vot\_tier VOT_TIER                        name of the tier to extract VOTs from
+    --vot\_mark VOT_MARK                        VOT mark value (e.g., "pos", "neg") or "*" for any
+                                                string
+    --window\_min WINDOW_MIN 
+    --window\_max WINDOW_MAX
+    --cv_auto
+    --cv\_textgrid\_list CV\_TEXTGRID_LIST
+    --cv\_wav\_list CV\_WAV_LIST
+    --max\_num\_instances MAX\_NUM_INSTANCES
+    --logging\_level LOGGING_LEVEL
 
 
     Positional Arguments                        Description
@@ -109,59 +111,56 @@ Tutorial to follow
                 
 
 #### Mode 2: 
+##### *Extract acoustic features of AutoVOT*
 ###### Usage: auto\_vot\_extract\_features.py [OPTIONS] textgrid\_list wav\_list input\_filename features\_filename labels\_filename features_dir
     
 
-    Extract acoustic features of AutoVOT
-
-    Positional Arguments                Description
+    Positional Arguments                        Description
     
-    textgrid_list                       list of manually labeled TextGrid files (input)
-    wav_list                            list of WAV files (input)
-    input_filename                      AutoVOT front end input file name (output)
-    features_filename                   AutoVOT front end features file name (output)
-    labels_filename                     AutoVOT front end labels file name (output)
-    features_dir                        directory to put the feature files (output)
+    textgrid_list                               list of manually labeled TextGrid files (input)
+    wav_list                                    list of WAV files (input)
+    input_filename                              AutoVOT front end input file name (output)
+    features_filename                           AutoVOT front end features file name (output)
+    labels_filename                             AutoVOT front end labels file name (output)
+    features_dir                                directory to put the feature files (output)
 
-    Optional Arguments:                 Description
+    Optional Arguments:                         Description
     
-    -h, --help                          show this help message and exit
-    --decoding                          Extract features for decoding based on window_tier
-                                        (vot_tier is ignored), otherwise extract features for
-                                        training based on manual labeling given in the
-                                        vot_tier
-    --vot_tier VOT_TIER                 name of the tier to extract VOTs from
-    --vot_mark VOT_MARK                 VOT mark value (e.g., "pos", "neg") or "*" for any
-                                        string
-    --window_tier WINDOW_TIER           used this window as a search window for training. If
-                                        not given, a constant window with parameters
-                                        [window\_min, window_max] around the manually labeled
-                                        VOT will be used
-    --window_mark WINDOW_MARK           window mark value or "*" for any string
-    --window_min WINDOW_MIN             window left boundary (in msec) relative to the VOT
-                                        right boundary (usually should be negative, that is,
-                                        before the VOT right boundary.)
-    --window_max WINDOW_MAX             window right boundary (in msec) relative to the VOT
-                                        right boundary (usually should be positive, that is,
-                                        after the VOT left boundary.)
-    --max_num_instances MAX_NUM_INSTANCES   max number of instances per file to use (default is to
-                                            use everything)
-    --logging_level LOGGING_LEVEL       print out level (DEBUG, INFO, WARNING or ERROR)
+    -h, --help                                  show this help message and exit
+    --decoding                                  Extract features for decoding based on window_tier
+                                                (vot_tier is ignored), otherwise extract features for
+                                                training based on manual labeling given in the
+                                                vot_tier
+    --vot\_tier VOT_TIER                        name of the tier to extract VOTs from
+    --vot\_mark VOT_MARK                        VOT mark value (e.g., "pos", "neg") or "*" for any
+                                                string
+    --window\_tier WINDOW_TIER                  used this window as a search window for training. If
+                                                not given, a constant window with parameters
+                                                [window\_min, window_max] around the manually labeled
+                                                VOT will be used
+    --window\_mark WINDOW_MARK                  window mark value or "*" for any string
+    --window\_min WINDOW_MIN                    window left boundary (in msec) relative to the VOT
+                                                right boundary (usually should be negative, that is,
+                                                before the VOT right boundary.)
+    --window\_max WINDOW_MAX                    window right boundary (in msec) relative to the VOT
+                                                right boundary (usually should be positive, that is,
+                                                after the VOT left boundary.)
+    --max\_num\_instances MAX\_NUM_INSTANCES    max number of instances per file to use (default is to
+                                                use everything)
+    --logging\_level LOGGING_LEVEL              print out level (DEBUG, INFO, WARNING or ERROR)
                   
-                        
-##### Usage: auto\_vot\_train\_after\_fe.py [OPTIONS] features\_filename labels\_filename model\_filename
 
+##### *Train AutoVOT after features extraction*
+###### Usage: auto\_vot\_train\_after\_fe.py [OPTIONS] features\_filename labels\_filename model\_filename
 
-    Train AutoVOT after features extraction
+    Positional Arguments:                       Description:
+    features_filename                           AutoVOT front end features file name (training)
+    labels_filename                             AutoVOT front end labels file name (training)
+    model_filename                              output model file name
 
-    Positional Arguments:               Description:
-    features_filename                   AutoVOT front end features file name (training)
-    labels_filename                     AutoVOT front end labels file name (training)
-    model_filename                      output model file name
-
-    Optional arguments:                 Description:
-    -h, --help                          show this help message and exit
-    --logging_level LOGGING_LEVEL       print out level (DEBUG, INFO, WARNING or ERROR)
+    Optional arguments:                         Description:
+    -h, --help                                  show this help message and exit
+    --logging\_level LOGGING_LEVEL              print out level (DEBUG, INFO, WARNING or ERROR)
 
 
 
