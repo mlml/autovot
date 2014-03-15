@@ -36,7 +36,7 @@ See example data & experiment folders.
     
     Path                        Description/Contents
 
-    data/train/|                 Each embedded folder should contain both TextGrids and corresponding wav files
+    data/train/                 Each embedded folder should contain both TextGrids and corresponding wav files
         voiced/
         voiceless/
     data/test/                  Each embedded voiced/voiceless folder should contain only TextGrids. 
@@ -47,7 +47,7 @@ See example data & experiment folders.
     
     experiments/config/:        Lists of filenames. See below for more info.
     experiments/models/:        Empty. This is where classifiers will be stored.
-    experiments/temp_dir/:      Empty. This is where feature extraction will be stored in Mode 2.
+    experiments/tmp_dir/:      Empty. This is where feature extraction will be stored in Mode 2.
 
 #### Helper files for generating user's file lists
 Move makeConfigFiles.sh to data/. Navigate to this folder and run:
@@ -141,23 +141,23 @@ Tutorial to follow
                                                 (vot_tier is ignored), otherwise extract features for
                                                 training based on manual labeling given in the
                                                 vot_tier
-    --vot\_tier VOT_TIER                        name of the tier to extract VOTs from
-    --vot\_mark VOT_MARK                        VOT mark value (e.g., "pos", "neg") or "*" for any
+    --vot_tier VOT_TIER                         name of the tier to extract VOTs from
+    --vot_mark VOT_MARK                         VOT mark value (e.g., "pos", "neg") or "*" for any
                                                 string
-    --window\_tier WINDOW_TIER                  used this window as a search window for training. If
+    --window_tier WINDOW_TIER                   used this window as a search window for training. If
                                                 not given, a constant window with parameters
-                                                [window\_min, window_max] around the manually labeled
+                                                [window_min, window_max] around the manually labeled
                                                 VOT will be used
-    --window\_mark WINDOW_MARK                  window mark value or "*" for any string
-    --window\_min WINDOW_MIN                    window left boundary (in msec) relative to the VOT
+    --window_mark WINDOW_MARK                   window mark value or "*" for any string
+    --window_min WINDOW_MIN                     window left boundary (in msec) relative to the VOT
                                                 right boundary (usually should be negative, that is,
                                                 before the VOT right boundary.)
-    --window\_max WINDOW_MAX                    window right boundary (in msec) relative to the VOT
+    --window_max WINDOW_MAX                     window right boundary (in msec) relative to the VOT
                                                 right boundary (usually should be positive, that is,
                                                 after the VOT left boundary.)
-    --max\_num\_instances MAX\_NUM_INSTANCES    max number of instances per file to use (default is to
+    --max_num_instances MAX_NUM_INSTANCES       max number of instances per file to use (default is to
                                                 use everything)
-    --logging\_level LOGGING_LEVEL              print out level (DEBUG, INFO, WARNING or ERROR)
+    --logging_level LOGGING_LEVEL               print out level (DEBUG, INFO, WARNING or ERROR)
                   
 
 ##### *Train AutoVOT after features extraction*
@@ -171,7 +171,59 @@ Tutorial to follow
 
     Optional arguments:                         Description:
     -h, --help                                  show this help message and exit
-    --logging\_level LOGGING_LEVEL              print out level (DEBUG, INFO, WARNING or ERROR)
+    --logging_level LOGGING_LEVEL               print out level (DEBUG, INFO, WARNING or ERROR)
 
 
+## VOT DECODING
 
+#### Mode 1
+##### *Decode AutoVOT*
+###### Usage: auto\_vot\_decode.py [OPTIONS] wav\_filename textgrid\_filename model\_filename
+
+    Positional arguments:                       Description:
+    
+    wav_filenames                               a list of WAV files.
+    textgrid_filenames                          a list of TextGrid files.
+    model_filename                              output model file name
+
+    Optional arguments:                         Description:
+    -h, --help                                  show this help message and exit
+    --vot_tier VOT_TIER                         name of the tier to extract VOTs from
+    --vot_mark VOT_MARK                         VOT mark value (e.g., "pos", "neg") or "*" for any
+                                                string
+    --window_tier WINDOW_TIER                   used this window as a search window for training. If
+                                                not given, a constant window with parameters
+                                                [window_min, window_max] around the manually labeled
+                                                VOT will be used
+    --window_mark WINDOW_MARK                   window mark value or "*" for any string
+    --window_min WINDOW_MIN                     window left boundary (in msec) relative to the VOT
+                                                right boundary (usually should be negative, that is,
+                                                before the VOT right boundary.)
+    --window_max WINDOW_MAX                     window right boundary (in msec) relative to the VOT
+                                                right boundary (usually should be positive, that is,
+                                                after the VOT left boundary.)
+    --min_vot_length MIN_VOT_LENGTH             minimum allowed length of predicted VOT (in msec) in decoding
+    --max_vot_length MAX_VOT_LENGTH             maximum allowed length of predicted VOT (in msec) in
+                                                decoding
+    --max_num_instances MAX_NUM_INSTANCES       max number of instances per file to use (default is to
+                                                use everything)
+    --ignore_existing_tiers                     add a new AutoVOT tier to output textgrids, even if
+                                                one already exists
+    --logging_level LOGGING_LEVEL               print out level (DEBUG, INFO, WARNING or ERROR)
+    
+
+#### Mode 2
+##### *Decode AutoVOT after features extraction*
+###### Usage: auto_vot_decode_after_fe.py [OPTIONS] features_filename labels_filename model_filename
+
+Decode AutoVOT after features extraction
+
+positional arguments:
+  features_filename     AutoVOT front end features file name (training)
+  labels_filename       AutoVOT front end labels file name (training)
+  model_filename        output model file name
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --logging_level LOGGING_LEVEL
+                        print out level (DEBUG, INFO, WARNING or ERROR)
