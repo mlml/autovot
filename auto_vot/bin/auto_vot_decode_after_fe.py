@@ -13,7 +13,7 @@ from autovot.utilities import *
 if __name__ == "__main__":
 
     # parse arguments
-    parser = argparse.ArgumentParser(description='Train AutoVOT after features extraction')
+    parser = argparse.ArgumentParser(description='Decode AutoVOT after features extraction')
     parser.add_argument('features_filename', help="AutoVOT front end features file name (training)")
     parser.add_argument('labels_filename', help="AutoVOT front end labels file name (training)")
     parser.add_argument('model_filename', help="output model file name")
