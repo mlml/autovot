@@ -224,3 +224,28 @@ Tutorial to follow
     Optional arguments:                         Description:
     -h, --help                                  show this help message and exit
     --logging_level LOGGING_LEVEL               print out level (DEBUG, INFO, WARNING or ERROR)
+
+
+## Check Performance
+##### *Compute the performance between a set of predicted textgrid files and a set of
+labeled textgrid files.*
+###### Usage: auto_vot_performance.py [OPTIONS] labeled_textgrid_list predicted_textgrid_list labeled_vot_tier predicted_vot_tier
+
+    Positional arguments:                       Description:
+    
+    labeled_textgrid_list                       list of manually labeled TextGrid files
+    predicted_textgrid_list                     list of predicted TextGrid files (can be the same as
+                                                labeled_textgrid_list when the same TextGrid is used
+                                                with two different tiers to compare)
+    labeled_vot_tier                            name of the VOT tier of the manual labeled TextGrids
+    predicted_vot_tier                          name of the VOT tier to predicted TetGrids
+
+    Optional arguments:                         Description:
+    
+    -h, --help                                  show this help message and exit
+    --debug                                     verbose printing
+    
+# Tutorial
+## Mode 1
+
+## Mode 2
