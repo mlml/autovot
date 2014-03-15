@@ -1,16 +1,18 @@
 autovot
 =======
     
-## Out of the box
+## Out of the box directories and files
 
-    autovot/
-    auto_vot/
-        bin/
-        code/
-            audiofile-0.3.4/
-            learning_tools/
-            Makefile
+    Path                        Description/contents
+    autovot/                    Master directory
+    auto_vot/                   
+        bin/                    
+        code/                   
+            audiofile-0.3.4/    
+            learning_tools/     
+            Makefile            
             vot_predictor/
+    makeConfigFiles.sh          Helper file to generate file lists
             
 **There are two modes for training and decoding:**
 * **Mode1:** The handling of feature extraction is hidden. The train can get cross-validation set or automatically select 20% of the training data.
@@ -31,18 +33,21 @@ autovot
 User provided directories should be in the autovot master directory.
 
 See example data & experiment folders.
+    
+    Path                        Description/Contents
 
-    data/train/: Each folder should contain both TextGrids and corresponding wav files
+    data/train/|                 Each embedded folder should contain both TextGrids and corresponding wav files
         voiced/
         voiceless/
-    data/test/: Each folder should contain only TextGrids. Wav files should be in separate folder.
+    data/test/                  Each embedded voiced/voiceless folder should contain only TextGrids. 
+                                Wav files should be in separate folder.
         voiced/
         voiceless/
         wav/
     
-    experiments/config/: This should contain lists of filenames. See below for more info.
-    experiments/models/: This is where classifiers will be stored.
-    experiments/temp_dir/: This is where feature extraction will be stored in Mode 2.
+    experiments/config/:        Lists of filenames. See below for more info.
+    experiments/models/:        Empty. This is where classifiers will be stored.
+    experiments/temp_dir/:      Empty. This is where feature extraction will be stored in Mode 2.
 
 #### Helper files for generating user's file lists
 Move makeConfigFiles.sh to data/. Navigate to this folder and run:
