@@ -69,11 +69,11 @@ If successful, a .txt file will be generated for all voiced and voiceless TextGr
 
     Navigate to auto_vot/code/ and run:
         $ make clean
-    If successful, the output should be:
+    If successful, the final line of the output should be:
         [make] Cleaning completed
     Then, run:
         $ make
-    Output should be:
+    Final line of the utput should be:
         [make] Compiling completed
     
 
@@ -90,29 +90,34 @@ Tutorial to follow
 ## Training and feature extraction
 
 #### Mode 1:
-##### *Train AutoVOT*
+##### *Training of AutoVOT*
 ###### Usage: auto\_vot\_train.py [OPTIONS] wav\_list textgrid\_list model_filename 
 
-    Optional arguments                          Description
+    Positional Arguments:                   Description:
     
-    -h                                          Dispaly help options
-    --vot\_tier VOT_TIER                        name of the tier to extract VOTs from
-    --vot\_mark VOT_MARK                        VOT mark value (e.g., "pos", "neg") or "*" for any
-                                                string
-    --window\_min WINDOW_MIN 
-    --window\_max WINDOW_MAX
-    --cv_auto
-    --cv\_textgrid\_list CV\_TEXTGRID_LIST
-    --cv\_wav\_list CV\_WAV_LIST
-    --max\_num\_instances MAX\_NUM_INSTANCES
-    --logging\_level LOGGING_LEVEL
+    wav_list                                list of WAV files
+    textgrid_list                           list of manually labeled TextGrid files
+    model_filename                          output model file name
 
-
-    Positional Arguments                        Description
+    Optional arguments:                     Description
     
-    wav_list                                    List of wav files
-    textgrid_list                               List of TextGrids
-    model_filename                              
+    -h, --help                              show this help message and exit
+    --vot_tier VOT_TIER                     name of the tier to extract VOTs from
+    --vot_mark VOT_MARK                     VOT mark value (e.g., "pos", "neg") or "*" for any
+                                            string
+    --window_min WINDOW_MIN                 window left boundary (in msec) relative to the VOT
+                                            right boundary (usually should be negative, that is,
+                                            before the VOT right boundary.)
+    --window_max WINDOW_MAX                 window right boundary (in msec) relative to the VOT
+                                            right boundary ( usually should be positive, that is,
+                                            after the VOT left boundary.)
+    --cv_auto                               use 20% of the training set for cross validation
+    --cv_textgrid_list CV_TEXTGRID_LIST     list of manually labeled TextGrid files for cross-
+                                            validation
+    --cv_wav_list CV_WAV_LIST               list of WAV files for cross-validation
+    --max_num_instances MAX_NUM_INSTANCES   max number of instances per file to use (default is to
+                                            use everything)
+    --logging_level LOGGING_LEVEL           print out level (DEBUG, INFO, WARNING or ERROR)
                 
 
 #### Mode 2: 
@@ -120,7 +125,7 @@ Tutorial to follow
 ###### Usage: auto\_vot\_extract\_features.py [OPTIONS] textgrid\_list wav\_list input\_filename features\_filename labels\_filename features_dir
     
 
-    Positional Arguments                        Description
+    Positional Arguments:                       Description:
     
     textgrid_list                               list of manually labeled TextGrid files (input)
     wav_list                                    list of WAV files (input)
@@ -129,7 +134,7 @@ Tutorial to follow
     labels_filename                             AutoVOT front end labels file name (output)
     features_dir                                directory to put the feature files (output)
 
-    Optional Arguments:                         Description
+    Optional Arguments:                         Description:
     
     -h, --help                                  show this help message and exit
     --decoding                                  Extract features for decoding based on window_tier
@@ -159,6 +164,7 @@ Tutorial to follow
 ###### Usage: auto\_vot\_train\_after\_fe.py [OPTIONS] features\_filename labels\_filename model\_filename
 
     Positional Arguments:                       Description:
+    
     features_filename                           AutoVOT front end features file name (training)
     labels_filename                             AutoVOT front end labels file name (training)
     model_filename                              output model file name
