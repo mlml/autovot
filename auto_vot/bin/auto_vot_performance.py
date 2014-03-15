@@ -7,6 +7,7 @@ Author: Joseph Keshet, 18/11/2013
 
 import argparse
 import math
+import numpy as np
 
 from autovot.textgrid import *
 from autovot.utilities import *
@@ -39,28 +40,24 @@ def read_textgrid_tier(textgrid_filename, vot_tier):
     return vots
 
 
-from itertools import imap
-def pearsonr(x, y):
-  # Assume len(x) == len(y)
-  n = len(x)
-  sum_x = float(sum(x))
-  sum_y = float(sum(y))
-  sum_x_sq = sum(map(lambda x: pow(x, 2), x))
-  sum_y_sq = sum(map(lambda x: pow(x, 2), y))
-  psum = sum(imap(lambda x, y: x * y, x, y))
-  num = psum - (sum_x * sum_y/n)
-  den = pow((sum_x_sq - pow(sum_x, 2) / n) * (sum_y_sq - pow(sum_y, 2) / n), 0.5)
-  if den == 0: return 0
-  return num / den
+def remove_outliers(x_list, y_list):
+    x_array = np.array(x_list)
+    x_mean = np.mean(x_array)
+    x_std = np.std(x_array)
+    y_array = np.array(y_list)
+    y_mean = np.mean(y_array)
+    y_std = np.std(y_array)
 
+    x_list_ro = list()
+    y_list_ro = list()
+    if len(x_list) != len(y_list):
+        logging.error("Something's wrong. The length of the input lists is not the same.")
+    for x, y in zip(x_list, y_list):
+        if abs(x-x_mean) < 3.0*x_std and abs(y-y_mean) < 3.0*y_std:
+            x_list_ro.append(x)
+            y_list_ro.append(y)
 
-def mean(x_list):
-    x_mean = 0
-    for x in x_list:
-        x_mean += x
-    x_mean /= float(len(x_list))
-    return x_mean
-
+    return x_list_ro, y_list_ro
 
 def correlation(x_list, y_list):
     # compute first moments
@@ -111,7 +108,7 @@ if __name__ == "__main__":
         f.close()
 
     if len(labeled_textgrids) != len(predicted_textgrids):
-        print "Error: something's wrong. Didn't read the same number of files from textgrid lists."
+        logging.error("Something's wrong. Didn't read the same number of files from textgrid lists.")
 
     x_xmin = []
     x_xmax = []
@@ -130,22 +127,8 @@ if __name__ == "__main__":
         y_xmax = y_xmax + [y.xmax() for y in predicted_vots]
         y_vot = y_vot + [(y.xmax()-y.xmin()) for y in predicted_vots]
 
-        # for x1, x2, x3, y1, y2, y3 in zip(x_xmin, x_xmax, x_vot, y_xmin, y_xmax, y_vot):
-        #     print x1, y1,
-        #     if abs(x1-y1) > 0.1:
-        #         print "*",
-        #     else:
-        #         print ".",
-        #     print x2, y2,
-        #     if abs(x2-y2) > 0.05:
-        #         print "*",
-        #     else:
-        #         print ".",
-        #     print x3, y3,
-        #     if abs(x3-y3) > 0.05:
-        #         print "*"
-        #     else:
-        #         print
     print "xmin correlation=", correlation(x_xmin, y_xmin)
     print "xmax correlation=", correlation(x_xmax, y_xmax)
-    print "vot correlation=", correlation(x_vot, y_vot)
+
+    x_vot_ro, y_vot_ro = remove_outliers(x_vot, y_vot)
+    print "vot correlation=", correlation(x_vot_ro, y_vot_ro)
