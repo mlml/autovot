@@ -82,6 +82,7 @@ If successful, a .txt file will be generated for all voiced and voiceless TextGr
 
     Then navigate to experiments/ and run:
         $ export PATH=$PATH:*full path here*/autovot/auto_vot/bin
+        (e.g. export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/auto_vot/bin)
         
         
     TODO: Run:
@@ -321,7 +322,7 @@ If sucessful, you'll see which files have been processed in the command line out
 	
 You'll also see that classifier files have been generated in the `models` folder (2 for voiceless and 2 for voiced).
 
-### Testing
+### Decoding
 Note that when predicting VOT, the default minimum length is 15ms. For English voiced stops this is too high, and must be adjusted in the optional parameter settings during this step.
 
 Still from within `experiments/`, run the following:
@@ -331,25 +332,71 @@ For voiceless:
 	auto_vot_decode.py --vot_tier vot  --vot_mark vot --max_num_instances 1 \
 	config/voicelessTestWavList.txt config/voicelessTestTgList.txt \
 	models/VoicelessModel.classifier
+	
+For voiced:
+
+	auto_vot_decode.py --vot_tier vot  --vot_mark vot --min_vot_length 5 \
+	--max_vot_length 100 \--max_num_instances 1 config/voicelessTestWavList.txt \
+	config/voicelessTestTgList.txt models/VoicelessModel.classifier
+
+If successful, you'll see information printed out about which files were successfully decoded. After all files have been processed, you'll see the message:
+
+`[auto_vot_decode.py] INFO: All done.`
+
+If there were any problematic files that couldn't be processed, these will appear at the end, with the message:
+
+`[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
 
 ## Mode 2
 ### Extracting features
 Navigate to `experiments/` and run:
 
+For voiceless:
 
 	auto_vot_extract_features.py --log=INFO --vot_tier vot --vot_mark vot \
 	config/voicelessTrainTgList.txt config/voicelessTrainWavList.txt \
 	config/VoicelessFeInput.txt config/VoicelessFeFeatures.txt \
-	config/VoicelessFeLabels.txt tmp_dir \
+	config/VoicelessFeLabels.txt tmp_dir
 	
+For voiced: 
 
+	auto_vot_extract_features.py --log=INFO --vot_tier vot --vot_mark vot \
+	config/voicedTrainTgList.txt config/voicedTrainWavList.txt \
+	config/VoicedFeInput.txt config/VoicedFeFeatures.txt \
+	config/VoicedFeLabels.txt tmp_dir
 
+If successful, you'll be able to see which files have been processed. The final output line will be:
+
+`[VotFrontEnd2] INFO: Features extraction completed.`
 
 
 ## Possible errors and warnings
-After running auto_vot_train.py:
+### After running auto_vot_train.py:
+
+If you have shorter instances of VOT in your training data, you may get the following error:
 
 `[InitialVotTrain] WARNING: Hinge loss is less than zero. This is due a short VOT in training data.`
 
-After running auto_vot_decode.py:
+You can ignore this, but be aware that a VOT in the training data was skipped.
+
+
+If you do not have a corresponding wav file for a TextGrid:
+`[auto_vot_extract_features.py] ERROR: Number of TextGrid files should match the number of WAVs`
+
+### After running auto_vot_decode.py:
+
+If one of your files does not have the right format, the following error will appear:
+
 `[auto_vot_extract_features.py] ERROR: *filename*.wav is not a valid WAV.`
+`[auto_vot_extract_features.py] ERROR: *filename*.TextGrid is not a valid TextGrid.`
+
+##### AutoVOT tier already exists
+`[auto_vot_decode.py] WARNING: File *filename*.TextGrid already contains a tier with the name "AutoVOT"`
+
+`[auto_vot_decode.py] WARNING: New "AutoVOT" tier is NOT being written to the file.`
+
+`[auto_vot_decode.py] WARNING: (use the --ignore_existing_tiers flag if you'd like to do so)`
+
+
+If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT tier exists already:
+`[auto_vot_decode.py] WARNING: Writing a new AutoVOT tier (in addition to existing one(s))`
