@@ -258,6 +258,8 @@ labeled textgrid files.*
  
 **File lists**
 
+(to be generated)
+
 * voicedTestTgList.txt
 * voicedTestWavList.txt
 * voicedTrainTgList.txt
@@ -268,12 +270,24 @@ labeled textgrid files.*
 * voicelessTrainWavList.txt
 
 **Classifier files**
+
+(to be generated)
+
 * VoicedModel.classifier.neg
 * VoicedModel.classifier.pos
 * VoicelessModel.classifier.neg
 * VoicelessModel.classifier.pos
 
 **Feature files**
+
+(to be generated)
+
+* VoicedFeFeatures.txt
+* VoicedFeInput.txt
+* VoicedFeLabels.txt
+* VoicelessFeFeatures.txt
+* VoicelessFeInput.txt
+* VoicelessFeLabels.txt
 
 
 ## Getting started
@@ -347,6 +361,8 @@ If there were any problematic files that couldn't be processed, these will appea
 
 `[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
 
+You can then look at your textgrids, which will have a new tier AutoVOT with predicted VOT intervals.
+
 ## Mode 2
 ### Extracting features
 Navigate to `experiments/` and run:
@@ -370,25 +386,62 @@ If successful, you'll be able to see which files have been processed. The final 
 `[VotFrontEnd2] INFO: Features extraction completed.`
 
 
+### Training
+From within `experiments/` run the following:
+
+For voiceless:
+
+	auto_vot_train_after_fe.py --log=INFO config/VoicelessFeFeatures.txt \
+	config/VoicelessFeLabels.txt models/VoicelessModel_ver2.classifier
+	
+For voiced:
+
+	auto_vot_train_after_fe.py --log=INFO config/VoicedFeFeatures.txt \
+	config/VoicedFeLabels.txt models/VoicedModel_ver2.classifier
+
+If training is successful you will only see the following output message at the end:
+
+`[InitialVotTrain] INFO: Training completed.`
+
+### Decoding
+
+For voiceless:
+
+	auto_vot_decode_after_fe.py --log=INFO config/VoicelessFeFeatures.txt \
+	config/VoicelessFeLabels.txt models/VoicelessModel_ver2.classifier
+	
+For voiced:
+
+	auto_vot_train_after_fe.py --log=INFO config/VoicedFeFeatures.txt \
+	config/VoicedFeLabels.txt models/VoicedModel_ver2.classifier
+
+If decoding is successful, you'll see the following output message: 
+
+`[InitialVotDecode] INFO: Decoding completed.`
+
+As with Mode 1, if there were any problematic files that couldn't be processed, these will appear at the end, with the message:
+
+`[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
+
+You can then look at your textgrids, which will have a new tier AutoVOT with predicted VOT intervals.
+
+
+
 ## Possible errors and warnings
 ### After running auto_vot_train.py:
 
+##### Short VOT in training data
 If you have shorter instances of VOT in your training data, you may get the following error:
 
 `[InitialVotTrain] WARNING: Hinge loss is less than zero. This is due a short VOT in training data.`
 
 You can ignore this, but be aware that a VOT in the training data was skipped.
 
-
+##### Missing files
 If you do not have a corresponding wav file for a TextGrid:
 `[auto_vot_extract_features.py] ERROR: Number of TextGrid files should match the number of WAVs`
 
 ### After running auto_vot_decode.py:
-
-If one of your files does not have the right format, the following error will appear:
-
-`[auto_vot_extract_features.py] ERROR: *filename*.wav is not a valid WAV.`
-`[auto_vot_extract_features.py] ERROR: *filename*.TextGrid is not a valid TextGrid.`
 
 ##### AutoVOT tier already exists
 `[auto_vot_decode.py] WARNING: File *filename*.TextGrid already contains a tier with the name "AutoVOT"`
@@ -400,3 +453,12 @@ If one of your files does not have the right format, the following error will ap
 
 If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT tier exists already:
 `[auto_vot_decode.py] WARNING: Writing a new AutoVOT tier (in addition to existing one(s))`
+
+
+### Other
+
+##### Wrong file format
+If one of your files does not have the right format, the following error will appear:
+
+`[auto_vot_extract_features.py] ERROR: *filename*.wav is not a valid WAV.`
+`[auto_vot_extract_features.py] ERROR: *filename*.TextGrid is not a valid TextGrid.`
