@@ -1,7 +1,10 @@
 AutoVOT, v. 0.9
 =======
+
+## How to Cite
+TO DO
     
-## Out of the box directories and files
+## Out of the box: directories and files included in the downloaded version (TODO: explain more)
 
     Path                        Description/contents
     autovot/                    Master directory
@@ -245,15 +248,58 @@ labeled textgrid files.*
     -h, --help                                  show this help message and exit
     --debug                                     verbose printing
     
-# Tutorial
-## Mode 1
+# Tutorial: TODO
 ### Arguments used in this example:
+**TextGrid labels**
 
-	vot_tier = vot
- 	vot = label of hand corrected VOT
-	BX = label of hand corrected voiced VOT
-	voicelessTrainTgList.txt = user generated list of TextGrids for voiceless training
-	voicelessTrainWavList.txt = user generated list of wav files for voiceless training	voicedTrainTgList.txt = user generated list of TextGrids for voiced training
-	voicedTrainWavList.txt = user generated list of wav files for voiced training
+* vot_tier = vot
+* vot_mark = vot
+ 
+**File lists**
+
+* voicedTestTgList.txt
+* voicedTestWavList.txt
+* voicedTrainTgList.txt
+* voicedTrainWavList.txt
+* voicelessTestTgList.txt
+* voicelessTestWavList.txt
+* voicelessTrainTgList.txt
+* voicelessTrainWavList.txt
+
+**Feature files**
+
+
+## Getting started
+### Make sure directories are properly set up
+* `experiments/` should contain three subfolders, all of which are currently empty: `config`, `models`, `tmp_dir`
+* `data/` should contain two subfolders: `test` and `train`
+	* `train/` should contain two subfolders: `voiced` and `voiceless`, each with wav files and corresponding TextGrids
+		* The TextGrids contain 3 tiers, one of which will be used by autovot. The tiers are `phones`, `words`, and `vot`. The `vot` tier contains manually aligned VOT intervals that are labeled "vot"
+	* `test/` should contain three subfolders: `voiced`, `voiceless`, each containing TextGrids, and `wav`, which should contain all wav files for testing (both voiced and voiceless)
+	* All wav files are sampled at 16kHz.
+	* All textgrids have been saved as text files.
+### Generate file lists
+* Make sure `makeConfigFiles.sh` is in `data/`
+* Navigate to data and run: 
+
+	`$ ./makeConfigFiles.sh`
+
+* `experiments/config` should now contain 8 files containing lists of the testing/training files, as listed above.
+
+
+## Mode 1
 
 ## Mode 2
+### Extracting features
+Navigate to `experiments/` and run:
+
+
+	auto_vot_extract_features.py --log=INFO --vot_tier vot --vot_mark vot \
+	config/voicelessTrainTgList.txt config/voicelessTrainWavList.txt \
+	config/VoicelessFeInput.txt config/VoicelessFeFeatures.txt \
+	config/VoicelessFeLabels.txt tmp_dir \
+	
+
+
+
+### 
