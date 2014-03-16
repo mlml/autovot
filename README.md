@@ -266,6 +266,12 @@ labeled textgrid files.*
 * voicelessTrainTgList.txt
 * voicelessTrainWavList.txt
 
+**Classifier files**
+* VoicedModel.classifier.neg
+* VoicedModel.classifier.pos
+* VoicelessModel.classifier.neg
+* VoicelessModel.classifier.pos
+
 **Feature files**
 
 
@@ -288,6 +294,43 @@ labeled textgrid files.*
 
 
 ## Mode 1
+### Training
+Note that for mode 1, feature extraction is hidden to the user and is a component of auto_vot_train.py.
+
+Navigate to `experiments/` and run the following:
+
+*Note: `\` indicate line breaks that should not be included in the actual command line prompt.*
+
+For voiceless data:
+
+	auto_vot_train.py --vot_tier vot --vot_mark vot --max_num_instances 1 \
+	config/voicelessTrainWavList.txt config/voicelessTrainTgList.txt \
+	models/VoicelessModel.classifier
+	
+For voiced data:
+
+	auto_vot_train.py --vot_tier vot --vot_mark vot --max_num_instances 1 \
+	config/voicedTrainWavList.txt config/voicedTrainTgList.txt \
+	models/VoicedModel.classifier
+
+If sucessful, you'll see which files have been processed in the command line output. The final output should indicate that all steps have been completed:
+
+	12:47:11.444 [VotFrontEnd2] INFO: Features extraction completed.
+	12:47:33.718 [InitialVotTrain] INFO: Training completed.
+	12:47:33.724 [auto_vot_train.py] INFO: All done.
+	
+You'll also see that classifier files have been generated in the `models` folder (2 for voiceless and 2 for voiced).
+
+### Testing
+Note that when predicting VOT, the default minimum length is 15ms. For English voiced stops this is too high, and must be adjusted in the optional parameter settings during this step.
+
+Still from within `experiments/`, run the following:
+
+For voiceless:
+
+	auto_vot_decode.py --vot_tier vot  --vot_mark vot --max_num_instances 1 \
+	config/voicelessTestWavList.txt config/voicelessTestTgList.txt \
+	models/VoicelessModel.classifier
 
 ## Mode 2
 ### Extracting features
@@ -302,4 +345,11 @@ Navigate to `experiments/` and run:
 
 
 
-### 
+
+## Possible errors and warnings
+After running auto_vot_train.py:
+
+`[InitialVotTrain] WARNING: Hinge loss is less than zero. This is due a short VOT in training data.`
+
+After running auto_vot_decode.py:
+`[auto_vot_extract_features.py] ERROR: *filename*.wav is not a valid WAV.`
