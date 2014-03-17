@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 	LOG(INFO) << "Processing " << _min(limit_instances,instances.size()) << " files.";
 	for (unsigned int i=0; i < _min(limit_instances,instances.size()); i++) {
 		
-		LOG(INFO) << "Processing " << instances.file_list[i] << " (" << (i+1) << " of " << instances.size() << ")";
+		LOG(DEBUG) << "Processing " << instances.file_list[i] << " (" << (i+1) << " of " << instances.size() << ")";
 		
 		// read samples
 		infra::vector samples;
