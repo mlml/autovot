@@ -38,4 +38,8 @@ auto_vot/code/vot_predictor/_Darwin_Release/
 auto_vot/code/vot_predictor/build/
 auto_vot/code/vot_predictor/vot_joint.xcodeproj/project.xcworkspace/xcshareddata/
 auto_vot/code/vot_predictor/vot_joint.xcodeproj/project.xcworkspace/xcuserdata/jkeshet.xcuserdatad/UserInterfaceState.xcuserstate
+auto_vot/code/vot_predictor/vot_joint.xcodeproj/xcuserdata/jkeshet.xcuserdatad/xcschemes/InitialVotTrain.xcscheme
+auto_vot/code/vot_predictor/vot_joint.xcodeproj/xcuserdata/jkeshet.xcuserdatad/xcschemes/VotFrontEnd2.xcscheme'
+auto_vot/code/vot_predictor/vot_joint.xcodeproj/xcuserdata/jkeshet.xcuserdatad/xcschemes/xcschememanagement.plist
+auto_vot/code/vot_predictor/vot_joint.xcodeproj/xcuserdata/jkeshet.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
 experiments/
