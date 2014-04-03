@@ -2,30 +2,32 @@ AutoVOT, v. 0.9
 =======
 
 ## How to Cite AutoVOT in my articles?
-***Please cite the following paper:***
+***If possible to cite a program, the following format is recommended (adjusting retrieval dates and versions as necessary):***
 
-* Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions). The Journal of the Acoustical Society of America, 132(6), 3965-3979.
+* Keshet, J., Sonderegger, M., Knowles, T. (2014). AutoVOT: A tool for automatic measurement of voice onset time using discriminative structured prediction [Computer program]. Version 0.9, retrieved April 2014 from https://github.com/mlml/autovot/.
+
+***If you are unable to cite the program itself, please cite the following paper:***
+
+* Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. **The Journal of the Acoustical Society of America**, 132(6), 3965-3979.
 
 
-## Out of the box: directories and files included in the downloaded version (TODO: explain more)
+## Out of the box: 
 
-    Path                        Description/contents
-    autovot/                    Master directory
-    auto_vot/                   
-        bin/                    
-        code/                   
-            audiofile-0.3.4/    
-            learning_tools/     
-            Makefile            
-            vot_predictor/
-    makeConfigFiles.sh          Helper file to generate file lists
-            
-**There are two modes for training and decoding:**
-* **Mode1:** The handling of feature extraction is hidden. The train can get cross-validation set or automatically select 20% of the training data.
-* **Mode2:** Training and decoding is done after feature extraction. Features are extracted to a known directory once after which training and decoding may be done as needed. Mode 2 is ideal if you have a large quantity of data.
+**Files included in this version:**
+
+* **AutoVOT scripts:** `auto_vot/` contains all scripts necessary for user to extract features, train, and decode VOT measurements.
+* **Tutorial examples:** Two folders are included in order to run the tutorial: 
+	* `data/` contains the .wav and .TextGrid files used for training and testing, as well as `makeConfigFiles.sh`, a helper script used to generate file lists.
+		* **Note:** This data contains short utterances with one VOT window per file. Future versions will contain examples with longer files and more instances of VOT per file.
+	* `experiments/` is currently empty and will be used to store file lists, feature files, and classifers generated in the tutorial.
+* **Example classifiers:** `examples/models/` contains three pre-trained classifiers that the user may use if they do not wish to provide their own training data. All example classifiers were used in Sonderegger&Keshet(2012) (above) and correspond to the Big Brother and Big Brother and Paterson/Goldrick Words datasets:
+	* *Big Brother:* `bb_jasa.classifier`'s are trained on conversational British speech.  Word-initial voiced (.neg) and voiceless (.pos) were included in training. This classifier is best to use if working with *conversational speech*
+	* *Paterson/Goldrick Words:* `nattalia_jasa.classifier` is trained on single-word productions from lab speech: L1 American English and L2 English/L1 Portuguese bilinguals. Word-initial voiceless stops were included in training. This classifier is best to use if working with *lab speech.*
+	* **Note:** For best performance the authors recommend hand-labeling a small subset of VOTs (~100 tokens) from your own data and training new classifiers (see information on training below). 
+
 
 ## User provided files and directories
-***Important:*** Input files will be overwritten. If you wish to access your original files, be sure to back them up elsewhere.
+***Important:*** Input TextGrids will be overwritten. If you wish to access your original files, be sure to back them up elsewhere.
 
 #### Sound file format
 * Wav files sampled at 16kHz
@@ -33,38 +35,26 @@ AutoVOT, v. 0.9
 #### TextGrid file format
 * Saved as text files with .TextGrid extension
 * TextGrids for training must contain a tier with hand measured vot intervals. These intervals must have a common text label, such as "vot."
-* TextGrids for testing must contain a tier with window intervals indicating the position the algorithm should begin looking for VOT onset. These intervals must have a common text label, such as "pos."
+* TextGrids for testing must contain a tier with window intervals indicating the position the algorithm should begin looking for VOT onset. These intervals must have a common label. For best performance the window intervals should:
+	* contain no more than one stop consonant 
+	* contain about 50 msec before the beginning of the burst *or*
+	* if only force-aligned segments are available, contain about 30 msec before the beginning of the burst.
 
 #### Directory format
 User provided directories should be in the autovot master directory.
 
-See example data & experiment folders.
-    
-    Path                        Description/Contents
+*See example data & experiment folders.*
 
-    data/train/                 Each embedded folder should contain both TextGrids and corresponding wav files
-        voiced/
-        voiceless/
-    data/test/                  Each embedded voiced/voiceless folder should contain only TextGrids. 
-                                Wav files should be in separate folder.
-        voiced/
-        voiceless/
-        wav/
-    
-    experiments/config/:        Lists of filenames. See below for more info.
-    experiments/models/:        Empty. This is where classifiers will be stored.
-    experiments/tmp_dir/:      Empty. This is where feature extraction will be stored in Mode 2.
-
-#### Helper files for generating user's file lists
-Move makeConfigFiles.sh to data/. Navigate to this folder and run:
-
-    $ ./makeConfigFiles.sh
-    
-If successful, a .txt file will be generated for all voiced and voiceless TextGrids and wav files in each train and test directory
+* `data/train/`: Each embedded folder should contain both TextGrids and corresponding wav files
+* `data/test/`: Each embedded voiced/voiceless folder should contain only TextGrids.
+	* Wav files should be in separate folder.
+* `experiments/config/`: Lists of filenames. See below for more info.
+* `experiments/models/`: Empty. This is where classifiers will be stored.
+* `experiments/tmp_dir/`: Empty. This is where feature extraction will be stored in Mode 2.
     
 # Getting Started
 
-**Note:** For a quick-start, skip to the tutorial section below after compiling.
+#### Note: For a quick-start, skip to the tutorial section below after compiling.
 
 ## Compiling
 ### Compile Audiofile Library
@@ -107,9 +97,14 @@ TODO: Run:
         $ make install
 
 # Usage
-Tutorial to follow
+***Tutorial to follow***
 
-## Training and feature extraction
+### AutoVOT allows for two modes of feature extraction:
+
+* **Mode 1 - Covert feature extraction:** The handling of feature extraction is hidden. The training can get cross-validation set or automatically select 20% of the training data.
+* **Mode 2 - Features extracted to a known directory:** Training and decoding is done after feature extraction. Features are extracted to a known directory once after which training and decoding may be done as needed. Mode 2 is recommended if you have a large quantity of data.
+
+## Feature extraction and training
 
 #### Mode 1:
 ##### *Training of AutoVOT*
@@ -267,41 +262,13 @@ labeled textgrid files.*
     -h, --help                                  show this help message and exit
     --debug                                     verbose printing
     
-# Tutorial: TODO
+# Tutorial
 ### Arguments used in this example:
-**TextGrid labels**
-
-* vot_tier = vot
-* vot_mark = vot
- 
-**File lists**
-
-(to be generated)
-
-	voicedTestTgList.txt				voicedTestWavList.txt
-
-	voicedTrainTgList.txt				voicedTrainWavList.txt
-
-	voicelessTestTgList.txt				voicelessTestWavList.txt
-
-	voicelessTrainTgList.txt			voicelessTrainWavList.txt
-
-
-**Classifier files**
-
-(to be generated)
-
-	VoicedModel.classifier.neg			VoicedModel.classifier.pos
-
-	VoicelessModel.classifier.neg			VoicelessModel.classifier.pos
-
-**Feature files**
-
-(to be generated)
-
-	VoicedFeFeatures.txt				VoicedFeInput.txt	VoicedFeLabels.txt
-
-	VoicelessFeFeatures.txt				VoicelessFeInput.txt	VoicelessFeLabels.txt
+* **TextGrid labels** are all `vot`. This includes tier names and window labels.
+* **File lists** will be generated in the first step of the tutorial and will be located in `experiments/config/`.
+* **Classifier files** will be generated during training and will be located in `experiments/models/`.
+* **Feature file lists** will be generated during feature extraction in Mode 2 and will be located in `experiments/config/`. These include AutoVOT Front End input, feature, and label files.
+* **Feature files** will be generated during feature extraction in Mode 2 and will be located in `experiments/tmp_dir/`.
 
 
 ## Getting started
@@ -313,8 +280,10 @@ labeled textgrid files.*
 	* `test/` should contain three subfolders: `voiced`, `voiceless`, each containing TextGrids, and `wav`, which should contain all wav files for testing (both voiced and voiceless)
 	* All wav files are sampled at 16kHz.
 	* All textgrids have been saved as text files.
+
 ### Generate file lists
-* Make sure `makeConfigFiles.sh` is in `data/`
+The user may also provide their own file lists if they prefer.
+
 * Navigate to data and run: 
 
 	`$ ./makeConfigFiles.sh`
@@ -324,7 +293,7 @@ labeled textgrid files.*
 
 ## Mode 1
 ### Training
-Note that for mode 1, feature extraction is hidden to the user and is a component of auto_vot_train.py.
+**Note** that for Mode 1, feature extraction is hidden to the user as a component of auto_vot_train.py.
 
 Navigate to `experiments/` and run the following:
 
@@ -352,7 +321,7 @@ If sucessful, you'll see which files have been processed in the command line out
 You'll also see that classifier files have been generated in the `models` folder (2 for voiceless and 2 for voiced).
 
 ### Decoding
-Note that when predicting VOT, the default minimum length is 15ms. For English voiced stops this is too high, and must be adjusted in the optional parameter settings during this step.
+**Note for voiced data:** When predicting VOT, the default minimum length is 15ms. For English voiced stops this is too high, and must be adjusted in the optional parameter settings during this step.
 
 Still from within `experiments/`, run the following:
 
@@ -365,7 +334,7 @@ For voiceless:
 For voiced:
 
 	auto_vot_decode.py --vot_tier vot  --vot_mark vot --min_vot_length 5 \
-	--max_vot_length 100 \--max_num_instances 1 config/voicelessTestWavList.txt \
+	--max_vot_length 100 --max_num_instances 1 config/voicelessTestWavList.txt \
 	config/voicelessTestTgList.txt models/VoicelessModel.classifier
 
 If successful, you'll see information printed out about how many examples in each file were successfully decoded. After all files have been processed, you'll see the message:
@@ -376,10 +345,12 @@ If there were any problematic files that couldn't be processed, these will appea
 
 `[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
 
-You can then look at your textgrids, which will have a new tier AutoVOT with predicted VOT intervals.
+You can then look at your textgrids, which will have a new tier AutoVOT with predicted VOT intervals. These intervals are labeled with the algorithm's confidence in the predictions. A higher number indicates a more confident prediction.
 
 ## Mode 2
-### Extracting features
+**Recommended for large datasets**
+
+### Extracting acoustic features
 Navigate to `experiments/` and run:
 
 For voiceless:
@@ -396,11 +367,12 @@ For voiced:
 	config/VoicedFeInput.txt config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt tmp_dir
 
-If successful, you'll be able to see how many files are being processed and that extraction was completed:
+If successful, you'll be able to see how many files are being processed and whether extraction was completed:
 
 `[VotFrontEnd2] INFO: Processing 75 files.`
 `[VotFrontEnd2] INFO: Features extraction completed.`
 
+Feature matrix files will appear in the given directory (`tmp_dir` in this example) and can be used in future training/decoding sessions without having to be reextracted. This is the recommended mode of operation if you have a large quantity of data. Feature extraction can be time consuming, and only needs to be done once. Training and decoding are faster and allow for the user to tune parameters. External feature extraction allows you to tune these parameters as necessary without recomputing features.
 
 ### Training
 From within `experiments/` run the following:
@@ -415,11 +387,12 @@ For voiced:
 	auto_vot_train_after_fe.py --log=INFO config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt models/VoicedModel_ver2.classifier
 
-If training is successful you will only see the following output message at the end:
+If training is successful classifier files will be generated in `experiments/models/` and you will see the following output command line message upon completion:
 
 `[InitialVotTrain] INFO: Training completed.`
 
 ### Decoding
+**Note:** If you wish to produce predictions in the TextGrids, you may perform Mode 1 decoding using the classifiers produced from Mode 2 training.
 
 For voiceless:
 
@@ -428,18 +401,17 @@ For voiceless:
 	
 For voiced:
 
-	auto_vot_train_after_fe.py --log=INFO config/VoicedFeFeatures.txt \
+	auto_vot_train_after_fe.py --log=INFO --min_vot_length 5 \
+	--max_vot_length 100 config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt models/VoicedModel_ver2.classifier
 
-If decoding is successful, you'll see the following output message: 
+If decoding is successful you'll see the following output message: 
 
 `[InitialVotDecode] INFO: Decoding completed.`
 
 As with Mode 1, if there were any problematic files that couldn't be processed, these will appear at the end, with the message:
 
 `[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
-
-Feature files will appear in the directory indicated (here: tmp_dir). This is useful when you have a lot of data, the feature extraction is time consuming and needed to be done only once, whereas training and decode are faster and sometimes have parameters to tune (so when tuning parameters - no need to re-compute features)
 
 
 
