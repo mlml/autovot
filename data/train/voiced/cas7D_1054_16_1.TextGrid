@@ -1,0 +1,210 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0 
+xmax = 2.23 
+tiers? <exists> 
+size = 3 
+item []: 
+    item [1]:
+        class = "IntervalTier" 
+        name = "phones" 
+        xmin = 0 
+        xmax = 2.23 
+        intervals: size = 30 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.02 
+            text = "sil" 
+        intervals [2]:
+            xmin = 0.02 
+            xmax = 0.05 
+            text = "N" 
+        intervals [3]:
+            xmin = 0.05 
+            xmax = 0.3 
+            text = "AW1" 
+        intervals [4]:
+            xmin = 0.3 
+            xmax = 0.39 
+            text = "M" 
+        intervals [5]:
+            xmin = 0.39 
+            xmax = 0.45 
+            text = "UW1" 
+        intervals [6]:
+            xmin = 0.45 
+            xmax = 0.52 
+            text = "V" 
+        intervals [7]:
+            xmin = 0.52 
+            xmax = 0.58 
+            text = "DH" 
+        intervals [8]:
+            xmin = 0.58 
+            xmax = 0.62 
+            text = "AH0" 
+        intervals [9]:
+            xmin = 0.62 
+            xmax = 0.71 
+            text = "B" 
+        intervals [10]:
+            xmin = 0.71 
+            xmax = 0.83 
+            text = "AH1" 
+        intervals [11]:
+            xmin = 0.83 
+            xmax = 0.88 
+            text = "N" 
+        intervals [12]:
+            xmin = 0.88 
+            xmax = 0.95 
+            text = "CH" 
+        intervals [13]:
+            xmin = 0.95 
+            xmax = 1.02 
+            text = "AH0" 
+        intervals [14]:
+            xmin = 1.02 
+            xmax = 1.09 
+            text = "B" 
+        intervals [15]:
+            xmin = 1.09 
+            xmax = 1.19 
+            text = "AH1" 
+        intervals [16]:
+            xmin = 1.19 
+            xmax = 1.23 
+            text = "V" 
+        intervals [17]:
+            xmin = 1.23 
+            xmax = 1.26 
+            text = "" 
+        intervals [18]:
+            xmin = 1.26 
+            xmax = 1.3 
+            text = "DH" 
+        intervals [19]:
+            xmin = 1.3 
+            xmax = 1.38 
+            text = "AH1" 
+        intervals [20]:
+            xmin = 1.38 
+            xmax = 1.42 
+            text = "" 
+        intervals [21]:
+            xmin = 1.42 
+            xmax = 1.45 
+            text = "R" 
+        intervals [22]:
+            xmin = 1.45 
+            xmax = 1.49 
+            text = "OW1" 
+        intervals [23]:
+            xmin = 1.49 
+            xmax = 1.63 
+            text = "L" 
+        intervals [24]:
+            xmin = 1.63 
+            xmax = 1.66 
+            text = "IH0" 
+        intervals [25]:
+            xmin = 1.66 
+            xmax = 1.71 
+            text = "NG" 
+        intervals [26]:
+            xmin = 1.71 
+            xmax = 1.82 
+            text = "P" 
+        intervals [27]:
+            xmin = 1.82 
+            xmax = 1.9 
+            text = "IH1" 
+        intervals [28]:
+            xmin = 1.9 
+            xmax = 1.98 
+            text = "N" 
+        intervals [29]:
+            xmin = 1.98 
+            xmax = 2.01 
+            text = "" 
+        intervals [30]:
+            xmin = 2.01 
+            xmax = 2.23 
+            text = "sil" 
+    item [2]:
+        class = "IntervalTier" 
+        name = "words" 
+        xmin = 0 
+        xmax = 2.23 
+        intervals: size = 13 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.02 
+            text = "sil" 
+        intervals [2]:
+            xmin = 0.02 
+            xmax = 0.3 
+            text = "NOW" 
+        intervals [3]:
+            xmin = 0.3 
+            xmax = 0.52 
+            text = "MOVE" 
+        intervals [4]:
+            xmin = 0.52 
+            xmax = 0.62 
+            text = "THE" 
+        intervals [5]:
+            xmin = 0.62 
+            xmax = 0.95 
+            text = "BUNCH" 
+        intervals [6]:
+            xmin = 0.95 
+            xmax = 1.23 
+            text = "ABOVE" 
+        intervals [7]:
+            xmin = 1.23 
+            xmax = 1.26 
+            text = "sp" 
+        intervals [8]:
+            xmin = 1.26 
+            xmax = 1.38 
+            text = "THE" 
+        intervals [9]:
+            xmin = 1.38 
+            xmax = 1.42 
+            text = "sp" 
+        intervals [10]:
+            xmin = 1.42 
+            xmax = 1.71 
+            text = "ROLLING" 
+        intervals [11]:
+            xmin = 1.71 
+            xmax = 1.98 
+            text = "PIN" 
+        intervals [12]:
+            xmin = 1.98 
+            xmax = 2.01 
+            text = "sp" 
+        intervals [13]:
+            xmin = 2.01 
+            xmax = 2.23 
+            text = "sil" 
+    item [3]:
+        class = "IntervalTier" 
+        name = "vot" 
+        xmin = 0 
+        xmax = 2.23 
+        intervals: size = 3 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.7110230211290323 
+            text = "" 
+        intervals [2]:
+            xmin = 0.7110230211290323 
+            xmax = 0.7254389880952382 
+            text = "vot" 
+        intervals [3]:
+            xmin = 0.7254389880952382 
+            xmax = 2.23 
+            text = "" 
