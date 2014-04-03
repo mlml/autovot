@@ -1,9 +1,12 @@
 AutoVOT, v. 0.9
 =======
 
-## How to Cite
-TO DO
-    
+## How to Cite AutoVOT in my articles?
+***Please cite the following paper:***
+
+* Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions). The Journal of the Acoustical Society of America, 132(6), 3965-3979.
+
+
 ## Out of the box: directories and files included in the downloaded version (TODO: explain more)
 
     Path                        Description/contents
@@ -60,32 +63,47 @@ Move makeConfigFiles.sh to data/. Navigate to this folder and run:
 If successful, a .txt file will be generated for all voiced and voiceless TextGrids and wav files in each train and test directory
     
 # Getting Started
-## Compiling (TODO: fix layout)
+
+**Note:** For a quick-start, skip to the tutorial section below after compiling.
+
+## Compiling
 ### Compile Audiofile Library
 
-    Navigate to auto_vot/code/audiofile-0.3.4/ and run:
+Navigate to auto_vot/code/audiofile-0.3.4/ and run:
+
         $ make
-    If successful, the command line will print out a lot of text. The last line should be:
+
+If successful, the command line will print out a lot of text. The last line should be:
+
         make[2]: Nothing to be done for 'all-am'.
 
 ### Compile Code
 
-    Navigate to auto_vot/code/ and run:
+Navigate to auto_vot/code/ and run:
+
         $ make clean
-    If successful, the final line of the output should be:
+
+If successful, the final line of the output should be:
+
         [make] Cleaning completed
-    Then, run:
+
+Then, run:
+
         $ make
-    Final line of the utput should be:
+
+Final line of the utput should be:
+
         [make] Compiling completed
     
 
-    Then navigate to experiments/ and run:
-        $ export PATH=$PATH:*full path here*/autovot/auto_vot/bin
-        (e.g. export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/auto_vot/bin)
+Then navigate to experiments/ and run:
+
+	$ export PATH=$PATH:*full path here*/autovot/auto_vot/bin
+
+	(e.g. export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/auto_vot/bin)
         
         
-    TODO: Run:
+TODO: Run:
         $ make install
 
 # Usage
@@ -260,34 +278,30 @@ labeled textgrid files.*
 
 (to be generated)
 
-* voicedTestTgList.txt
-* voicedTestWavList.txt
-* voicedTrainTgList.txt
-* voicedTrainWavList.txt
-* voicelessTestTgList.txt
-* voicelessTestWavList.txt
-* voicelessTrainTgList.txt
-* voicelessTrainWavList.txt
+	voicedTestTgList.txt				voicedTestWavList.txt
+
+	voicedTrainTgList.txt				voicedTrainWavList.txt
+
+	voicelessTestTgList.txt				voicelessTestWavList.txt
+
+	voicelessTrainTgList.txt			voicelessTrainWavList.txt
+
 
 **Classifier files**
 
 (to be generated)
 
-* VoicedModel.classifier.neg
-* VoicedModel.classifier.pos
-* VoicelessModel.classifier.neg
-* VoicelessModel.classifier.pos
+	VoicedModel.classifier.neg			VoicedModel.classifier.pos
+
+	VoicelessModel.classifier.neg			VoicelessModel.classifier.pos
 
 **Feature files**
 
 (to be generated)
 
-* VoicedFeFeatures.txt
-* VoicedFeInput.txt
-* VoicedFeLabels.txt
-* VoicelessFeFeatures.txt
-* VoicelessFeInput.txt
-* VoicelessFeLabels.txt
+	VoicedFeFeatures.txt				VoicedFeInput.txt	VoicedFeLabels.txt
+
+	VoicelessFeFeatures.txt				VoicelessFeInput.txt	VoicelessFeLabels.txt
 
 
 ## Getting started
@@ -330,9 +344,10 @@ For voiced data:
 
 If sucessful, you'll see which files have been processed in the command line output. The final output should indicate that all steps have been completed:
 
-	12:47:11.444 [VotFrontEnd2] INFO: Features extraction completed.
-	12:47:33.718 [InitialVotTrain] INFO: Training completed.
-	12:47:33.724 [auto_vot_train.py] INFO: All done.
+`[VotFrontEnd2] INFO: Processing 75 files.`
+`[VotFrontEnd2] INFO: Features extraction completed.`
+`[InitialVotTrain] INFO: Training completed.`
+`[auto_vot_train.py] INFO: All done.`
 	
 You'll also see that classifier files have been generated in the `models` folder (2 for voiceless and 2 for voiced).
 
@@ -353,7 +368,7 @@ For voiced:
 	--max_vot_length 100 \--max_num_instances 1 config/voicelessTestWavList.txt \
 	config/voicelessTestTgList.txt models/VoicelessModel.classifier
 
-If successful, you'll see information printed out about which files were successfully decoded. After all files have been processed, you'll see the message:
+If successful, you'll see information printed out about how many examples in each file were successfully decoded. After all files have been processed, you'll see the message:
 
 `[auto_vot_decode.py] INFO: All done.`
 
@@ -381,8 +396,9 @@ For voiced:
 	config/VoicedFeInput.txt config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt tmp_dir
 
-If successful, you'll be able to see which files have been processed. The final output line will be:
+If successful, you'll be able to see how many files are being processed and that extraction was completed:
 
+`[VotFrontEnd2] INFO: Processing 75 files.`
 `[VotFrontEnd2] INFO: Features extraction completed.`
 
 
@@ -423,7 +439,7 @@ As with Mode 1, if there were any problematic files that couldn't be processed, 
 
 `[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
 
-You can then look at your textgrids, which will have a new tier AutoVOT with predicted VOT intervals.
+Feature files will appear in the directory indicated (here: tmp_dir). This is useful when you have a lot of data, the feature extraction is time consuming and needed to be done only once, whereas training and decode are faster and sometimes have parameters to tune (so when tuning parameters - no need to re-compute features)
 
 
 
