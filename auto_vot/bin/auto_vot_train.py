@@ -18,24 +18,33 @@ from autovot.utilities import *
 
 if __name__ == "__main__":
     # parse arguments
-    parser = argparse.ArgumentParser(description='Train a classifier to automatically measure VOT, using manually annotated VOTs in a set of textgrids and corresponding wav files.  See documentation for usage examples.')
+    parser = argparse.ArgumentParser(description='Train a classifier to automatically measure VOT, using manually '
+                                                 'annotated VOTs in a set of textgrids and corresponding wav files.  '
+                                                 'See documentation for usage examples.')
     parser.add_argument('wav_list', help="Text file listing  WAV files")
     parser.add_argument('textgrid_list', help="Text file listing corresponding manually labeled TextGrid files")
     parser.add_argument('model_filename', help="Name of classifiers which are outputted")
     parser.add_argument('--vot_tier', default='vot', help='Name of the tier to extract VOTs from (default: %(default)s)')
-    parser.add_argument('--vot_mark', default='*', help='Only intervals on the vot_tier with this mark value (e.g. "vot", "pos", "neg") are used for training, or "*" for any string (this is the default)')
-    parser.add_argument('--window_min', help='Left boundary of the window (in seconds) relative to the VOT interval\'s right boundary.'
-                                              ' Usually should be negative, that is, before the VOT interval\'s left boundary. (default: %(default)s)', default = -0.05, type=float)
-    parser.add_argument('--window_max', help='Right boundary of the window (in seconds) relative to the VOT interval\'s right boundary.'
-                        'Usually should be positive, that is, after the VOT interval\'s right boundary. (default: %(default)s)', default=0.8, type=float)
+    parser.add_argument('--vot_mark', default='*', help='Only intervals on the vot_tier with this mark value (e.g. '
+                                                        '"vot", "pos", "neg") are used for training, or "*" for any '
+                                                        'string (this is the default)')
+    parser.add_argument('--window_min', help='Left boundary of the window (in msec) relative to the VOT interval\'s '
+                                             'right boundary. Usually should be negative, that is, before the VOT '
+                                             'interval\'s left boundary. (default: %(default)s)', default=-50, type=float)
+    parser.add_argument('--window_max', help='Right boundary of the window (in msec) relative to the VOT interval\'s '
+                                             'right boundary. Usually should be positive, that is, after the VOT '
+                                             'interval\'s right boundary. (default: %(default)s)', default=800, type=float)
     parser.add_argument('--cv_auto', help='Use 20%% of the training set for cross-validation (default: don\'t do this)',
                         action='store_true', default=False)
     parser.add_argument('--cv_wav_list', default='', help='Text file listing WAV files for cross-validation (default: none)')
-    parser.add_argument('--cv_textgrid_list', default='', help='Text file listing corresponding manually labeled TextGrid files for '
-                                                                'cross-validation (default: none)')
-    parser.add_argument('--max_num_instances', default=0, type=int, help='Maximum number of instances per file to use ('
-                                                                          'default: use everything)')
-    parser.add_argument("--logging_level", help="Level of verbosity of information printed out by this program (DEBUG, INFO, WARNING or ERROR), in order of increasing verbosity. See http://docs.python.org/2/howto/logging for definitions. (default: %(default)s)", default="INFO")
+    parser.add_argument('--cv_textgrid_list', default='', help='Text file listing corresponding manually labeled '
+                                                               'TextGrid files for cross-validation (default: none)')
+    parser.add_argument('--max_num_instances', default=0, type=int, help='Maximum number of instances per file to use '
+                                                                          '(default: use everything)')
+    parser.add_argument("--logging_level", help="Level of verbosity of information printed out by this program ("
+                                                "DEBUG, INFO, WARNING or ERROR), in order of increasing verbosity. "
+                                                "See http://docs.python.org/2/howto/logging for definitions. ("
+                                                "default: %(default)s)", default="INFO")
     args = parser.parse_args()
 
     logging_defaults(args.logging_level)
@@ -54,6 +63,8 @@ if __name__ == "__main__":
     labels_filename = working_dir + "/training.labels"
 
     tier_definitions = TierDefinitions()
+    args.window_min /= 1000.0   # convert msec to seconds
+    args.window_max /= 1000.0   # convert msec to seconds
     tier_definitions.extract_definition(args)
 
     # Prepare configuration files for the front end (i.e., the acoustic feature extraction, which results in the feature files)

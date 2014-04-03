@@ -22,39 +22,51 @@ from autovot.textgrid import *
 
 if __name__ == "__main__":
     # parse arguments
-    parser = argparse.ArgumentParser(description='Use an existing classifier to measure VOT for stops in a set of textgrids and corresponding wav files.')
+    parser = argparse.ArgumentParser(description='Use an existing classifier to measure VOT for stops in a set of '
+                                                 'textgrids and corresponding wav files.')
     parser.add_argument('wav_filenames', default='', help="Text file listing  WAV files")
-    parser.add_argument('textgrid_filenames', default='', help="Text file listing corresponding manually labeled TextGrid files containing stops VOT is to measured for")
+    parser.add_argument('textgrid_filenames', default='', help="Text file listing corresponding manually labeled "
+                                                               "TextGrid files containing stops VOT is to measured for")
     parser.add_argument('model_filename', help="Name of classifier to be used to measure VOT")
-    parser.add_argument('--vot_tier', help='Name of the tier containing manually labeled VOTs to compare automatic measurements to (optional. default is none)', default='')
-    parser.add_argument('--vot_mark', help='On vot_tier, only intervals with this mark value (e.g. "vot", "pos", "neg") are used, or "*" for any string (this is the default)', default='*')
+    parser.add_argument('--vot_tier', help='Name of the tier containing manually labeled VOTs to compare automatic '
+                                           'measurements to (optional. default is none)', default='')
+    parser.add_argument('--vot_mark', help='On vot_tier, only intervals with this mark value (e.g. "vot", "pos", '
+                                           '"neg") are used, or "*" for any string (this is the default)', default='*')
     parser.add_argument('--window_tier', help='Name of the tier containing windows to be searched as possible starts'
                                               'of the predicted VOT (default: none). If not given *and* vot_tier given'
-                                              ', a window with boundaries window_min and window_max to the left and right'
-                                              'of the manually labeled VOT will be used . NOTE: either window_tier or'
-                                              'vot_tier must be specified. If both are specified, window_tier is used, '
-                                              'and window_min and window_max are ignored.', default='')
-    parser.add_argument('--window_mark', help='VOT is only predicted for intervals on the window tier with this mark value '
-                                              '(e.g. "vot", "pos", "neg"), or "*" for any string (this is the default)', default='*')
-    parser.add_argument('--window_min', help='Left boundary of the window (in seconds) relative to the VOT interval\'s left boundary.',
-                        default = -0.05, type=float)
-    parser.add_argument('--window_max', help='Right boundary of the window (in seconds) relative to the VOT interval\'s right boundary. '
-                        'Usually should be positive, that is, after the VOT interval\'s right boundary. (default: %(default)s)', default=0.8, type=float)
-    parser.add_argument('--min_vot_length', help='Minimum allowed length of predicted VOT (in msec) (default: %(default)s)',
-                        default=15, type=int)
-    parser.add_argument('--max_vot_length', help='Maximum allowed length of predicted VOT (in msec) (default: %(default)s)',
-                        default=250, type=int)
+                                              ', a window with boundaries window_min and window_max to the left and '
+                                              'right of the manually labeled VOT will be used . NOTE: either window_tier'
+                                              ' or vot_tier must be specified. If both are specified, window_tier is '
+                                              'used, and window_min and window_max are ignored.', default='')
+    parser.add_argument('--window_mark', help='VOT is only predicted for intervals on the window tier with this mark '
+                                              'value (e.g. "vot", "pos", "neg"), or "*" for any string (this is the '
+                                              'default)', default='*')
+    parser.add_argument('--window_min', help='Left boundary of the window (in msec) relative to the VOT '
+                                             'interval\'s left boundary.', default=-50, type=float)
+    parser.add_argument('--window_max', help='Right boundary of the window (in msec) relative to the VOT interval\'s'
+                        ' right boundary. Usually should be positive, that is, after the VOT interval\'s right '
+                        'boundary. (default: %(default)s)', default=800, type=float)
+    parser.add_argument('--min_vot_length', help='Minimum allowed length of predicted VOT (in msec) (default: '
+                                                 '%(default)s)', default=15, type=int)
+    parser.add_argument('--max_vot_length', help='Maximum allowed length of predicted VOT (in msec) (default: '
+                        '%(default)s)', default=250, type=int)
     parser.add_argument('--max_num_instances', default=0, type=int, help='Maximum number of instances per file to use '
                                                                          '(default: use everything)')
-    parser.add_argument('--ignore_existing_tiers', help='add a new AutoVOT tier to output textgrids, even if one already exists (default: don\'t do so)',
+    parser.add_argument('--ignore_existing_tiers', help='add a new AutoVOT tier to output textgrids, even if one '
+                                                        'already exists (default: don\'t do so)',
                         action='store_const', const=True, default=False)
-    parser.add_argument("--logging_level", help="Level of verbosity of information printed out by this program (DEBUG, INFO, WARNING or ERROR), in order of increasing verbosity. See http://docs.python.org/2/howto/logging for definitions. (default: %(default)s)", default="INFO")
+    parser.add_argument("--logging_level", help="Level of verbosity of information printed out by this program ("
+                                                "DEBUG, INFO, WARNING or ERROR), in order of increasing verbosity. "
+                                                "See http://docs.python.org/2/howto/logging for definitions. ("
+                                                "default: %(default)s)", default="INFO")
     args = parser.parse_args()
 
     logging_defaults(args.logging_level)
 
     # extract tier definitions
     tier_definitions = TierDefinitions()
+    args.window_min /= 1000.0   # convert msec to seconds
+    args.window_max /= 1000.0   # convert msec to seconds
     tier_definitions.extract_definition(args)
 
     if is_valid_wav(args.wav_filenames) and is_textgrid(args.textgrid_filenames):

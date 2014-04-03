@@ -6,7 +6,6 @@ Author: Joseph Keshet, 18/11/2013
 """
 
 import argparse
-import wave
 from os.path import splitext, basename, isfile
 
 from autovot.textgrid import *
@@ -29,8 +28,8 @@ class Instance:
         self.vot_max = vot_max
 
     def __str__(self):
-        return '"%s" %.3f %.3f %.3f %.3f\n' % (self.wav_filename, self.window_min, self.window_max, self.vot_min,
-                                               self.vot_max)
+        return '"%s" %.3f %.3f %.3f %.3f [seconds]\n' % (self.wav_filename, self.window_min, self.window_max,
+                                                         self.vot_min, self.vot_max)
         ## the following lines refer to the old VotFrontEnd (that cannot deal with WAV file names that have spaces in
         ## their names:
         ##return '%s %d %d %d %d\n' % (self.wav_filename, int(16000*self.window_min), int(16000*self.window_max),
@@ -79,13 +78,12 @@ class TierDefinitions:
 
     def __str__(self):
         return "vot tier=%s mark=%s  window tier=%s mark=%s min=%d max=%d  max_num_instances=%d" % \
-        (self.vot_tier, self.vot_mark, self.window_tier, self.window_mark, self.window_min, self.window_max,
-         self.max_num_instances)
+               (self.vot_tier, self.vot_mark, self.window_tier, self.window_mark, self.window_min, self.window_max,
+                self.max_num_instances)
 
 
 def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filename, features_dir, definitions,
                        decoding=False):
-
     problematic_files = list()
 
     # check if files exists
@@ -125,7 +123,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
         # check the sampling rate and number bits of the WAV
         wav_file = wave.Wave_read(wav_filename)
         if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
-            or wav_file.getcomptype() != 'NONE':
+                or wav_file.getcomptype() != 'NONE':
             logging.error('WAV file format should be sampling_rate=16000, sample_width=2 and num_channels=1.')
             logging.error('Consider changing the file parameters with a utility such as \'sox\' as follows:')
             logging.error('              sox input.wav  -c 1 -r 16000 output.wav')
@@ -152,7 +150,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             # run over all intervals in the tier
             for interval in textgrid[tier_index]:
                 if (definitions.vot_mark == "*" and re.search(r'\S', interval.mark())) \
-                    or (interval.mark() == definitions.vot_mark):
+                        or (interval.mark() == definitions.vot_mark):
                     window_min = max(interval.xmin() + definitions.window_min, 0)
                     window_max = min(interval.xmax() + definitions.window_max, textgrid.xmax())
                     new_instance = Instance()
@@ -169,18 +167,18 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             # if the window tier is empty and not decoding, fix window information
             if definitions.window_tier == "":
                 logging.debug("--window_tier and --window_mark were not given - using defaults.")
-                for i in xrange(1, len(instances)-1):
+                for i in xrange(1, len(instances) - 1):
                     # check if window_min is less than the previous vot_max
-                    if instances[i].window_min < instances[i-1].vot_max:
-                        instances[i].window_min = max(instances[i].vot_min - 0.02, instances[i-1].vot_max + 0.02)
+                    if instances[i].window_min < instances[i - 1].vot_max:
+                        instances[i].window_min = max(instances[i].vot_min - 0.02, instances[i - 1].vot_max + 0.02)
                     # check if window_max is greater than the next vot_min
-                    if instances[i].window_max > instances[i+1].vot_min:
-                        instances[i].window_max = min(instances[i].vot_max + 0.02, instances[i+1].vot_min - 0.02)
+                    if instances[i].window_max > instances[i + 1].vot_min:
+                        instances[i].window_max = min(instances[i].vot_max + 0.02, instances[i + 1].vot_min - 0.02)
                     # check for consistency
                     if instances[i].window_min > instances[i].vot_min \
-                        or instances[i].vot_min > instances[i].window_max \
-                        or instances[i].window_min > instances[i].vot_max \
-                        or instances[i].window_max < instances[i].vot_max:
+                            or instances[i].vot_min > instances[i].window_max \
+                            or instances[i].window_min > instances[i].vot_max \
+                            or instances[i].window_max < instances[i].vot_max:
                         logging.error("Something wrong in the TextGrid VOT tier: %s" % instances[i])
                         problematic_files.append(textgrid_filename)
 
@@ -195,7 +193,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             # run over all intervals in the tier
             for interval in textgrid[tier_index]:
                 if (definitions.window_mark == "*" and re.search(r'\S', interval.mark())) \
-                    or (interval.mark() == definitions.window_mark):
+                        or (interval.mark() == definitions.window_mark):
                     window_min = interval.xmin()
                     window_max = interval.xmax()
                     new_instance = Instance()
@@ -254,10 +252,10 @@ if __name__ == "__main__":
     parser.add_argument('--window_mark', help='window mark value or "*" for any string', default='*')
     parser.add_argument('--window_min', help='window left boundary (in msec) relative to the VOT right boundary '
                                              '(usually should be negative, that is, before the VOT right boundary.)',
-                        default=-0.05, type=float)
+                        default=-50, type=float)
     parser.add_argument('--window_max', help='window right boundary (in msec) relative to the VOT right boundary ('
                                              'usually should be positive, that is, after the VOT left boundary.)',
-                        default=0.8, type=float)
+                        default=800, type=float)
     parser.add_argument('--max_num_instances', help='max number of instances per file to use (default is to use '
                                                     'everything)', default=0, type=int)
     parser.add_argument("--logging_level", help="print out level (DEBUG, INFO, WARNING or ERROR)", default="INFO")
@@ -269,6 +267,8 @@ if __name__ == "__main__":
 
     # prepare configuration files for the front end (means acoustic features extraction)
     tier_definitions = TierDefinitions()
+    args.window_min /= 1000.0   # convert msec to seconds
+    args.window_max /= 1000.0   # convert msec to seconds
     tier_definitions.extract_definition(args)
 
     # prepare files for front end
