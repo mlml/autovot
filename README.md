@@ -30,7 +30,7 @@ AutoVOT, v. 0.9
 ***Important:*** Input TextGrids will be overwritten. If you wish to access your original files, be sure to back them up elsewhere.
 
 #### Sound file format
-* Wav files sampled at 16kHz
+* Wav files sampled at 16kHz mono
 
 #### TextGrid file format
 * Saved as text files with .TextGrid extension
