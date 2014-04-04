@@ -8,7 +8,7 @@ AutoVOT, v. 0.9
 
 ***If you are unable to cite the program itself, please cite the following paper:***
 
-* Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. **The Journal of the Acoustical Society of America**, 132(6), 3965-3979.
+* Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. *The Journal of the Acoustical Society of America*, 132(6), 3965-3979.
 
 
 ## Out of the box: 
