@@ -12,11 +12,15 @@ from autovot.utilities import *
 if __name__ == "__main__":
     # parse arguments
     parser = argparse.ArgumentParser(description='Append set of features and labels')
-    parser.add_argument('features_filename', help="front end features file name")
-    parser.add_argument('labels_filename', help="front end labels file name")
-    parser.add_argument('appended_features_filename', help="front end features file name to be appended")
-    parser.add_argument('appended_labels_filename', help="front end labels file name to be appended")
-    parser.add_argument("--logging_level", help="print out level (DEBUG, INFO, WARNING or ERROR)", default="INFO")
+    parser.add_argument('features_filename', help="front end features filename")
+    parser.add_argument('labels_filename', help="front end labels filename")
+    parser.add_argument('appended_features_filename', help="front end features filename to be appended")
+    parser.add_argument('appended_labels_filename', help="front end labels filename to be appended")
+    parser.add_argument("--logging_level", help="Level of verbosity of information printed out by this program ("
+                                                "DEBUG, INFO, WARNING or ERROR), in order of increasing verbosity. "
+                                                "See http://docs.python.org/2/howto/logging for definitions. ("
+                                                "default: %(default)s)", default="INFO")
+
     args = parser.parse_args()
 
     logging_defaults(args.logging_level)

@@ -233,32 +233,46 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
 
 if __name__ == "__main__":
     # parse arguments
-    parser = argparse.ArgumentParser(description='Extract acoustic features of AutoVOT')
-    parser.add_argument('textgrid_list', help="list of manually labeled TextGrid files (input)")
-    parser.add_argument('wav_list', help="list of WAV files (input)")
-    parser.add_argument('input_filename', help="AutoVOT front end input file name (output)")
-    parser.add_argument('features_filename', help="AutoVOT front end features file name (output)")
-    parser.add_argument('labels_filename', help="AutoVOT front end labels file name (output)")
-    parser.add_argument('features_dir', help="directory to put the feature files (output)")
+    parser = argparse.ArgumentParser(description='Extract acoustic features for AutoVOT. To be used before auto_vot_train_after_fe.py or auto_vot_decode_after_fe.py')
+    parser.add_argument('textgrid_list', help="File listing TextGrid files containing stops to extract features for (input)")
+    parser.add_argument('wav_list', help="File listing corresponding WAV files (input)")
+    parser.add_argument('input_filename', help="Name of AutoVOT front end input file (output)")
+    parser.add_argument('features_filename', help="Name of AutoVOT front end features file (output)")
+    parser.add_argument('labels_filename', help="Name of AutoVOT front end labels file (output)")
+    parser.add_argument('features_dir', help="Name of AutoVOT front end feature files (output)")
     parser.add_argument('--decoding', help='Extract features for decoding based on window_tier (vot_tier is '
                                            'ignored), otherwise extract features for training based on manual '
                                            'labeling given in the vot_tier', action='store_const', const=True,
                         default=False)
-    parser.add_argument('--vot_tier', help='name of the tier to extract VOTs from', default='')
-    parser.add_argument('--vot_mark', help='VOT mark value (e.g., "pos", "neg") or "*" for any string', default='*')
-    parser.add_argument('--window_tier', help='used this window as a search window for training. If not given, '
-                                              'a constant window with parameters [window_min, window_max] around the '
-                                              'manually labeled VOT will be used', default='')
-    parser.add_argument('--window_mark', help='window mark value or "*" for any string', default='*')
+
+
+    parser.add_argument('--vot_tier', help='Name of the tier containing manually labeled VOTs to compare automatic '
+                                           'measurements to (optional. default is none)', default='')
+    parser.add_argument('--vot_mark', help='On vot_tier, only intervals with this mark value (e.g. "vot", "pos", '
+                                           '"neg") are used, or "*" for any string (this is the default)', default='*')
+    
+    parser.add_argument('--window_tier', help='Name of the tier containing windows to be searched as possible starts'
+                                              ' of the predicted VOT (default: none). If not given *and* vot_tier given'
+                                              ', a window with boundaries window_min and window_max to the left and '
+                                              'right of the manually labeled VOT will be used . NOTE: either window_tier'
+                                              ' or vot_tier must be specified. If both are specified, window_tier is '
+                                              'used, and window_min and window_max are ignored.', default='')
+    
+    parser.add_argument('--window_mark', help='VOT is only predicted for intervals on the window tier with this mark '
+                                              'value (e.g. "vot", "pos", "neg"), or "*" for any string (this is the '
+                                              'default)', default='*')
     parser.add_argument('--window_min', help='window left boundary (in msec) relative to the VOT right boundary '
-                                             '(usually should be negative, that is, before the VOT right boundary.)',
-                        default=-50, type=float)
-    parser.add_argument('--window_max', help='window right boundary (in msec) relative to the VOT right boundary ('
-                                             'usually should be positive, that is, after the VOT left boundary.)',
-                        default=800, type=float)
-    parser.add_argument('--max_num_instances', help='max number of instances per file to use (default is to use '
-                                                    'everything)', default=0, type=int)
-    parser.add_argument("--logging_level", help="print out level (DEBUG, INFO, WARNING or ERROR)", default="INFO")
+                                             '(usually should be negative, that is, before the VOT right boundary.)', default=-50, type=float)
+
+    parser.add_argument('--window_max', help='Right boundary of the window (in msec) relative to the VOT interval\'s'
+                        ' right boundary. Usually should be positive, that is, after the VOT interval\'s right '
+                        'boundary. (default: %(default)s)', default=800, type=float)
+    parser.add_argument('--max_num_instances',help='Maximum number of instances per file to use '
+                                                   '(default: use everything)', default=0, type=int)
+    parser.add_argument("--logging_level", help="Level of verbosity of information printed out by this program ("
+                                                "DEBUG, INFO, WARNING or ERROR), in order of increasing verbosity. "
+                                                "See http://docs.python.org/2/howto/logging for definitions. ("
+                                                "default: %(default)s)", default="INFO")
     args = parser.parse_args()
 
     logging_defaults(args.logging_level)
