@@ -230,7 +230,7 @@ int main(int argc, char **argv)
 	LOG(DEBUG) << "Num neg misclassified as pos = " << double(neg_mislabeled_pos)/double(num_neg);
 	
 	// VOT t<= table for correctly classified data only
-	LOG(DEBUG) << "Cum VOT loss on correctly classified data = " << cumulative_corr_loss/double(num_corr);
+	LOG(DEBUG) << "Cumulative VOT loss on correctly classified data = " << cumulative_corr_loss/double(num_corr);
 	for (int j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
 		LOG(DEBUG) << "% corr VOT error (t <= " << loss_resolutions[j] << "ms) = "
 		<< 100.0*cum_corr_loss_less_than[j]/double(num_corr);
@@ -239,7 +239,7 @@ int main(int argc, char **argv)
 	rms_onset_loss /= double(num_vots);
 	rms_onset_loss = sqrt(num_vots);
 	
-	LOG(DEBUG) << "rms onset loss: " << rms_onset_loss;
+	LOG(DEBUG) << "RMS onset loss: " << rms_onset_loss;
 	
 	if (output_predictions_filename != "" && output_predictions_ofs.good())
 		output_predictions_ofs.close();

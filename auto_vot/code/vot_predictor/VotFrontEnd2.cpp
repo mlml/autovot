@@ -81,7 +81,7 @@ int main(int argc, char **argv)
 	output_features_filenames.read(output_features_filelist);
 	
 	if (output_features_filenames.size() != instances.size()) {
-		LOG(ERROR) << "Number of input files does not match the number of output features files";
+		LOG(ERROR) << "Number of input files does not match the number of output feature files";
 		return EXIT_FAILURE;
 	}
 	

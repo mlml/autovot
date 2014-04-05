@@ -193,7 +193,7 @@ double Classifier::update( SpeechUtterance& x, VotLocation y, VotLocation &y_hat
 		w_changed = true;
 	}
 	else if (current_loss == 0.0) {
-		LOG(DEBUG) << "No update. hinge loss is zero. Wow!";
+		LOG(DEBUG) << "No update. Hinge loss is zero. Wow!";
 		w_changed = false;
 	}
 	else { // hing loss is less than zero, if we reach this point
