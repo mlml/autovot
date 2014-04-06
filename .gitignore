@@ -32,6 +32,7 @@ auto_vot/code/learning_tools/infra2/tester.od
 auto_vot/code/learning_tools/infra2/tester_debug
 auto_vot/code/learning_tools/infra2/tester_endian
 auto_vot/code/learning_tools/infra2/tester_endian.od
+auto_vot/code/vot_predictor/WavFile.o
 auto_vot/code/vot_predictor/Logger.ddj.h
 auto_vot/code/vot_predictor/_Darwin_Debug/
 auto_vot/code/vot_predictor/_Darwin_Release/
