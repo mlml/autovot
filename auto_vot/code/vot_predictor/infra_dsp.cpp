@@ -27,7 +27,7 @@ double read_samples_from_file(std::string filename, infra::vector &x, double vir
 	x.resize(num_samples_read);
 	x.zeros();
 	for (int i=0; i < num_samples_read; i++)
-		x[i] = double(pbuffer[i]);
+		x[i] = double(pbuffer[i]/32767.0);
 	delete [] pbuffer;
 	wav_file.Close();
 	
