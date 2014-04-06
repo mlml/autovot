@@ -57,17 +57,6 @@ User provided directories should be in the autovot master directory.
 #### Note: For a quick-start, skip to the tutorial section below after compiling.
 
 ## Compiling
-### Compile Audiofile Library
-
-Navigate to auto_vot/code/audiofile-0.3.4/ and run:
-
-        $ make
-
-If successful, the command line will print out a lot of text. The last line should be:
-
-        make[2]: Nothing to be done for 'all-am'.
-
-### Compile Code
 
 Navigate to auto_vot/code/ and run:
 

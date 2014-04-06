@@ -25,6 +25,8 @@
 		EDA0591A18420164005FE3E3 /* sigproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sigproc.cpp; sourceTree = "<group>"; };
 		EDA0591B18420164005FE3E3 /* sigproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sigproc.h; sourceTree = "<group>"; };
 		EDA0591C18420164005FE3E3 /* VotFrontEnd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VotFrontEnd.cpp; sourceTree = SOURCE_ROOT; };
+		EDA4DE9518F1CCFD00C826E7 /* WavFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WavFile.cpp; sourceTree = "<group>"; };
+		EDA4DE9618F1CCFD00C826E7 /* WavFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WavFile.h; sourceTree = "<group>"; };
 		EDEEAE2E18562A8D009DD90C /* VotFrontEnd2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VotFrontEnd2.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -32,6 +34,8 @@
 		EDA059001842010A005FE3E3 = {
 			isa = PBXGroup;
 			children = (
+				EDA4DE9518F1CCFD00C826E7 /* WavFile.cpp */,
+				EDA4DE9618F1CCFD00C826E7 /* WavFile.h */,
 				EDA0591618420164005FE3E3 /* InitialVotTrain.cpp */,
 				EDA0591518420164005FE3E3 /* InitialVotDecode.cpp */,
 				EDA0591C18420164005FE3E3 /* VotFrontEnd.cpp */,

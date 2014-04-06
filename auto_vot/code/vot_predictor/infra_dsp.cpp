@@ -3,38 +3,65 @@
 #include <math.h>
 #include <cfloat>
 #include "infra_dsp.h"
-#include <FFTReal/FFTReal.h>
-#include <audiofile.h>
+#include "FFTReal/FFTReal.h"
+//#include <audiofile.h>
+# include "WavFile.h"
 #include "fast_pitch_filters.h"
 
 double read_samples_from_file(std::string filename, infra::vector &x, double virtual_sampling_rate)
 {
-	AFfilehandle	file;
-	file = afOpenFile(filename.c_str(), "r", AF_NULL_FILESETUP);
-	if (file == AF_NULL_FILEHANDLE) {
-		std::cerr << "Could not open file " << filename << " for reading." << std::endl;
+	CWavFile wav_file;
+	
+	if (wav_file.Open(filename.c_str()) == false) {
+		std::cerr << "Errror: Could not open file " << filename << " for reading." << std::endl;
 		exit(-1);
 	}
-	double sampling_rate = afGetRate(file, AF_DEFAULT_TRACK);
-	/* Set virtual sample format to single-precision floating-point. */
-	// afSetVirtualSampleFormat(file, AF_DEFAULT_TRACK, AF_SAMPFMT_TWOSCOMP, 16); // load as shorts
-	//    short *buffer = new short[frameToRead];
-	afSetVirtualSampleFormat(file, AF_DEFAULT_TRACK, AF_SAMPFMT_FLOAT, 32); // load as floats
-	// should this work???? afSetVirtualRate(file, AF_DEFAULT_TRACK, virtual_sampling_rate); // load as floats
-	unsigned long samples_to_read = afGetFrameCount(file, AF_DEFAULT_TRACK);
-	float *buffer = new float[samples_to_read];
-	int samples_read = afReadFrames(file, AF_DEFAULT_TRACK, buffer, samples_to_read);
-	afCloseFile(file);
 	
-	x.resize(samples_read);
+	// read header
+	unsigned long num_samples_to_read = wav_file.ReadHeader();
+	double sampling_rate = wav_file.GetRate();
+
+	// read samples
+	short *pbuffer = new short[num_samples_to_read];
+	unsigned long num_samples_read = wav_file.LoadSamples(pbuffer, num_samples_to_read);
+	x.resize(num_samples_read);
 	x.zeros();
-	for (int i=0; i < samples_read; i++) 
-		x[i] = buffer[i];
-	
-	delete [] buffer;
+	for (int i=0; i < num_samples_read; i++)
+		x[i] = double(pbuffer[i]);
+	delete [] pbuffer;
+	wav_file.Close();
 	
 	return sampling_rate;
 }
+
+//double read_samples_from_file(std::string filename, infra::vector &x, double virtual_sampling_rate)
+//{
+//	AFfilehandle	file;
+//	file = afOpenFile(filename.c_str(), "r", AF_NULL_FILESETUP);
+//	if (file == AF_NULL_FILEHANDLE) {
+//		std::cerr << "Could not open file " << filename << " for reading." << std::endl;
+//		exit(-1);
+//	}
+//	double sampling_rate = afGetRate(file, AF_DEFAULT_TRACK);
+//	/* Set virtual sample format to single-precision floating-point. */
+//	// afSetVirtualSampleFormat(file, AF_DEFAULT_TRACK, AF_SAMPFMT_TWOSCOMP, 16); // load as shorts
+//	//    short *buffer = new short[frameToRead];
+//	afSetVirtualSampleFormat(file, AF_DEFAULT_TRACK, AF_SAMPFMT_FLOAT, 32); // load as floats
+//	// should this work???? afSetVirtualRate(file, AF_DEFAULT_TRACK, virtual_sampling_rate); // load as floats
+//	unsigned long samples_to_read = afGetFrameCount(file, AF_DEFAULT_TRACK);
+//	float *buffer = new float[samples_to_read];
+//	int samples_read = afReadFrames(file, AF_DEFAULT_TRACK, buffer, samples_to_read);
+//	afCloseFile(file);
+//	
+//	x.resize(samples_read);
+//	x.zeros();
+//	for (int i=0; i < samples_read; i++)
+//		x[i] = buffer[i];
+//	
+//	delete [] buffer;
+//	
+//	return sampling_rate;
+//}
 
 infra::vector hamming(infra::vector x)
 {

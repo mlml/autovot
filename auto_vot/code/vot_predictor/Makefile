@@ -13,8 +13,8 @@ INFRA_PATH = ../../learning_tools/infra2
 LEARNING_PATH = ../../learning_tools
 
 CC = g++
-CXXFLAGS = -Wall -I$(INFRA_PATH) -I$(LEARNING_PATH) -I../../audiofile-0.3.4/libaudiofile -I..
-LDLIBS = -L$(INFRA_PATH) -L$(LEARNING_PATH)/cmdline #-L../../audiofile-0.3.4/libaudiofile/.libs
+CXXFLAGS = -Wall -I$(INFRA_PATH) -I$(LEARNING_PATH) -I..
+LDLIBS = -L$(INFRA_PATH) -L$(LEARNING_PATH)/cmdline 
 
 # Check if the configuration is Release or Debug
 ifeq ($(CONFIGURATION),Debug)
@@ -34,8 +34,8 @@ endif
 
 # Targets
 all: VotFrontEnd VotFrontEnd2 InitialVotTrain InitialVotDecode
-VotFrontEnd: VotFrontEnd.o Dataset.o infra_dsp.o FFTReal/FFTReal.cpp get_f0s.o sigproc.o ../../audiofile-0.3.4/libaudiofile/.libs/libaudiofile.a 
-VotFrontEnd2: VotFrontEnd2.o Dataset.o infra_dsp.o FFTReal/FFTReal.cpp get_f0s.o sigproc.o ../../audiofile-0.3.4/libaudiofile/.libs/libaudiofile.a
+VotFrontEnd: VotFrontEnd.o   Dataset.o infra_dsp.o FFTReal/FFTReal.cpp get_f0s.o sigproc.o  WavFile.o
+VotFrontEnd2: VotFrontEnd2.o Dataset.o infra_dsp.o FFTReal/FFTReal.cpp get_f0s.o sigproc.o WavFile.o
 InitialVotTrain: InitialVotTrain.o Classifier.o Dataset.o KernelExpansion.o
 InitialVotDecode: InitialVotDecode.o Classifier.o Dataset.o KernelExpansion.o
 
