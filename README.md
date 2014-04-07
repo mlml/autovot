@@ -3,7 +3,7 @@ AutoVOT, v. 0.9
 **For a quick-start,** first compile the code then scroll down to the tutorial section to begin.
 
 
-## How to Cite AutoVOT in my articles?
+## How do I Cite AutoVOT in my articles?
 ***If possible to cite a program, the following format is recommended (adjusting retrieval dates and versions as necessary):***
 
 * Keshet, J., Sonderegger, M., Knowles, T. (2014). AutoVOT: A tool for automatic measurement of voice onset time using discriminative structured prediction [Computer program]. Version 0.9, retrieved April 2014 from https://github.com/mlml/autovot/.
