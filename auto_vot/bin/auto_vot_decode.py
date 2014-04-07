@@ -41,7 +41,7 @@ if __name__ == "__main__":
                                                  'textgrids and corresponding wav files.')
     parser.add_argument('wav_filenames', default='', help="Text file listing  WAV files")
     parser.add_argument('textgrid_filenames', default='', help="Text file listing corresponding manually labeled "
-                                                               "TextGrid files containing stops VOT is to measured for")
+                                                               "TextGrid files containing stops VOT is to be measured for")
     parser.add_argument('model_filename', help="Name of classifier to be used to measure VOT")
     parser.add_argument('--vot_tier', help='Name of the tier containing manually labeled VOTs to compare automatic '
                                            'measurements to (optional. default is none)', default='')
