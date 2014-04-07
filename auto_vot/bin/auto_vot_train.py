@@ -40,7 +40,7 @@ if __name__ == "__main__":
                                                  'See documentation for usage examples.')
     parser.add_argument('wav_list', help="Text file listing  WAV files")
     parser.add_argument('textgrid_list', help="Text file listing corresponding manually labeled TextGrid files")
-    parser.add_argument('model_filename', help="Name of classifiers which are outputted")
+    parser.add_argument('model_filename', help="Name of classifiers (output)")
     parser.add_argument('--vot_tier', default='vot', help='Name of the tier to extract VOTs from (default: %(default)s)')
     parser.add_argument('--vot_mark', default='*', help='Only intervals on the vot_tier with this mark value (e.g. '
                                                         '"vot", "pos", "neg") are used for training, or "*" for any '
