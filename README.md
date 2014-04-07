@@ -1,5 +1,7 @@
 AutoVOT, v. 0.9
 =======
+#### Note: for a quick-start first compile the code, then scroll down to the tutorial section.
+
 
 ## How to Cite AutoVOT in my articles?
 ***If possible to cite a program, the following format is recommended (adjusting retrieval dates and versions as necessary):***
@@ -9,6 +11,24 @@ AutoVOT, v. 0.9
 ***If you are unable to cite the program itself, please cite the following paper:***
 
 * Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. *The Journal of the Acoustical Society of America*, 132(6), 3965-3979.
+
+
+## Acknowledgements
+*To be filled in*
+#### Laurent de Soras
+        FFTReal
+        Version 1.02, 2001/03/27
+
+        Fourier transformation (FFT, IFFT) library specialised for real data
+        Portable ISO C++
+
+        (c) Laurent de Soras <laurent.de.soras@club-internet.fr>
+        Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
+	
+#### Meghan Clayards & Michael Wagner
+		Example data provided jointly by:
+			McGill University Speech Learning Lab
+			McGill University Prosody Lab
 
 
 ## Out of the box: 
@@ -75,11 +95,9 @@ Final line of the utput should be:
         [make] Compiling completed
     
 
-Then navigate to experiments/ and run:
+Finally, set the path:
 
-	$ export PATH=$PATH:*full path here*/autovot/auto_vot/bin
-
-	(e.g. export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/auto_vot/bin)
+	$ export PATH=$PATH:"$(dirname `pwd`)/bin"
         
         
 TODO: Run:
@@ -439,3 +457,6 @@ If one of your files does not have the right format, the following error will ap
 
 `[auto_vot_extract_features.py] ERROR: *filename*.wav is not a valid WAV.`
 `[auto_vot_extract_features.py] ERROR: *filename*.TextGrid is not a valid TextGrid.`
+
+
+
