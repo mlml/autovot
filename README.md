@@ -142,9 +142,7 @@ User provided directories should be in the autovot master directory.
 ## Feature extraction and training
 
 #### Mode 1:
-##### *Train a classifier to automatically measure VOT, using manually annotated VOTs
-in a set of textgrids and corresponding wav files. See documentation for usage
-examples.*
+##### *Train a classifier to automatically measure VOT, using manually annotated VOTs in a set of textgrids and corresponding wav files. See documentation for usage examples.*
 ###### Usage: auto\_vot\_train.py [OPTIONS] wav\_list textgrid\_list model_filename 
 
     Positional Arguments:                   Description:
@@ -185,8 +183,7 @@ examples.*
                 
 
 #### Mode 2: 
-##### *Extract acoustic features for AutoVOT. To be used before
-auto_vot_train_after_fe.py or auto_vot_decode_after_fe.py*
+##### *Extract acoustic features for AutoVOT. To be used before auto_vot_train_after_fe.py or auto_vot_decode_after_fe.py*
 ###### Usage: auto\_vot\_extract\_features.py [OPTIONS] textgrid\_list wav\_list input\_filename features\_filename labels\_filename features_dir
     
 
@@ -240,8 +237,7 @@ auto_vot_train_after_fe.py or auto_vot_decode_after_fe.py*
                         			definitions. (default: INFO)
                   
 
-##### *Train a classifier to automatically measure VOT, using manually annotated VOTs
-for which features have already been extracted using auto_vot_extract_features.py, resulting in a set of feature files and labels.*
+##### *Train a classifier to automatically measure VOT, using manually annotated VOTs for which features have already been extracted using auto_vot_extract_features.py, resulting in a set of feature files and labels.*
 ###### Usage: auto\_vot\_train\_after\_fe.py [OPTIONS] features\_filename labels\_filename model\_filename
 
     Positional Arguments:                       Description:
@@ -262,8 +258,7 @@ for which features have already been extracted using auto_vot_extract_features.p
 ## VOT DECODING
 
 #### Mode 1
-##### *Use an existing classifier to measure VOT for stops in a set of textgrids and
-corresponding wav files.*
+##### *Use an existing classifier to measure VOT for stops in a set of textgrids and corresponding wav files.*
 ###### Usage: auto\_vot\_decode.py [OPTIONS] wav\_filename textgrid\_filename model\_filename
 
     Positional arguments:                       Description:
@@ -332,9 +327,7 @@ corresponding wav files.*
 
 
 ## Check Performance
-##### *Compute various measures of performance given a set of labeled VOTs and
-predicted VOTs for the same stops, optionally writing information for each
-stop to a CSV file.*
+##### *Compute various measures of performance given a set of labeled VOTs and predicted VOTs for the same stops, optionally writing information for each stop to a CSV file.*
 ###### Usage: auto_vot_performance.py [OPTIONS] labeled_textgrid_list predicted_textgrid_list labeled_vot_tier predicted_vot_tier [OPTIONS]
 
 
