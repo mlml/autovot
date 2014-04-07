@@ -1,6 +1,6 @@
 AutoVOT, v. 0.9
 =======
-#### Note: for a quick-start first compile the code, then scroll down to the tutorial section.
+**For a quick-start,** first compile the code then scroll down to the tutorial section to begin.
 
 
 ## How to Cite AutoVOT in my articles?
@@ -14,21 +14,26 @@ AutoVOT, v. 0.9
 
 
 ## Acknowledgements
-*To be filled in*
-#### Laurent de Soras
-        FFTReal
-        Version 1.02, 2001/03/27
+#### Laurent de Soras:
 
-        Fourier transformation (FFT, IFFT) library specialised for real data
-        Portable ISO C++
+* **FFTReal**
 
-        (c) Laurent de Soras <laurent.de.soras@club-internet.fr>
-        Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Version 1.02, 2001/03/27
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fourier transformation (FFT, IFFT) library specialised for real data
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Portable ISO C++
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (c) Laurent de Soras <laurent.de.soras@club-internet.fr>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
 	
-#### Meghan Clayards & Michael Wagner
-		Example data provided jointly by:
-			McGill University Speech Learning Lab
-			McGill University Prosody Lab
+#### Meghan Clayards & Michael Wagner:
+* **Example data provided jointly by:**
+	* McGill University Speech Learning Lab 
+	* McGill University Prosody Lab 
+ 
+
 
 
 ## Out of the box: 
@@ -44,6 +49,29 @@ AutoVOT, v. 0.9
 	* *Big Brother:* `bb_jasa.classifier`'s are trained on conversational British speech.  Word-initial voiceless stops were included in training. This classifier is best to use if working with *conversational speech*
 	* *Paterson/Goldrick Words:* `nattalia_jasa.classifier` is trained on single-word productions from lab speech: L1 American English and L2 English/L1 Portuguese bilinguals. Word-initial voiceless stops were included in training. This classifier is best to use if working with *lab speech.*
 	* **Note:** For best performance the authors recommend hand-labeling a small subset of VOTs (~100 tokens) from your own data and training new classifiers (see information on training below). 
+
+### Downloading and Installing
+AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.
+
+The code to clone AutoVOT is: 
+
+	$ git clone https://github.com/mlml/autovot.git
+
+When updates become available, you may navigate to the directory and run:
+	
+	$ git pull origin master
+
+If you are new to Github, check out the following site for helpful tutorials and tips for getting set up:
+
+https://help.github.com/articles/set-up-git
+
+## Dependencies
+In order to use AutoVOT you'll also need the following installed:
+* Python (Version 2.9 or earlier)
+* GCC
+* XCode (if you're using OS X)
+* Command line tools
+
 
 
 ## User provided files and directories
@@ -74,7 +102,10 @@ User provided directories should be in the autovot master directory.
     
 # Getting Started
 
-#### Note: For a quick-start, skip to the tutorial section below after compiling.
+#### Please note: 
+* For a quick-start, skip to the tutorial section below after compiling.
+* All commands in this readme should be executed from the command line on a Unix-style system (OS X or Linux).
+* All commands for AutoVOT Version 0.9 have been tested on OS X Mavericks. Any feedback is greatly appreciated!
 
 ## Compiling
 
@@ -334,14 +365,14 @@ Still from within `experiments/`, run the following:
 
 For voiceless:
 
-	auto_vot_decode.py --vot_tier vot  --vot_mark vot --max_num_instances 1 \
+	auto_vot_decode.py --vot_tier vot  --vot_mark vot \
 	config/voicelessTestWavList.txt config/voicelessTestTgList.txt \
 	models/VoicelessModel.classifier
 	
 For voiced:
 
 	auto_vot_decode.py --vot_tier vot  --vot_mark vot --min_vot_length 5 \
-	--max_vot_length 100 --max_num_instances 1 config/voicelessTestWavList.txt \
+	--max_vot_length 100 config/voicelessTestWavList.txt \
 	config/voicelessTestTgList.txt models/VoicelessModel.classifier
 
 If successful, you'll see information printed out about how many examples in each file were successfully decoded. After all files have been processed, you'll see the message:
