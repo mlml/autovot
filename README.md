@@ -14,8 +14,7 @@ AutoVOT, v. 0.9
 
 
 ## Acknowledgements
-*To be filled in*
-#### Laurent de Soras
+#### Laurent de Soras:
 
 &nbsp;&nbsp;&nbsp; **FFTReal**
 
@@ -29,10 +28,11 @@ AutoVOT, v. 0.9
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
 	
-#### Meghan Clayards & Michael Wagner
+#### Meghan Clayards & Michael Wagner:
 &nbsp;&nbsp;&nbsp; **Example data provided jointly by:**
-* McGill University Speech Learning Lab
-* McGill University Prosody Lab
+* McGill University Speech Learning Lab 
+* McGill University Prosody Lab 
+ 
 
 
 
