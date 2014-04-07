@@ -39,7 +39,8 @@ public:
 	CWavFile();
 	~CWavFile();
 	bool          Open(std::string filename);
-	unsigned long ReadHeader(void) ;
+	unsigned long ReadHeader(void);
+	void          PrintHeader(void);
 	unsigned long LoadSamples(short *sBuffer, unsigned long nBufferLength) ;
 	unsigned long GetRate();
 	unsigned long GetFrameCount();

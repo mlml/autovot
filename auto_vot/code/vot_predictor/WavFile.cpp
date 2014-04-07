@@ -123,6 +123,24 @@ unsigned long CWavFile::LoadSamples(short *sBuffer, unsigned long nBufferLength)
 	return nBytesRead;
 }
 
+/********************************************************************
+ Function:    PrintHeader()
+ Author:      Yossi Keshet
+ Description: Print header.
+ Inputs:      void.
+ Outputs:     void.
+ Comments:    none.
+ ********************************************************************/
+void CWavFile::PrintHeader(void)
+{
+	std::cout << "Input File           : " << m_filename << "'" << std::endl;
+	std::cout << "Channels             : " << m_PcmWaveFormat.wChannels << std::endl;
+	std::cout << "Sample Rate          : " << m_PcmWaveFormat.dwSamplesPerSec << std::endl;
+	std::cout << "Precision            : " << m_PcmWaveFormat.wBitsPerSample <<  std::endl;
+	std::cout << "Num. Samples         : " << int(m_ulDataLength*8/float(m_PcmWaveFormat.wBitsPerSample)) <<  std::endl;
+	std::cout << "Bit Rate (Bytes/Sec) : " << m_PcmWaveFormat.dwAvgBytesPerSec << std::endl;
+	std::cout << "Sample Encoding      : " << m_PcmWaveFormat.wFormatTag << std::endl;
+}
 
 /********************************************************************
  Function:    ReadHeader()

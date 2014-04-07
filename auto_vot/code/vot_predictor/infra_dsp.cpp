@@ -8,8 +8,19 @@
 # include "WavFile.h"
 #include "fast_pitch_filters.h"
 
-double read_samples_from_file(std::string filename, infra::vector &x, double virtual_sampling_rate)
+std::string prev_filename;
+infra::vector prev_samples;
+double prev_sampling_rate;
+
+double read_samples_from_file(std::string filename, infra::vector &samples, double virtual_sampling_rate)
 {
+	if (filename == prev_filename) {
+		// caching prev_filename
+		samples.resize(prev_samples.size());
+		samples = prev_samples;
+		return prev_sampling_rate;
+	}
+	
 	CWavFile wav_file;
 	
 	if (wav_file.Open(filename.c_str()) == false) {
@@ -24,12 +35,17 @@ double read_samples_from_file(std::string filename, infra::vector &x, double vir
 	// read samples
 	short *pbuffer = new short[num_samples_to_read];
 	unsigned long num_samples_read = wav_file.LoadSamples(pbuffer, num_samples_to_read);
-	x.resize(num_samples_read);
-	x.zeros();
+	samples.resize(num_samples_read);
+	samples.zeros();
 	for (int i=0; i < num_samples_read; i++)
-		x[i] = double(pbuffer[i]/32767.0);
+		samples[i] = double(pbuffer[i]/32767.0);
 	delete [] pbuffer;
 	wav_file.Close();
+	
+	prev_filename = filename;
+	prev_samples.resize(samples.size());
+	prev_samples = samples;
+	prev_sampling_rate = sampling_rate;
 	
 	return sampling_rate;
 }
