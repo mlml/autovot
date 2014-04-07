@@ -36,7 +36,7 @@ if __name__ == "__main__":
                                                  'auto_vot_extract_features.py, resulting in a set of feature files and labels.')
     parser.add_argument('features_filename', help="AutoVOT front end features filename (training)")
     parser.add_argument('labels_filename', help="AutoVOT front end labels filename (training)")
-    parser.add_argument('model_filename', help="Name of classifiers that will be output")
+    parser.add_argument('model_filename', help="Name of classifiers (output)")
     parser.add_argument("--logging_level", help="Level of verbosity of information printed out by this program ("
                                                 "DEBUG, INFO, WARNING or ERROR), in order of increasing verbosity. "
                                                 "See http://docs.python.org/2/howto/logging for definitions. ("
