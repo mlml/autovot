@@ -42,10 +42,12 @@ AutoVOT, v. 0.9
 
 ## Dependencies
 In order to use AutoVOT you'll need the following installed in addition to the source code provided here:
-* Python (Version 2.9 or earlier)
-* GCC
-* XCode (if you're using OS X)
-* Command line tools
+* [Python (Version 2.9 or earlier)](https://www.python.org/download/releases/2.7.6>)
+* [GCC, the GNU Compiler Collection](http://gcc.gnu.org/install/download.html)
+* If you're using Mac OS X you'll need to download a C compiler, as there is no default installed.
+	* [Xcode](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12) contains the full set of compilers.
+	* Alternatively you can download the [Command Line Tools for Xcode](http://developer.apple.com/downloads).
+	* You will need a registered Apple ID to download either package.
 
 ## Downloading and Installing
 AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.
