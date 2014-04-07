@@ -256,7 +256,7 @@ if __name__ == "__main__":
     parser.add_argument('input_filename', help="Name of AutoVOT front end input file (output)")
     parser.add_argument('features_filename', help="Name of AutoVOT front end features file (output)")
     parser.add_argument('labels_filename', help="Name of AutoVOT front end labels file (output)")
-    parser.add_argument('features_dir', help="Name of AutoVOT front end feature files (output)")
+    parser.add_argument('features_dir', help="Name of AutoVOT directory for output front end feature files")
     parser.add_argument('--decoding', help='Extract features for decoding based on window_tier (vot_tier is '
                                            'ignored), otherwise extract features for training based on manual '
                                            'labeling given in the vot_tier', action='store_const', const=True,
