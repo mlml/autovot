@@ -1,6 +1,6 @@
 AutoVOT, v. 0.9
 =======
-#### Note: for a quick-start first compile the code, then scroll down to the tutorial section.
+**For a quick-start,** first compile the code then scroll down to the tutorial section to begin.
 
 
 ## How to Cite AutoVOT in my articles?
