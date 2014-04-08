@@ -83,8 +83,8 @@ def read_textgrid_tier(textgrid_filename, vot_tier):
 if __name__ == "__main__":
     # parse arguments
     parser = argparse.ArgumentParser(description='Compute various measures of performance given a set of labeled VOTs and predicted VOTs for the same stops, optionally writing information for each stop to a CSV file.')
-    parser.add_argument('labeled_textgrid_list', help="textfile listing TextGrid files containing manually labeled VOTs (one per line)")
-    parser.add_argument('predicted_textgrid_list', help="textfile listing TextGrid files containing predicted VOTs (one per line). This can be the same as labeled_textgrid_list, provided two different tiers are given for labeled_vot_tier and predicted_vot_tier.")
+    parser.add_argument('labeled_textgrid_list', help="textfile listing TextGrid files containing manually labeled VOTs (one file per line)")
+    parser.add_argument('predicted_textgrid_list', help="textfile listing TextGrid files containing predicted VOTs (one file per line). This can be the same as labeled_textgrid_list, provided two different tiers are given for labeled_vot_tier and predicted_vot_tier.")
     parser.add_argument('labeled_vot_tier', help='name of the tier containing manually labeled VOTs in the TextGrids in labeled_textgrid_list (default: %(default)s)', default='vot')
     parser.add_argument('predicted_vot_tier', help='name of the tier containing automatically labeled VOTs in the TextGrids in predicted_textgrid_list (default: %(default)s)', default='AutoVOT')
     parser.add_argument('--csvF', help='csv file to dump labeled and predicted VOT info to (default: none)')
