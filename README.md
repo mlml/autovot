@@ -192,7 +192,7 @@ User provided directories should be in the autovot master directory.
     Positional Arguments:                       Description:
     
     textgrid_list                               File listing TextGrid files containing stops to
-                        			extract features for (input)
+		                        			extract features for (input)
     wav_list                                    File listing corresponding WAV files (input)
     input_filename                              Name of AutoVOT front end input file (output)
     features_filename                           Name of AutoVOT front end features file (output)
@@ -394,13 +394,13 @@ Navigate to `experiments/` and run the following:
 
 For voiceless data:
 
-	auto_vot_train.py --vot_tier vot --vot_mark vot --max_num_instances 1 \
+	auto_vot_train.py --vot_tier vot --vot_mark vot \
 	config/voicelessTrainWavList.txt config/voicelessTrainTgList.txt \
 	models/VoicelessModel.classifier
 	
 For voiced data:
 
-	auto_vot_train.py --vot_tier vot --vot_mark vot --max_num_instances 1 \
+	auto_vot_train.py --vot_tier vot --vot_mark vot \
 	config/voicedTrainWavList.txt config/voicedTrainTgList.txt \
 	models/VoicedModel.classifier
 
@@ -427,8 +427,8 @@ For voiceless:
 For voiced:
 
 	auto_vot_decode.py --vot_tier vot  --vot_mark vot --min_vot_length 5 \
-	--max_vot_length 100 config/voicelessTestWavList.txt \
-	config/voicelessTestTgList.txt models/VoicelessModel.classifier
+	--max_vot_length 100 config/voicedTestWavList.txt \
+	config/voicedTestTgList.txt models/VoicedModel.classifier
 
 If successful, you'll see information printed out about how many examples in each file were successfully decoded. After all files have been processed, you'll see the message:
 
@@ -463,6 +463,7 @@ For voiced:
 If successful, you'll be able to see how many files are being processed and whether extraction was completed:
 
 `[VotFrontEnd2] INFO: Processing 75 files.`
+
 `[VotFrontEnd2] INFO: Features extraction completed.`
 
 Feature matrix files will appear in the given directory (`tmp_dir` in this example) and can be used in future training/decoding sessions without having to be reextracted. This is the recommended mode of operation if you have a large quantity of data. Feature extraction can be time consuming, and only needs to be done once. Training and decoding are faster and allow for the user to tune parameters. External feature extraction allows you to tune these parameters as necessary without recomputing features.
@@ -494,8 +495,7 @@ For voiceless:
 	
 For voiced:
 
-	auto_vot_train_after_fe.py --log=INFO --min_vot_length 5 \
-	--max_vot_length 100 config/VoicedFeFeatures.txt \
+	auto_vot_decode_after_fe.py --log=INFO config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt models/VoicedModel_ver2.classifier
 
 If decoding is successful you'll see the following output message: 
@@ -506,6 +506,28 @@ As with Mode 1, if there were any problematic files that couldn't be processed, 
 
 `[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
 
+
+## Check Performance (after either Mode 1 or Mode 2)
+It is possible to compare the performance of the algorithm to a subset of manually measured VOT. If you would like to do this, generate a list of the TextGrids included in your test data that also have manual measurements. You may choose to either keep these TextGrids separate, in a distinct directory in which case you will need two lists of TextGrids. You may also simply include TextGrids in your test data that have an additional tier containing the manual annotation (just be sure that the tier name is distinct from your window tier and AutoVOT tier. In this case, you would need to only reference the single TextGrid list. The script optionally outputs a CSV file with information about the VOT start time and duration in the manual and automatic measurement tiers. 
+
+**Note:** This tutorial does not include this component, but the following section will provide an example of how it can be used with your data. Example arguments include:
+
+`checkPerformanceTgList.txt:` the list of TextGrids that would contain an additional tier with manual VOT measurements. 
+
+This should be located in `config/`.
+
+`ManualVot:` the name of the tier containing manual VOT measurements
+
+`checkPerformance.csv:` the output CSV file to be generated
+
+Still from within `experiments/` run the following:
+
+	auto_vot_performance.py config/checkPerformanceTgList.txt \
+	config/checkPerformanceTgList.txt ManualVot AutoVOT --csvF checkPerformance.csv
+
+If successful, the command line output will generate Pearson correlations, means, and standard deviations for the VOT measurements, as well as the percentage of tokens within given durational threshold differences. The output CSV file will contain VOT start times and durations for the data subset.
+
+**Note:** It is **not recommended** to simply include the data used for training as the subset used to compute performance. The reason for this is that performance measurements are likely to be inflated in such a situation, as the algorithm is generating predictions for the same tokens on which it was trained. It is best to have an additional subset of manually aligned VOT if you would like to take advantage of this comparison. 
 
 
 ## Possible errors and warnings
