@@ -512,13 +512,9 @@ It is possible to compare the performance of the algorithm to a subset of manual
 
 **Note:** This tutorial does not include this component, but the following section will provide an example of how it can be used with your data. Example arguments include:
 
-`checkPerformanceTgList.txt:` the list of TextGrids that would contain an additional tier with manual VOT measurements. 
-
-This should be located in `config/`.
-
-`ManualVot:` the name of the tier containing manual VOT measurements
-
-`checkPerformance.csv:` the output CSV file to be generated
+* `checkPerformanceTgList.txt:` the list of TextGrids that would contain an additional tier with manual VOT measurements. This should be located in `config/`.
+* `ManualVot:` the name of the tier containing manual VOT measurements
+* `checkPerformance.csv:` the output CSV file to be generated
 
 Still from within `experiments/` run the following:
 
@@ -531,7 +527,12 @@ If successful, the command line output will generate Pearson correlations, means
 
 
 ## Possible errors and warnings
-### After running auto_vot_train.py:
+
+##### Missing files
+If you do not have a corresponding wav file for a TextGrid:
+`ERROR: Number of TextGrid files should match the number of WAVs`
+
+### Warnings during Training:
 
 ##### Short VOT in training data
 If you have shorter instances of VOT in your training data, you may get the following error:
@@ -540,31 +541,27 @@ If you have shorter instances of VOT in your training data, you may get the foll
 
 You can ignore this, but be aware that a VOT in the training data was skipped.
 
-##### Missing files
-If you do not have a corresponding wav file for a TextGrid:
-`[auto_vot_extract_features.py] ERROR: Number of TextGrid files should match the number of WAVs`
-
-### After running auto_vot_decode.py:
+### Warnings during Decoding:
 
 ##### AutoVOT tier already exists
-`[auto_vot_decode.py] WARNING: File *filename*.TextGrid already contains a tier with the name "AutoVOT"`
+`WARNING: File *filename*.TextGrid already contains a tier with the name "AutoVOT"`
 
-`[auto_vot_decode.py] WARNING: New "AutoVOT" tier is NOT being written to the file.`
+`WARNING: New "AutoVOT" tier is NOT being written to the file.`
 
-`[auto_vot_decode.py] WARNING: (use the --ignore_existing_tiers flag if you'd like to do so)`
+`WARNING: (use the --ignore_existing_tiers flag if you'd like to do so)`
 
 
 If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT tier exists already:
 `[auto_vot_decode.py] WARNING: Writing a new AutoVOT tier (in addition to existing one(s))`
 
 
-### Other
+### Other errors
 
 ##### Wrong file format
 If one of your files does not have the right format, the following error will appear:
 
-`[auto_vot_extract_features.py] ERROR: *filename*.wav is not a valid WAV.`
-`[auto_vot_extract_features.py] ERROR: *filename*.TextGrid is not a valid TextGrid.`
+`ERROR: *filename*.wav is not a valid WAV.`
+`ERROR: *filename*.TextGrid is not a valid TextGrid.`
 
 
 
