@@ -4,15 +4,15 @@ AutoVOT, v. 0.9
 
 ##### Table of Contents
 
-[Acknowledgements](#acknowledgements)
+**1.** [Acknowledgements](#acknowledgements)
 
-[Setting up](#settingup)
+**2.** [Setting up](#settingup)
 
-[Usage](#usage)
+**3.** [Usage](#usage)
 
-[Tutorial](#tutorial)
+**4.** [Tutorial](#tutorial)
 
-[Citing AutoVOT](#citing)
+**5.** [Citing AutoVOT](#citing)
 
 
 
