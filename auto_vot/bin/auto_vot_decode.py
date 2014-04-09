@@ -29,6 +29,7 @@ import argparse
 import os
 import tempfile
 import shutil
+import csv
 
 from auto_vot_extract_features import *
 from autovot.utilities import *
@@ -70,6 +71,10 @@ if __name__ == "__main__":
     parser.add_argument('--ignore_existing_tiers', help='add a new AutoVOT tier to output textgrids, even if one '
                                                         'already exists (default: don\'t do so)',
                         action='store_const', const=True, default=False)
+    parser.add_argument('--csv_name', help='Write a CSV file with this name with one row per predicited VOT, '
+                                           'with columns for the prediction and the confidence of the prediction'
+                                           ' (default: don\'t do this)', default='')
+
     parser.add_argument("--logging_level", help="Level of verbosity of information printed out by this program ("
                                                 "DEBUG, INFO, WARNING or ERROR), in order of increasing verbosity. "
                                                 "See http://docs.python.org/2/howto/logging for definitions. ("
@@ -111,6 +116,18 @@ if __name__ == "__main__":
         f.close()
 
     problematic_files = list()
+
+    csvOut = None
+    if args.csv_name:
+        try:
+            csvF = open(args.csv_name, 'wb')
+            csvOut = csv.writer(csvF)
+        except:
+            logging.warning("Couldn't open %s for writing. CSV file not being written." % args.csv_name)
+            csvOut = None
+
+    if csvOut:
+        csvOut.writerow(['wav_file', 'time', 'vot', 'confidence'])
 
     # run over files
     for wav_file, textgrid_file in zip(wav_files, textgrid_files):
@@ -202,11 +219,13 @@ if __name__ == "__main__":
         auto_vot_tier.append(Interval(textgrid.xmin(), xmin_preds[0], ''))
         # print textgrid.xmin(), xmin_preds[0], ''
         for i in xrange(len(xmin_preds) - 1):
-            auto_vot_tier.append(Interval(xmin_preds[i], xmax_preds[i], mark_preds[i]))
+            ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
+            auto_vot_tier.append(Interval(xmin_preds[i], xmax_preds[i], 'pred'))
             # print xmin_preds[i], xmax_preds[i], mark_preds[i]
             auto_vot_tier.append(Interval(xmax_preds[i], xmin_preds[i + 1], ''))
             # print xmax_preds[i], xmin_preds[i+1], ''
-        auto_vot_tier.append(Interval(xmin_preds[-1], xmax_preds[-1], mark_preds[-1]))
+        ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
+        auto_vot_tier.append(Interval(xmin_preds[-1], xmax_preds[-1], 'pred'))
         # print xmin_preds[-1], xmax_preds[-1], mark_preds[-1]
         auto_vot_tier.append(Interval(xmax_preds[-1], textgrid.xmax(), ''))
         # print xmax_preds[-1], textgrid.xmax(), ''
@@ -233,6 +252,17 @@ if __name__ == "__main__":
         if args.logging_level != "DEBUG":
             shutil.rmtree(path=working_dir, ignore_errors=True)
 
+        if csvOut:
+            for i in xrange(len(xmin_preds) - 1):
+                print i
+                vot, conf = xmax_preds[i] - xmin_preds[i], mark_preds[i]
+                csvOut.writerow([wav_file, str(xmax_preds[i]), str(vot), str(conf)])
+            vot, conf = xmax_preds[-1] - xmin_preds[-1], mark_preds[-1]
+            csvOut.writerow([wav_file, str(xmax_preds[-1]), str(vot), str(conf)])
+            
+
+
+
     if len(problematic_files):
         logging.warning("**********************************")
         logging.warning("Prediction made for all files except these ones, where something was wrong:")
@@ -242,3 +272,6 @@ if __name__ == "__main__":
         logging.warning("**********************************")
 
     logging.info("All done.")
+
+    if csvOut:
+        csvF.close()
