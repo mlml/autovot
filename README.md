@@ -132,6 +132,10 @@ TODO: Run:
 
 #### Sound file format
 * Wav files sampled at 16kHz mono
+	* You can convert wav files using a utility such as [SoX](http://sox.sourceforge.net/), as follows:
+	
+         `sox input.wav  -c 1 -r 16000 output.wav`
+        
 
 #### TextGrid file format
 * Saved as text files with .TextGrid extension
