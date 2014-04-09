@@ -1,19 +1,26 @@
 AutoVOT, v. 0.9
 =======
-**For a quick-start,** first compile the code then scroll down to the tutorial section to begin.
+**For a quick-start,** first [download and compile the code](#settingup) then go to the [tutorial](#tutorial) section to begin.
+
+##### Table of Contents
+
+[Acknowledgements](#acknowledgements)
+
+[Setting up](#settingup)
+
+[Usage](#usage)
+
+[Tutorial](#tutorial)
+
+[Citing AutoVOT](#citing)
 
 
-## How do I Cite AutoVOT in my articles?
-***If possible to cite a program, the following format is recommended (adjusting retrieval dates and versions as necessary):***
 
-* Keshet, J., Sonderegger, M., Knowles, T. (2014). AutoVOT: A tool for automatic measurement of voice onset time using discriminative structured prediction [Computer program]. Version 0.9, retrieved April 2014 from https://github.com/mlml/autovot/.
-
-***If you are unable to cite the program itself, please cite the following paper:***
-
-* Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. *The Journal of the Acoustical Society of America*, 132(6), 3965-3979.
-
-
+<a name="acknowledgements"/>
 ## Acknowledgements
+
+### Code
+This software incorporates code from several open-source projects:
 
 #### FFTReal
 FFTReal, Version 1.02, 2001/03/27
@@ -24,8 +31,8 @@ Copyright (c) by Laurent de Soras <laurent.de.soras@club-internet.fr>
 
 Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
 
-##### get_f0, sigproc
-get_f0.c estimates F0 using normalized cross correlation and dynamic programming; and 
+#### get_f0, sigproc
+get_f0.c estimates F0 using normalized cross correlation and dynamic programming. 
 sigproc.c is a collection of pretty generic signal-processing routines.
 
 Written and revised by: Derek Lin and David Talkin
@@ -34,10 +41,20 @@ Copyright (c) 1990-1996 Entropic Research Laboratory, Inc. All rights reserved
 
 This software has been licensed to the Centre of Speech Technology, KTH by Microsoft Corp. with the terms in the accompanying file BSD.txt, which is a BSD style license.
 
-##### Example data
-Example data was provided jointly by Meghan Clayards, McGill University Speech Learning Lab and Michael Wagner, McGill University Prosody Lab.
+#### textgrid.py
+Python classes for Praat TextGrid and TextTier files (and HTK .mlf files)
 
+[http://github.com/kylebgorman/textgrid.py/](http://github.com/kylebgorman/textgrid.py/)
+
+Copyright (c) 2011-2013 Kyle Gorman, Max Bane, Morgan Sonderegger
+
+### Example data
+
+Example data was provided jointly by Meghan Clayards, [McGill University Speech Learning Lab](http://people.linguistics.mcgill.ca/~meghan.clayards/Research.html) and Michael Wagner, [McGill University Prosody Lab](http://prosodylab.org/).
+
+<a name="settingup"/>
 # Setting Up
+
 #### Please note: 
 * For a quick-start, skip to the tutorial section below after compiling.
 * All commands in this readme should be executed from the command line on a Unix-style system (OS X or Linux).
@@ -136,6 +153,7 @@ User provided directories should be in the autovot master directory.
 * `experiments/models/`: Empty. This is where classifiers will be stored.
 * `experiments/tmp_dir/`: Empty. This is where feature extraction will be stored in Mode 2.
 
+<a name="usage"/>
 # Usage
 ***Tutorial to follow***
 
@@ -357,7 +375,7 @@ User provided directories should be in the autovot master directory.
                         			(default: none)
     
     
-
+<a name="tutorial"/>
 # Tutorial
 ### Arguments used in this example:
 * **TextGrid labels** are all `vot`. This includes tier names and window labels.
@@ -566,5 +584,15 @@ If one of your files does not have the right format, the following error will ap
 `ERROR: *filename*.wav is not a valid WAV.`
 `ERROR: *filename*.TextGrid is not a valid TextGrid.`
 
+<a name="citing"/>
+## How do I Cite AutoVOT in my articles?
+
+***If possible to cite a program, the following format is recommended (adjusting retrieval dates and versions as necessary):***
+
+* Keshet, J., Sonderegger, M., Knowles, T. (2014). AutoVOT: A tool for automatic measurement of voice onset time using discriminative structured prediction [Computer program]. Version 0.9, retrieved April 2014 from https://github.com/mlml/autovot/.
+
+***If you are unable to cite the program itself, please cite the following paper:***
+
+* Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. *The Journal of the Acoustical Society of America*, 132(6), 3965-3979.
 
 
