@@ -112,6 +112,8 @@ Finally, set the path:
 TODO: Run:
         $ make install
 
+**Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
+
 ## Out of the box: 
 
 **Files included in this version:**
