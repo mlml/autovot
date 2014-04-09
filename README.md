@@ -15,21 +15,31 @@ AutoVOT, v. 0.9
 
 ## Acknowledgements
 *To be filled in*
-#### Laurent de Soras
-        FFTReal
-        Version 1.02, 2001/03/27
+#### FFTReal
+FFTReal, Version 1.02, 2001/03/27
 
-        Fourier transformation (FFT, IFFT) library specialised for real data
-        Portable ISO C++
+Fourier transformation (FFT, IFFT) library specialised for real dataPortable ISO C++
 
-        (c) Laurent de Soras <laurent.de.soras@club-internet.fr>
-        Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
-	
-#### Meghan Clayards & Michael Wagner
-		Example data provided jointly by:
-			McGill University Speech Learning Lab
-			McGill University Prosody Lab
+Copyright (c) by Laurent de Soras <laurent.de.soras@club-internet.fr>
 
+Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
+
+##### get_f0, sigproc
+get_f0.c estimates F0 using normalized cross correlation and dynamic programming.
+
+sigproc.c is a collection of pretty generic signal-processing routines.
+
+Copyright (c) 1990-1996 Entropic Research Laboratory, Inc. All rights reserved
+
+This software has been licensed to the Centre of Speech Technology, KTH by Microsoft Corp. with the terms in the accompanying file BSD.txt, which is a BSD style license.
+
+Written and revised by: Derek Lin and David Talkin
+
+
+
+##### Meghan Clayards & Michael Wagner
+Example data provided jointly by McGill University Speech Learning Lab
+ and McGill University Prosody Lab.
 
 ## Out of the box: 
 
