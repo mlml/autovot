@@ -117,10 +117,10 @@ TODO: Run:
 **Files included in this version:**
 
 * **AutoVOT scripts:** `auto_vot/` contains all scripts necessary for user to extract features, train, and decode VOT measurements.
-* **Tutorial examples:** 
-	* `data/` contains the .wav and .TextGrid files used for training and testing, as well as `makeConfigFiles.sh`, a helper script used to generate file lists.
+* **Tutorial example data:** 
+	* `examples/data/` contains the .wav and .TextGrid files used for training and testing, as well as `makeConfigFiles.sh`, a helper script used to generate file lists.
 		* **Note:** This data contains short utterances with one VOT window per file. Future versions will contain examples with longer files and more instances of VOT per file.
-	* `experiments/` is currently empty and will be used to store file lists, feature files, and classifers generated in the tutorial.
+	* `examples/experiments/` is currently empty and will be used to store file lists, feature files, and classifers generated in the tutorial.
 * **Example classifiers:** `examples/models/` contains three pre-trained classifiers that the user may use if they do not wish to provide their own training data. All example classifiers were used in Sonderegger&Keshet(2012) (above) and correspond to the Big Brother and Big Brother and Paterson/Goldrick Words datasets:
 	* *Big Brother:* `bb_jasa.classifier`'s are trained on conversational British speech.  Word-initial voiceless stops were included in training. This classifier is best to use if working with *conversational speech*
 	* *Paterson/Goldrick Words:* `nattalia_jasa.classifier` is trained on single-word productions from lab speech: L1 American English and L2 English/L1 Portuguese bilinguals. Word-initial voiceless stops were included in training. This classifier is best to use if working with *lab speech.*
