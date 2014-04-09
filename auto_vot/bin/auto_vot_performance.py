@@ -1,10 +1,28 @@
 #! /usr/bin/env python
-
-"""
-Compute various measures of performance given a set of labeled VOTsand predicted VOTs for the same stops, optionally writing information for each stop to a CSV file.
-
-Authors: Joseph Keshet and Morgan Sonderegger
-"""
+#
+# Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
+#
+# This file is part of Autovot, a package for automatic extraction of
+# voice onset time (VOT) from audio files.
+#
+# Autovot is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# Autovot is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with Autovot.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+# auto_vot_performance.py: Compute various measures of performance
+# given a set of labeled VOTsand predicted VOTs for the same stops,
+# optionally writing information for each stop to a CSV file.
+#
 
 import argparse, os, csv
 import numpy as np
@@ -65,8 +83,8 @@ def read_textgrid_tier(textgrid_filename, vot_tier):
 if __name__ == "__main__":
     # parse arguments
     parser = argparse.ArgumentParser(description='Compute various measures of performance given a set of labeled VOTs and predicted VOTs for the same stops, optionally writing information for each stop to a CSV file.')
-    parser.add_argument('labeled_textgrid_list', help="textfile listing TextGrid files containing manually labeled VOTs (one per line)")
-    parser.add_argument('predicted_textgrid_list', help="textfile listing TextGrid files containing predicted VOTs (one per line). This can be the same as labeled_textgrid_list, provided two different tiers are given for labeled_vot_tier and predicted_vot_tier.")
+    parser.add_argument('labeled_textgrid_list', help="textfile listing TextGrid files containing manually labeled VOTs (one file per line)")
+    parser.add_argument('predicted_textgrid_list', help="textfile listing TextGrid files containing predicted VOTs (one file per line). This can be the same as labeled_textgrid_list, provided two different tiers are given for labeled_vot_tier and predicted_vot_tier.")
     parser.add_argument('labeled_vot_tier', help='name of the tier containing manually labeled VOTs in the TextGrids in labeled_textgrid_list (default: %(default)s)', default='vot')
     parser.add_argument('predicted_vot_tier', help='name of the tier containing automatically labeled VOTs in the TextGrids in predicted_textgrid_list (default: %(default)s)', default='AutoVOT')
     parser.add_argument('--csvF', help='csv file to dump labeled and predicted VOT info to (default: none)')

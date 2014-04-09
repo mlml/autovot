@@ -1,6 +1,45 @@
-# classes for Praat TextGrid data structures, and HTK .mlf files
-# Kyle Gorman <kgorman@ling.upenn.edu>
-# (edited slightly by Morgan Sonderegger and Joseph Keshet)
+#
+# Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
+#
+# This file is part of Autovot, a package for automatic extraction of
+# voice onset time (VOT) from audio files.  NOTE: this file is a
+# slightly modified version of the textgrid.py module
+# (https://github.com/kylebgorman/textgrid/), whose license is
+# reproduced below.
+#
+# Autovot is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# Autovot is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with Autovot.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+########
+#
+# original textgrid.py license
+# (see https://github.com/kylebgorman/textgrid/blob/master/LICENSE)
+#
+# Copyright (c) 2011-2013 Kyle Gorman, Max Bane, Morgan Sonderegger
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+
+
 
 import logging
 import re
@@ -85,7 +124,7 @@ class TextGrid:
         """ return the (i-1)th tier """
         return self.__tiers[i] 
 
-    # MS added
+    # Morgan Sonderegger
     def tierNames(self, case=None):
         names = [t.name() for t in self.__tiers]
         if(case=="lower"):
@@ -134,7 +173,7 @@ class TextGrid:
                         text.readline().rstrip().split() # header junk
                         jmin = float(text.readline().rstrip().split()[2])
                         jmax = float(text.readline().rstrip().split()[2])
-                        # MS changed, to account for intervals where label
+                        # Morgan Sonderegger changed, to account for intervals where label
                         # begins with spacing
                         #jmrk = text.readline().rstrip().split()[2][1:-1]
                         #jmrk = text.readline().split('=')[1].strip().strip('"') # Joseph Keshet: handle space in the
@@ -235,7 +274,7 @@ class IntervalTier:
         self.__xmax = interval.xmax()
         self.__n += 1
 
-    # # MS added
+    # Morgan Sonderegger added
     def remove(self, interval):
         logging.debug("removing %d" % interval.xmin())
         self.__intervals.remove(interval)
@@ -354,7 +393,7 @@ class Interval:
     def xmax(self):
         return self.__xmax
 
-    # MS added
+    # Morgan Sonderegger added
     def bounds(self):
         return (self.__xmin, self.__xmax)
     
@@ -376,7 +415,7 @@ class Point:
     def mark(self):
         return self.__mark
 
-# MS added: account for intervals with writing beginning with whitespace
+# Morgan Sonderegger added: account for intervals with writing beginning with whitespace
 #def correctLine(line):
 def getMark(text):
     line = text.readline().rstrip()

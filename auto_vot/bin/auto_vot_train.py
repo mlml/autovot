@@ -1,12 +1,29 @@
 #! /usr/bin/env python
-
-"""
-auto_vot_train.py
-
-Train a classifier to automatically measure VOT, using manually annotated VOTs in a set of textgrids and corresponding wav files. Run with -h argument for information on arguments, and see documentation for usage examples.
-
-Author: Joseph Keshet, 18/11/2013
-"""
+#
+# Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
+#
+# This file is part of Autovot, a package for automatic extraction of
+# voice onset time (VOT) from audio files.
+#
+# Autovot is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# Autovot is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with Autovot.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+# auto_vot_train.py: Train a classifier to automatically measure VOT,
+# using manually annotated VOTs in a set of textgrids and
+# corresponding wav files. Run with -h argument for information on
+# arguments, and see documentation for usage examples.
+#
 
 import os
 import shutil
@@ -23,7 +40,7 @@ if __name__ == "__main__":
                                                  'See documentation for usage examples.')
     parser.add_argument('wav_list', help="Text file listing  WAV files")
     parser.add_argument('textgrid_list', help="Text file listing corresponding manually labeled TextGrid files")
-    parser.add_argument('model_filename', help="Name of classifiers which are outputted")
+    parser.add_argument('model_filename', help="Name of classifiers (output)")
     parser.add_argument('--vot_tier', default='vot', help='Name of the tier to extract VOTs from (default: %(default)s)')
     parser.add_argument('--vot_mark', default='*', help='Only intervals on the vot_tier with this mark value (e.g. '
                                                         '"vot", "pos", "neg") are used for training, or "*" for any '
