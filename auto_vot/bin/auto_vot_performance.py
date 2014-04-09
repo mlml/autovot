@@ -82,12 +82,21 @@ def read_textgrid_tier(textgrid_filename, vot_tier):
 
 if __name__ == "__main__":
     # parse arguments
-    parser = argparse.ArgumentParser(description='Compute various measures of performance given a set of labeled VOTs and predicted VOTs for the same stops, optionally writing information for each stop to a CSV file.')
-    parser.add_argument('labeled_textgrid_list', help="textfile listing TextGrid files containing manually labeled VOTs (one file per line)")
-    parser.add_argument('predicted_textgrid_list', help="textfile listing TextGrid files containing predicted VOTs (one file per line). This can be the same as labeled_textgrid_list, provided two different tiers are given for labeled_vot_tier and predicted_vot_tier.")
-    parser.add_argument('labeled_vot_tier', help='name of the tier containing manually labeled VOTs in the TextGrids in labeled_textgrid_list (default: %(default)s)', default='vot')
-    parser.add_argument('predicted_vot_tier', help='name of the tier containing automatically labeled VOTs in the TextGrids in predicted_textgrid_list (default: %(default)s)', default='AutoVOT')
-    parser.add_argument('--csvF', help='csv file to dump labeled and predicted VOT info to (default: none)')
+    parser = argparse.ArgumentParser(description='Compute various measures of performance given a set of labeled VOTs'
+                                                 'and predicted VOTs for the same stops, optionally writing information'
+                                                 'for each stop to a CSV file.')
+    parser.add_argument('labeled_textgrid_list', help="textfile listing TextGrid files containing manually labeled "
+                                                      "VOTs (one file per line)")
+    parser.add_argument('predicted_textgrid_list', help="textfile listing TextGrid files containing predicted VOTs ("
+                                                        "one file per line). This can be the same as "
+                                                        "labeled_textgrid_list, provided two different tiers are "
+                                                        "given for labeled_vot_tier and predicted_vot_tier.")
+    parser.add_argument('labeled_vot_tier', help='name of the tier containing manually labeled VOTs in the TextGrids '
+                                                 'in labeled_textgrid_list (default: %(default)s)', default='vot')
+    parser.add_argument('predicted_vot_tier', help='name of the tier containing automatically labeled VOTs in the '
+                                                   'TextGrids in predicted_textgrid_list (default: %(default)s)',
+                        default='AutoVOT')
+    parser.add_argument('--csv_file', help='csv file to dump labeled and predicted VOT info to (default: none)')
     args = parser.parse_args()
 
     if is_textgrid(args.labeled_textgrid_list) and is_textgrid(args.predicted_textgrid_list):
@@ -152,8 +161,8 @@ if __name__ == "__main__":
     print "Right edge (voicing onset): ", corr1(x_xmax, y_xmax)[0], "/", corr2(x_xmax, y_xmax)[0]
     print "VOTs: ", corr1(x_vot, y_vot)[0], "/", corr2(x_xmax, y_xmax)[0]
 
-    print "\n(Note: if the Pearson and Spearman correlations differ much,\nyou probably have outliers which are strongly influencing Pearson's R)\n"
-
+    print "\n(Note: if the Pearson and Spearman correlations differ much,\nyou probably have outliers which are " \
+          "strongly influencing Pearson's R)\n"
 
     ## numpy arrays of labeled VOTs and predicted VOTs (in sec)
     X, Y = np.array(x_vot), np.array(y_vot)
@@ -164,27 +173,20 @@ if __name__ == "__main__":
     print "VOT:", 1000*np.mean(abs(X-Y)), "msec,", 1000*np.std(abs(X-Y)), "msec\n"
 
     ## performance measure 3
-    thresholds =  [2,5,10,15,20,25,50]
+    thresholds = [2, 5, 10, 15, 20, 25, 50]
     print "Percentage of examples with labeled/predicted VOT difference of at most:"
     print "------------------------------"
     for thresh in thresholds:
         print "%d msec: " % thresh, 100*(len(X[abs(X-Y)< thresh/1000.0])/float(len(X)))
 
-
     ## dump predicted/labeled VOT info to a CSV, for later examination in R, excel, etc.
-    if args.csvF:
-        print "\nWriting labeled / predicted VOT info to %s" % args.csvF
-        outF = open(args.csvF, 'wb')
-        
-        csvF = csv.writer(outF)
-        csvF.writerow(['filename_labeled', 'filename_predicted', 'time_in_labeledF', 'time_in_predictedF',
-                   'tier_in_labeledF', 'tier_in_predictedF', 'vot_labeled', 'vot_predicted'])
-
+    if args.csv_file:
+        print "\nWriting labeled / predicted VOT info to %s" % args.csv_file
+        out_file = open(args.csv_file, 'wb')
+        csv_file = csv.writer(out_file)
+        csv_file.writerow(['filename_labeled', 'filename_predicted', 'time_in_labeledF', 'time_in_predictedF',
+                           'tier_in_labeledF', 'tier_in_predictedF', 'vot_labeled', 'vot_predicted'])
         for i, xmin in enumerate(x_xmin):
-            csvF.writerow([x_files[i], y_files[i], str(xmin), str(y_xmin[i]), args.labeled_vot_tier, args.predicted_vot_tier, str(x_vot[i]), str(y_vot[i])])
-
-        outF.close()
-
-    
-
-    #np.array(x_vot
+            csv_file.writerow([x_files[i], y_files[i], str(xmin), str(y_xmin[i]), args.labeled_vot_tier,
+                               args.predicted_vot_tier, str(x_vot[i]), str(y_vot[i])])
+        out_file.close()
