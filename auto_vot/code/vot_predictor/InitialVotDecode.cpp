@@ -63,6 +63,7 @@ int main(int argc, char **argv)
 	string kernel_expansion_name;
 	double sigma;
 	string verbose;
+	bool print_final_results;
 	
 	learning::cmd_line cmdline;
 	cmdline.info("Initial VOT detection - Passive Aggressive decoding");
@@ -76,6 +77,7 @@ int main(int argc, char **argv)
   cmdline.add("-kernel_expansion", "use kernel expansion of type 'poly2' or 'rbf2'", &kernel_expansion_name, "");
   cmdline.add("-sigma", "if kernel is rbf2 or rbf3 this is the sigma", &sigma, 1.0);
 	cmdline.add("-verbose", "log reporting level [ERROR, WARNING, INFO, or DEBUG]", &verbose, "INFO");
+	cmdline.add("-final_results", "print final results in INFO logging", &print_final_results, false);
 	cmdline.add_master_option("instances_filelist", &instances_filelist);
 	cmdline.add_master_option("labels_filename[can be `null` for no labels]", &labels_filename);
 	cmdline.add_master_option("classifier_filename", &classifier_filename);
@@ -219,22 +221,41 @@ int main(int argc, char **argv)
 	// percent misclassified
 	int num_misclassified = neg_mislabeled_pos + pos_mislabeled_neg;
 	int num_corr = num_vots - num_misclassified;
-	LOG(DEBUG) << "Total num misclassified = " << double(num_misclassified)/double(num_vots);
-	LOG(DEBUG) << "Num pos misclassified as neg = " << double(pos_mislabeled_neg)/double(num_pos);
-	LOG(DEBUG) << "Num neg misclassified as pos = " << double(neg_mislabeled_pos)/double(num_neg);
-	
-	// VOT t<= table for correctly classified data only
-	LOG(DEBUG) << "Cumulative VOT loss on correctly classified data = " << cumulative_corr_loss/double(num_corr);
-	for (int j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
-		LOG(DEBUG) << "% corr VOT error (t <= " << loss_resolutions[j] << "ms) = "
-		<< 100.0*cum_corr_loss_less_than[j]/double(num_corr);
+	if (print_final_results) {
+		LOG(INFO) << "Total num misclassified = " << double(num_misclassified)/double(num_vots);
+		LOG(INFO) << "Num pos misclassified as neg = " << double(pos_mislabeled_neg)/double(num_pos);
+		LOG(INFO) << "Num neg misclassified as pos = " << double(neg_mislabeled_pos)/double(num_neg);
+		
+		// VOT t<= table for correctly classified data only
+		LOG(INFO) << "Cumulative VOT loss on correctly classified data = " << cumulative_corr_loss/double(num_corr);
+		for (int j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
+			LOG(INFO) << "% corr VOT error (t <= " << loss_resolutions[j] << "ms) = "
+			<< 100.0*cum_corr_loss_less_than[j]/double(num_corr);
+		}
+		
+		rms_onset_loss /= double(num_vots);
+		rms_onset_loss = sqrt(num_vots);
+		
+		LOG(INFO) << "RMS onset loss: " << rms_onset_loss;
 	}
+	else {
+		LOG(DEBUG) << "Total num misclassified = " << double(num_misclassified)/double(num_vots);
+		LOG(DEBUG) << "Num pos misclassified as neg = " << double(pos_mislabeled_neg)/double(num_pos);
+		LOG(DEBUG) << "Num neg misclassified as pos = " << double(neg_mislabeled_pos)/double(num_neg);
+		
+		// VOT t<= table for correctly classified data only
+		LOG(DEBUG) << "Cumulative VOT loss on correctly classified data = " << cumulative_corr_loss/double(num_corr);
+		for (int j=0; j < sizeof(loss_resolutions)/sizeof(int); j++) {
+			LOG(DEBUG) << "% corr VOT error (t <= " << loss_resolutions[j] << "ms) = "
+			<< 100.0*cum_corr_loss_less_than[j]/double(num_corr);
+		}
+		
+		rms_onset_loss /= double(num_vots);
+		rms_onset_loss = sqrt(num_vots);
+		
+		LOG(DEBUG) << "RMS onset loss: " << rms_onset_loss;
 
-	rms_onset_loss /= double(num_vots);
-	rms_onset_loss = sqrt(num_vots);
-	
-	LOG(DEBUG) << "RMS onset loss: " << rms_onset_loss;
-	
+	}
 	if (output_predictions_filename != "" && output_predictions_ofs.good())
 		output_predictions_ofs.close();
 	
