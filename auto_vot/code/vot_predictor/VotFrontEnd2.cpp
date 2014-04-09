@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 	// process each line
 	if (limit_instances < 0)
 		limit_instances = instances.size();
-	LOG(INFO) << "Processing " << _min(limit_instances,instances.size()) << " examples.";
+	LOG(INFO) << "Processing " << _min(limit_instances,instances.size()) << " instances.";
 	for (unsigned int i=0; i < _min(limit_instances,instances.size()); i++) {
 		
 		LOG(DEBUG) << "Processing " << instances.file_list[i] << " (" << (i+1) << " of " << instances.size() << ")";
