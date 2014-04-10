@@ -71,7 +71,7 @@ if __name__ == "__main__":
     parser.add_argument('--ignore_existing_tiers', help='add a new AutoVOT tier to output textgrids, even if one '
                                                         'already exists (default: don\'t do so)',
                         action='store_const', const=True, default=False)
-    parser.add_argument('--csv_name', help='Write a CSV file with this name with one row per predicited VOT, '
+    parser.add_argument('--csv_file', help='Write a CSV file with this name with one row per predicited VOT, '
                                            'with columns for the prediction and the confidence of the prediction'
                                            ' (default: don\'t do this)', default='')
 
@@ -117,17 +117,17 @@ if __name__ == "__main__":
 
     problematic_files = list()
 
-    csvOut = None
-    if args.csv_name:
+    out_file = None
+    if args.csv_file:
         try:
-            csvF = open(args.csv_name, 'wb')
-            csvOut = csv.writer(csvF)
+            csv_file = open(args.csv_file, 'wb')
+            out_file = csv.writer(csv_file)
         except:
             logging.warning("Couldn't open %s for writing. CSV file not being written." % args.csv_name)
-            csvOut = None
+            out_file = None
 
-    if csvOut:
-        csvOut.writerow(['wav_file', 'time', 'vot', 'confidence'])
+    if out_file:
+        out_file.writerow(['wav_file', 'time', 'vot', 'confidence'])
 
     # run over files
     for wav_file, textgrid_file in zip(wav_files, textgrid_files):
@@ -252,16 +252,15 @@ if __name__ == "__main__":
         if args.logging_level != "DEBUG":
             shutil.rmtree(path=working_dir, ignore_errors=True)
 
-        if csvOut:
+        if out_file:
             for i in xrange(len(xmin_preds) - 1):
-                print i
                 vot, conf = xmax_preds[i] - xmin_preds[i], mark_preds[i]
-                csvOut.writerow([wav_file, str(xmax_preds[i]), str(vot), str(conf)])
+                out_file.writerow([wav_file, str(xmin_preds[i]), str(vot), str(conf)])
             vot, conf = xmax_preds[-1] - xmin_preds[-1], mark_preds[-1]
-            csvOut.writerow([wav_file, str(xmax_preds[-1]), str(vot), str(conf)])
+            out_file.writerow([wav_file, str(xmin_preds[-1]), str(vot), str(conf)])
             
-
-
+    if out_file:
+        csv_file.close()
 
     if len(problematic_files):
         logging.warning("**********************************")
@@ -273,5 +272,3 @@ if __name__ == "__main__":
 
     logging.info("All done.")
 
-    if csvOut:
-        csvF.close()
