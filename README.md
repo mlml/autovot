@@ -64,20 +64,22 @@ Example data was provided jointly by **Meghan Clayards,** [McGill University Spe
 #### Please note: 
 * For a quick-start, skip to the [tutorial section](#tutorial) below after [compiling](#compiling).
 * All commands in this readme should be executed from the command line on a Unix-style system (OS X or Linux).
-* All commands for AutoVOT Version 0.9 have been tested on OS X Mavericks. Any feedback is greatly appreciated!
+* All commands for AutoVOT Version 0.9 have been tested on OS X Mavericks only.
+* Any feedback is greatly appreciated!
 
 
 ## Dependencies
 In order to use AutoVOT you'll need the following installed in addition to the source code provided here:
-* [Python (Version 2.9 or earlier)](https://www.python.org/download/releases/2.7.6>)
+* [Python (Version 2.7 or earlier)](https://www.python.org/download/releases/2.7.6>)
 * [GCC, the GNU Compiler Collection](http://gcc.gnu.org/install/download.html)
-* If you're using Mac OS X you'll need to download a C compiler, as there is no default installed.
-	* [Xcode](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12) contains the full set of compilers.
-	* Alternatively you can download the [Command Line Tools for Xcode](http://developer.apple.com/downloads).
-	* You will need a registered Apple ID to download either package.
+* If you're using Mac OS X you'll need to download GCC, as it isn't installed by default.  You can either:
+	* Install [Xcode](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12), then install Command Line Tools using the Components tab of the Downloads preferences panel.
+	* Download the [Command Line Tools for Xcode](http://developer.apple.com/downloads) as a stand-alone package.
+
+  You will need a registered Apple ID to download either package.
 
 ## Downloading and Installing
-AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.
+* AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.
 
 The code to clone AutoVOT is: 
 
@@ -91,6 +93,7 @@ If you are new to Github, check out the following site for helpful tutorials and
 
 https://help.github.com/articles/set-up-git
 
+* Alternatively, you can download the current version of AutoVOT as a [zip file](https://github.com/mlml/autovot/archive/master.zip), in which case you will not have access to future updates without re-downloading the updated version.
 
 ## Compiling
 
@@ -106,7 +109,7 @@ Then, run:
 
         $ make
 
-Final line of the utput should be:
+Final line of the output should be:
 
         [make] Compiling completed
     
@@ -132,10 +135,10 @@ TODO: Run:
 	* `examples/data/` contains the .wav and .TextGrid files used for training and testing, as well as `makeConfigFiles.sh`, a helper script used to generate file lists.
 		* **Note:** This data contains short utterances with one VOT window per file. Future versions will contain examples with longer files and more instances of VOT per file.
 	* `examples/experiments/` is currently empty and will be used to store file lists, feature files, and classifers generated in the tutorial.
-* **Example classifiers:** `examples/models/` contains three pre-trained classifiers that the user may use if they do not wish to provide their own training data. All example classifiers were used in Sonderegger&Keshet(2012) (above) and correspond to the Big Brother and Big Brother and Paterson/Goldrick Words datasets:
+* **Example classifiers:** `examples/models/` contains three pre-trained classifiers that the user may use if they do not wish to provide their own training data. All example classifiers were used in [Sonderegger & Keshet (2012)](#howtocite) and correspond to the Big Brother and PGWords datasets in that paper:
 	* *Big Brother:* `bb_jasa.classifier`'s are trained on conversational British speech.  Word-initial voiceless stops were included in training. This classifier is best to use if working with *conversational speech*
-	* *Paterson/Goldrick Words:* `nattalia_jasa.classifier` is trained on single-word productions from lab speech: L1 American English and L2 English/L1 Portuguese bilinguals. Word-initial voiceless stops were included in training. This classifier is best to use if working with *lab speech.*
-	* **Note:** For best performance the authors recommend hand-labeling a small subset of VOTs (~100 tokens) from your own data and training new classifiers (see information on training below). 
+	* *PGWords:* `nattalia_jasa.classifier` is trained on single-word productions from lab speech: L1 American English and L2 English/L1 Portuguese bilinguals. Word-initial voiceless stops were included in training. This classifier is best to use if working with *lab speech.*
+	* **Note:** For best performance the authors recommend hand-labeling a small subset of VOTs (~100 tokens) from your own data and training new classifiers (see information on training below). Experiments suggesting this works better than using a classifier pre-trained on another dataset are given in [Sonderegger & Keshet (2012)](#howtocite).
 
 
 ## User provided files and directories
@@ -151,16 +154,16 @@ TODO: Run:
 
 #### TextGrid file format
 * Saved as text files with .TextGrid extension
-* TextGrids for training must contain a tier with hand measured vot intervals. These intervals must have a common text label, such as "vot."
-* TextGrids for testing must contain a tier with window intervals indicating the position the algorithm should begin looking for VOT onset. These intervals must have a common label. For best performance the window intervals should:
+* TextGrids for training must contain a tier with hand measured vot intervals. These intervals must have a common text label, such as "vot".
+* TextGrids for testing must contain a tier with window intervals indicating the range of times where the algorithm should look for the VOT onset. These intervals must also have a common label, such as "window". For best performance the window intervals should:
 	* contain no more than one stop consonant 
 	* contain about 50 msec before the beginning of the burst *or*
-	* if only force-aligned segments are available, contain about 30 msec before the beginning of the burst.
+	* if only force-aligned segments are available (each corresponding to an entire stop), contain about 30 msec before the beginning of the segment.
 
 #### Directory format
-User provided directories should be in the autovot master directory.
+The following user-provided directories should be in the autovot root directory.
 
-*See example data & experiment folders.*
+(*See example data & experiment folders.*)
 
 * `data/train/`: Each embedded folder should contain both TextGrids and corresponding wav files
 * `data/test/`: Each embedded voiced/voiceless folder should contain only TextGrids.
@@ -177,7 +180,7 @@ User provided directories should be in the autovot master directory.
 
 ### AutoVOT allows for two modes of feature extraction:
 
-* **Mode 1 - Covert feature extraction:** The handling of feature extraction is hidden. The training can get cross-validation set or automatically select 20% of the training data.
+* **Mode 1 - Covert feature extraction:** The handling of feature extraction is hidden. When training a classifier sing these features, a cross-validation set can be specified, or a random 20% of the training data will be used.
 * **Mode 2 - Features extracted to a known directory:** Training and decoding is done after feature extraction. Features are extracted to a known directory once after which training and decoding may be done as needed. Mode 2 is recommended if you have a large quantity of data.
 
 ## Feature extraction and training
