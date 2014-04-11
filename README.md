@@ -2,6 +2,7 @@ AutoVOT, v. 0.9
 =======
 **For a quick-start,** first [download and compile the code](#settingup) then go to the [tutorial](#tutorial) section to begin.
 
+<a name="toc"/>
 ##### Table of Contents
 
 **1.** [Acknowledgements](#acknowledgements)
@@ -61,9 +62,10 @@ Example data was provided jointly by **Meghan Clayards,** [McGill University Spe
 # Setting Up
 
 #### Please note: 
-* For a quick-start, skip to the tutorial section below after compiling.
+* For a quick-start, skip to the [tutorial section](#tutorial) below after [compiling](#compiling).
 * All commands in this readme should be executed from the command line on a Unix-style system (OS X or Linux).
 * All commands for AutoVOT Version 0.9 have been tested on OS X Mavericks. Any feedback is greatly appreciated!
+
 
 ## Dependencies
 In order to use AutoVOT you'll need the following installed in addition to the source code provided here:
@@ -119,7 +121,9 @@ TODO: Run:
 
 **Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
 
-## Out of the box: 
+*Back to [top](#toc)*
+
+## Out of the box:
 
 **Files included in this version:**
 
@@ -167,6 +171,8 @@ User provided directories should be in the autovot master directory.
 
 <a name="usage"/>
 # Usage
+*Back to [top](#toc)*
+
 ***Tutorial to follow***
 
 ### AutoVOT allows for two modes of feature extraction:
@@ -389,6 +395,8 @@ User provided directories should be in the autovot master directory.
     
 <a name="tutorial"/>
 # Tutorial
+*Back to [top](#toc)*
+
 ### Arguments used in this example:
 * **TextGrid labels** are all `vot`. This includes tier names and window labels.
 * **File lists** will be generated in the first step of the tutorial and will be located in `experiments/config/`.
@@ -560,6 +568,7 @@ If successful, the command line output will generate Pearson correlations, means
 
 
 ## Possible errors and warnings
+*Back to [top](#toc)*
 
 ##### Missing files
 If you do not have a corresponding wav file for a TextGrid:
@@ -608,3 +617,4 @@ If one of your files does not have the right format, the following error will ap
 * Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. *The Journal of the Acoustical Society of America*, 132(6), 3965-3979.
 
 
+*Back to [top](#toc)*
