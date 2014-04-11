@@ -53,9 +53,9 @@ Copyright (c) 2011-2013 Kyle Gorman, Max Bane, Morgan Sonderegger
 
 Example data was provided jointly by **Meghan Clayards,** [McGill University Speech Learning Lab](http://people.linguistics.mcgill.ca/~meghan.clayards/Research.html) and **Michael Wagner,** [McGill University Prosody Lab](http://prosodylab.org/). Data collection was funded by:
 
-* Social Sciences and Humanities Research Council 410-2011-1062 
-* Canada Research Chair 217849
-* Fonds Québécois de la Recherche sur la Société et la Culture - Nouveau Chercheurs 145433
+* SSHRC #410-2011-1062 
+* Canada Research Chair #217849
+* FQRSC-NC #145433
 
 
 <a name="settingup"/>
