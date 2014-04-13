@@ -134,6 +134,7 @@ TODO: Run:
 * **Tutorial example data:** 
 	* `examples/data/` contains the .wav and .TextGrid files used for training and testing, as well as `makeConfigFiles.sh`, a helper script used to generate file lists.
 		* **Note:** This data contains short utterances with one VOT window per file. Future versions will contain examples with longer files and more instances of VOT per file.
+		* The TextGrids contain 3 tiers, one of which will be used by autovot. The tiers are `phones`, `words`, and `vot`. The `vot` tier contains manually aligned VOT intervals that are labeled "vot"
 	* `examples/experiments/` is currently empty and will be used to store file lists, feature files, and classifers generated in the tutorial.
 * **Example classifiers:** `examples/models/` contains three pre-trained classifiers that the user may use if they do not wish to provide their own training data. All example classifiers were used in [Sonderegger & Keshet (2012)](#howtocite) and correspond to the Big Brother and PGWords datasets in that paper:
 	* *Big Brother:* `bb_jasa.classifier`'s are trained on conversational British speech.  Word-initial voiceless stops were included in training. This classifier is best to use if working with *conversational speech*
@@ -161,16 +162,14 @@ TODO: Run:
 	* if only force-aligned segments are available (each corresponding to an entire stop), contain about 30 msec before the beginning of the segment.
 
 #### Directory format
-The following user-provided directories should be in the autovot root directory.
+The `experiments` folder and its subdirectories should be created by the user in the autovot root directory. 
 
 (*See example data & experiment folders.*)
 
-* `data/train/`: Each embedded folder should contain both TextGrids and corresponding wav files
-* `data/test/`: Each embedded voiced/voiceless folder should contain only TextGrids.
-	* Wav files should be in separate folder.
 * `experiments/config/`: Lists of filenames. See below for more info.
 * `experiments/models/`: Empty. This is where classifiers will be stored.
 * `experiments/tmp_dir/`: Empty. This is where feature extraction will be stored in Mode 2.
+* `data/`: This should contain your data to be run (TextGrids and wav files) and optionally your training data and/or a subset of manually adjusted VOT to check the algorithm's performance. This folder does not have to be in the root autovot folder.
 
 <a name="usage"/>
 # Usage
@@ -183,10 +182,17 @@ The following user-provided directories should be in the autovot root directory.
 * **Mode 1 - Covert feature extraction:** The handling of feature extraction is hidden. When training a classifier sing these features, a cross-validation set can be specified, or a random 20% of the training data will be used.
 * **Mode 2 - Features extracted to a known directory:** Training and decoding is done after feature extraction. Features are extracted to a known directory once after which training and decoding may be done as needed. Mode 2 is recommended if you have a large quantity of data.
 
+
+***Note: All help text may also be viewed from the command line for each .py program using the flag -h***
+
+	For example:
+	auto_vot_performance.py -h
+
+
 ## Feature extraction and training
 
 #### Mode 1:
-##### *Train a classifier to automatically measure VOT, using manually annotated VOTs in a set of textgrids and corresponding wav files. See documentation for usage examples.*
+##### *Train a classifier to automatically measure VOT, using manually annotated VOTs in a set of textgrids and corresponding wav files. See [tutorial](#tutorial) for usage examples.*
 ###### Usage: auto\_vot\_train.py [OPTIONS] wav\_list textgrid\_list model_filename 
 
     Positional Arguments:                   Description:
@@ -400,7 +406,7 @@ The following user-provided directories should be in the autovot root directory.
 # Tutorial
 *Back to [top](#toc)*
 
-### Arguments used in this example:
+### Information for command-line arguments to be used in this example:
 * **TextGrid labels** are all `vot`. This includes tier names and window labels.
 * **File lists** will be generated in the first step of the tutorial and will be located in `experiments/config/`.
 * **Classifier files** will be generated during training and will be located in `experiments/models/`.
@@ -409,14 +415,6 @@ The following user-provided directories should be in the autovot root directory.
 
 
 ## Getting started
-### Make sure directories are properly set up
-* `experiments/` should contain three subfolders, all of which are currently empty: `config`, `models`, `tmp_dir`
-* `data/` should contain two subfolders: `test` and `train`
-	* `train/` should contain two subfolders: `voiced` and `voiceless`, each with wav files and corresponding TextGrids
-		* The TextGrids contain 3 tiers, one of which will be used by autovot. The tiers are `phones`, `words`, and `vot`. The `vot` tier contains manually aligned VOT intervals that are labeled "vot"
-	* `test/` should contain three subfolders: `voiced`, `voiceless`, each containing TextGrids, and `wav`, which should contain all wav files for testing (both voiced and voiceless)
-	* All wav files are sampled at 16kHz.
-	* All textgrids have been saved as text files.
 
 ### Generate file lists
 The user may also provide their own file lists if they prefer.
@@ -482,7 +480,7 @@ If there were any problematic files that couldn't be processed, these will appea
 
 `[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
 
-You can then look at your textgrids, which will have a new tier AutoVOT with predicted VOT intervals. These intervals are labeled with the algorithm's confidence in the predictions. A higher number indicates a more confident prediction.
+You can then look at your textgrids, which will have a new tier AutoVOT with predicted VOT intervals, labeled "pred."
 
 ## Mode 2
 **Recommended for large datasets**
@@ -599,8 +597,6 @@ You can ignore this, but be aware that a VOT in the training data was skipped.
 If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT tier exists already:
 `[auto_vot_decode.py] WARNING: Writing a new AutoVOT tier (in addition to existing one(s))`
 
-
-### Other errors
 
 ##### Wrong file format
 If one of your files does not have the right format, the following error will appear:
