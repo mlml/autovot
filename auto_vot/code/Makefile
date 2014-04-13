@@ -28,9 +28,7 @@ all:
 	@echo "[make] Compiling completed."
 	
 install:
-	@echo "[make] Installing binaries."
-	@for subdir in ${SUBDIRS} ; do ( cd $$subdir ; ${MAKE} ATLAS=$(USE_ATLAS) CONFIGURATION=$(_CONFIGURATION) BINDIR=$(BINDIR) $@) || exit 11 ; done
-	@echo "[make] Installating completed"
+	@echo "[make] Not implemented yet."
 
 clean:
 	@echo "[make] Cleaning all."
