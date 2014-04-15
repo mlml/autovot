@@ -51,7 +51,7 @@ if __name__ == "__main__":
     random_shuffle_data(args.features_filename, args.labels_filename, features_filename_rs, labels_filename_rs)
 
     # Training
-    cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 -C ' \
+    cmd_vot_training = 'VotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 -C ' \
                        '50 %s %s %s' % (args.logging_level, features_filename_rs, labels_filename_rs,
                                         args.model_filename)
     easy_call(cmd_vot_training)

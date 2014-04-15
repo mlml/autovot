@@ -47,7 +47,7 @@ if __name__ == "__main__":
     logging_defaults(args.logging_level)
 
     # decoding
-    cmd_vot_decode = 'InitialVotDecode -final_results -verbose %s -pos_only %s %s %s' % (args.logging_level,
+    cmd_vot_decode = 'VotDecode -final_results -verbose %s -pos_only %s %s %s' % (args.logging_level,
                                                                              args.features_filename,
                                                                           args.labels_filename, args.model_filename)
     easy_call(cmd_vot_decode)

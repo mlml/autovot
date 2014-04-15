@@ -119,11 +119,11 @@ if __name__ == "__main__":
         labels_filename_test = labels_filename_rs + ".test"
         extract_lines(labels_filename_rs, labels_filename_test, instance_range_for_test, has_header=True)
         # Training
-        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 %s %s %s' % \
+        cmd_vot_training = 'VotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 %s %s %s' % \
             (args.logging_level, features_filename_training, labels_filename_training, args.model_filename)
         easy_call(cmd_vot_training)
         # Testing
-        cmd_vot_decode = 'InitialVotDecode -verbose %s %s %s %s' % (args.logging_level, features_filename_test,
+        cmd_vot_decode = 'VotDecode -verbose %s %s %s %s' % (args.logging_level, features_filename_test,
             labels_filename_test, args.model_filename)
         easy_call(cmd_vot_decode)
 
@@ -143,12 +143,12 @@ if __name__ == "__main__":
             features_filename_test, labels_filename_test)
         easy_call(cmd_vot_front_end)
         # Training
-        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 ' \
+        cmd_vot_training = 'VotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 ' \
                            '- C 50 %s %s %s' % (args.logging_level, features_filename_training,
                                                 labels_filename_training, args.model_filename)
         easy_call(cmd_vot_training)
         # Test
-        cmd_vot_decode = 'InitialVotDecode -verbose %s %s %s %s' % (args.logging_level, features_filename_test,
+        cmd_vot_decode = 'VotDecode -verbose %s %s %s %s' % (args.logging_level, features_filename_test,
             labels_filename_test, args.model_filename)
         easy_call(cmd_vot_decode)
 
@@ -157,7 +157,7 @@ if __name__ == "__main__":
         features_filename_training = features_filename_rs
         labels_filename_training = labels_filename_rs
         # Training
-        cmd_vot_training = 'InitialVotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 ' \
+        cmd_vot_training = 'VotTrain -verbose %s -pos_only -vot_loss -epochs 2 -loss_eps 4 -min_vot_length 5 ' \
                            '-C 50 %s %s %s' % (args.logging_level, features_filename_training,
                                                labels_filename_training, args.model_filename)
         easy_call(cmd_vot_training)

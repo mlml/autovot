@@ -177,7 +177,7 @@ if __name__ == "__main__":
         easy_call(cmd_vot_front_end)
 
         # decoding (i.e., generate VOT predictions)
-        cmd_vot_decode = 'InitialVotDecode -verbose %s -max_onset 200 -min_vot_length %d -max_vot_length %d ' \
+        cmd_vot_decode = 'VotDecode -verbose %s -max_onset 200 -min_vot_length %d -max_vot_length %d ' \
                          '-output_predictions %s %s %s %s' % (args.logging_level, args.min_vot_length,
                                                               args.max_vot_length, preds_filename, features_filename,
                                                               labels_filename, args.model_filename)
