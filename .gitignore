@@ -1,8 +1,8 @@
 
 autovot/bin/.idea/
 autovot/bin/.idea/
-autovot/bin/InitialVotDecode
-autovot/bin/InitialVotTrain
+autovot/bin/VotDecode
+autovot/bin/VotTrain
 autovot/bin/VotFrontEnd
 autovot/bin/VotFrontEnd2
 autovot/bin/autovot_extract_features.pyc
