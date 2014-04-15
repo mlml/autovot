@@ -419,9 +419,9 @@ The `experiments` folder and its subdirectories should be created by the user in
 ### Generate file lists
 The user may also provide their own file lists if they prefer.
 
-* Navigate to data and run: 
+* Navigate to experiments and run: 
 
-	`$ ./makeConfigFiles.sh`
+	`$ data/tutorialExample/makeConfigFiles.sh`
 
 * `experiments/config` should now contain 8 files containing lists of the testing/training files, as listed above.
 
