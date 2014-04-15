@@ -98,6 +98,7 @@ https://help.github.com/articles/set-up-git
 ## Compiling
 
 Clean and compile from the `code` directory:
+	
 	$ cd autovot/auto_vot/code
         $ make clean
 
@@ -115,10 +116,14 @@ Final line of the output should be:
     
 
 Finally, add the path to `code` to your `experiments` path:
+***NOTE: THIS STEP MUST BE DONE EVERY TIME YOU OPEN A NEW TERMINAL WINDOW***
+*** TO DO: MOVE THIS SOMEWHERE USEFUL***
 
 	$ cd ../../experiments
-	$ export PATH=$PATH:"$(dirname `pwd`)/autovot/auto_vot/bin"
-        
+	$ export PATH=$PATH:/[YOUR PATH HERE]/autovot/autovot/auto_vot/bin
+	
+	For example:
+	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/auto_vot/bin
 
 **Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
 
