@@ -14,10 +14,10 @@
 ## MS, 1/2014
 ##
 
-trainD="`pwd`/train"
-testD="`pwd`/test"
+trainD="`pwd`/data/tutorialExample/train"
+testD="`pwd`/data/tutorialExample/test"
 
-configD="../experiments/config"
+configD="`pwd`/config"
 
 vlTrTgF="${configD}/voicelessTrainTgList.txt"
 vlTrWavF="${configD}/voicelessTrainWavList.txt"
@@ -39,7 +39,7 @@ then
     rm $vlTrTgF
 fi
 
-for i in `find train/voiceless/*.TextGrid`
+for i in `find ${trainD}/voiceless/*.TextGrid`
 do
     echo "`pwd`/$i" >> $vlTrTgF
 done
@@ -49,7 +49,7 @@ then
     rm $vlTrWavF
 fi
 
-for i in `find train/voiceless/*.wav`
+for i in `find ${trainD}/voiceless/*.wav`
 do
     echo "`pwd`/$i" >> $vlTrWavF
 done
@@ -60,7 +60,7 @@ then
     rm $vdTrTgF
 fi
 
-for i in `find train/voiced/*.TextGrid`
+for i in `find ${trainD}/voiced/*.TextGrid`
 do
     echo "`pwd`/$i" >> $vdTrTgF
 done
@@ -70,7 +70,7 @@ then
     rm $vdTrWavF
 fi
 
-for i in `find train/voiced/*.wav`
+for i in `find ${trainD}/voiced/*.wav`
 do
     echo "`pwd`/$i" >> $vdTrWavF
 done
@@ -82,15 +82,20 @@ then
     rm $vlTeTgF
 fi
 
-if [ -f $vlTeWavF ]
-then
-    rm $vlTeWavF
-fi
-
-for i in `find test/voiceless/*.TextGrid`
+for i in `find ${testD}/voiceless/*.TextGrid`
 do
     echo "`pwd`/$i" >> $vlTeTgF
-    echo "`pwd`/test/wav/`basename ${i/.TextGrid/.wav}`" >> $vlTeWavF
+#echo "`pwd`/test/wav/`basename ${i/.TextGrid/.wav}`" >> $vlTeWavF
+done
+
+if [ -f $vlTeWavF ]
+then
+rm $vlTeWavF
+fi
+
+for i in `find ${testD}/voiceless/*.wav`
+do
+    echo "`pwd`/$i" >> $vlTeWavF
 done
 
 
@@ -100,13 +105,18 @@ then
     rm $vdTeTgF
 fi
 
+for i in `find ${testD}/voiced/*.TextGrid`
+do
+    echo "`pwd`/$i" >> $vdTeTgF
+#echo "`pwd`/test/wav/`basename ${i/.TextGrid/.wav}`" >> $vdTeWavF
+done
+
 if [ -f $vdTeWavF ]
 then
     rm $vdTeWavF
 fi
 
-for i in `find test/voiced/*.TextGrid`
+for i in `find ${testD}/voiced/*.wav`
 do
-    echo "`pwd`/$i" >> $vdTeTgF
-    echo "`pwd`/test/wav/`basename ${i/.TextGrid/.wav}`" >> $vdTeWavF
+    echo "`pwd`/$i" >> $vdTeWavF
 done
