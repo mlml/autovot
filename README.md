@@ -79,7 +79,7 @@ In order to use AutoVOT you'll need the following installed in addition to the s
   You will need a registered Apple ID to download either package.
 
 ## Downloading and Installing
-* AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.
+***AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.***
 
 The code to clone AutoVOT is: 
 
@@ -93,7 +93,7 @@ If you are new to Github, check out the following site for helpful tutorials and
 
 https://help.github.com/articles/set-up-git
 
-* Alternatively, you can download the current version of AutoVOT as a [zip file](https://github.com/mlml/autovot/archive/master.zip), in which case you will not have access to future updates without re-downloading the updated version.
+***Alternatively, you can download the current version of AutoVOT as a [zip file](https://github.com/mlml/autovot/archive/master.zip), in which case you will not have access to future updates without re-downloading the updated version.***
 
 ## Compiling
 
