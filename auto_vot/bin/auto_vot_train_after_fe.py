@@ -26,7 +26,7 @@
 
 
 import argparse
-from autovot.utilities import *
+from helpers.utilities import *
 
 
 if __name__ == "__main__":

@@ -17,16 +17,15 @@
 		EDA0591118420164005FE3E3 /* get_f0s.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = get_f0s.h; sourceTree = "<group>"; };
 		EDA0591318420164005FE3E3 /* infra_dsp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = infra_dsp.cpp; sourceTree = "<group>"; };
 		EDA0591418420164005FE3E3 /* infra_dsp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = infra_dsp.h; sourceTree = "<group>"; };
-		EDA0591518420164005FE3E3 /* InitialVotDecode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InitialVotDecode.cpp; sourceTree = "<group>"; };
-		EDA0591618420164005FE3E3 /* InitialVotTrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InitialVotTrain.cpp; sourceTree = "<group>"; };
 		EDA0591718420164005FE3E3 /* KernelExpansion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KernelExpansion.cpp; sourceTree = "<group>"; };
 		EDA0591818420164005FE3E3 /* KernelExpansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KernelExpansion.h; sourceTree = "<group>"; };
 		EDA0591918420164005FE3E3 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		EDA0591A18420164005FE3E3 /* sigproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sigproc.cpp; sourceTree = "<group>"; };
 		EDA0591B18420164005FE3E3 /* sigproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sigproc.h; sourceTree = "<group>"; };
-		EDA0591C18420164005FE3E3 /* VotFrontEnd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VotFrontEnd.cpp; sourceTree = SOURCE_ROOT; };
 		EDA4DE9518F1CCFD00C826E7 /* WavFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WavFile.cpp; sourceTree = "<group>"; };
 		EDA4DE9618F1CCFD00C826E7 /* WavFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WavFile.h; sourceTree = "<group>"; };
+		EDBFA39518FD93CD00604E20 /* VotDecode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VotDecode.cpp; sourceTree = "<group>"; };
+		EDBFA39618FD93CD00604E20 /* VotTrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VotTrain.cpp; sourceTree = "<group>"; };
 		EDEEAE2E18562A8D009DD90C /* VotFrontEnd2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VotFrontEnd2.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -34,11 +33,10 @@
 		EDA059001842010A005FE3E3 = {
 			isa = PBXGroup;
 			children = (
+				EDBFA39518FD93CD00604E20 /* VotDecode.cpp */,
+				EDBFA39618FD93CD00604E20 /* VotTrain.cpp */,
 				EDA4DE9518F1CCFD00C826E7 /* WavFile.cpp */,
 				EDA4DE9618F1CCFD00C826E7 /* WavFile.h */,
-				EDA0591618420164005FE3E3 /* InitialVotTrain.cpp */,
-				EDA0591518420164005FE3E3 /* InitialVotDecode.cpp */,
-				EDA0591C18420164005FE3E3 /* VotFrontEnd.cpp */,
 				EDEEAE2E18562A8D009DD90C /* VotFrontEnd2.cpp */,
 				EDA0590B18420164005FE3E3 /* Classifier.cpp */,
 				EDA0590C18420164005FE3E3 /* Classifier.h */,

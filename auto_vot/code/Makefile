@@ -21,10 +21,9 @@ all:
 	@echo "[make] Compiling all."
 	@for subdir in ${SUBDIRS} ; do ( cd $$subdir ; ${MAKE} ATLAS=$(USE_ATLAS) CONFIGURATION=$(_CONFIGURATION) BINDIR=$(BINDIR) $@) || exit 10 ; done
 	@mkdir -p ../bin
-	@cp vot_predictor/_$(_ARCH)_$(_CONFIGURATION)/VotFrontEnd ../bin
 	@cp vot_predictor/_$(_ARCH)_$(_CONFIGURATION)/VotFrontEnd2 ../bin
-	@cp vot_predictor/_$(_ARCH)_$(_CONFIGURATION)/InitialVotTrain ../bin
-	@cp vot_predictor/_$(_ARCH)_$(_CONFIGURATION)/InitialVotDecode ../bin
+	@cp vot_predictor/_$(_ARCH)_$(_CONFIGURATION)/VotTrain ../bin
+	@cp vot_predictor/_$(_ARCH)_$(_CONFIGURATION)/VotDecode ../bin
 	@echo "[make] Compiling completed."
 	
 install:
@@ -33,9 +32,8 @@ install:
 clean:
 	@echo "[make] Cleaning all."
 	@for subdir in ${SUBDIRS} ; do ( cd $$subdir ; ${MAKE} clean $@ ) || exit 10 ; done
-	rm -fr ../bin/VotFrontEnd
 	rm -fr ../bin/VotFrontEnd2
-	rm -fr ../bin/InitialVotTrain
-	rm -fr ../bin/InitialVotDecode
+	rm -fr ../bin/VotTrain
+	rm -fr ../bin/VotDecode
 	@echo "[make] Cleaning completed."
 

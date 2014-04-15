@@ -33,11 +33,10 @@ endif
 
 
 # Targets
-all: VotFrontEnd VotFrontEnd2 InitialVotTrain InitialVotDecode
-VotFrontEnd: VotFrontEnd.o   Dataset.o infra_dsp.o FFTReal/FFTReal.cpp get_f0s.o sigproc.o  WavFile.o
+all:  VotFrontEnd2 VotTrain VotDecode
 VotFrontEnd2: VotFrontEnd2.o Dataset.o infra_dsp.o FFTReal/FFTReal.cpp get_f0s.o sigproc.o WavFile.o
-InitialVotTrain: InitialVotTrain.o Classifier.o Dataset.o KernelExpansion.o
-InitialVotDecode: InitialVotDecode.o Classifier.o Dataset.o KernelExpansion.o
+VotTrain: VotTrain.o Classifier.o Dataset.o KernelExpansion.o
+VotDecode: VotDecode.o Classifier.o Dataset.o KernelExpansion.o
 
 #----- Begin Boilerplate
 endif
