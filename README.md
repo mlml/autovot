@@ -116,11 +116,10 @@ Final line of the output should be:
 
 Finally, set the path:
 
-	$ export PATH=$PATH:"$(dirname `pwd`)/bin"
+Naviate to `experiments/`:
+
+	$ export PATH=$PATH:"$(dirname `pwd`)/autovot/auto_vot/bin"
         
-        
-TODO: Run:
-        $ make install
 
 **Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
 
