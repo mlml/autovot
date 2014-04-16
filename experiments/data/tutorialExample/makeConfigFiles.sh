@@ -41,7 +41,7 @@ fi
 
 for i in `find ${trainD}/voiceless/*.TextGrid`
 do
-    echo "`pwd`/$i" >> $vlTrTgF
+    echo "$i" >> $vlTrTgF
 done
 
 if [ -f $vlTrWavF ]
@@ -51,7 +51,7 @@ fi
 
 for i in `find ${trainD}/voiceless/*.wav`
 do
-    echo "`pwd`/$i" >> $vlTrWavF
+    echo "$i" >> $vlTrWavF
 done
 
 
@@ -62,7 +62,7 @@ fi
 
 for i in `find ${trainD}/voiced/*.TextGrid`
 do
-    echo "`pwd`/$i" >> $vdTrTgF
+    echo "$i" >> $vdTrTgF
 done
 
 if [ -f $vdTrWavF ]
@@ -72,7 +72,7 @@ fi
 
 for i in `find ${trainD}/voiced/*.wav`
 do
-    echo "`pwd`/$i" >> $vdTrWavF
+    echo "$i" >> $vdTrWavF
 done
 
 ## create voiceless & voiced test textgrid and wav lists
@@ -84,7 +84,7 @@ fi
 
 for i in `find ${testD}/voiceless/*.TextGrid`
 do
-    echo "`pwd`/$i" >> $vlTeTgF
+    echo "$i" >> $vlTeTgF
 #echo "`pwd`/test/wav/`basename ${i/.TextGrid/.wav}`" >> $vlTeWavF
 done
 
@@ -95,7 +95,7 @@ fi
 
 for i in `find ${testD}/voiceless/*.wav`
 do
-    echo "`pwd`/$i" >> $vlTeWavF
+    echo "$i" >> $vlTeWavF
 done
 
 
@@ -107,7 +107,7 @@ fi
 
 for i in `find ${testD}/voiced/*.TextGrid`
 do
-    echo "`pwd`/$i" >> $vdTeTgF
+    echo "$i" >> $vdTeTgF
 #echo "`pwd`/test/wav/`basename ${i/.TextGrid/.wav}`" >> $vdTeWavF
 done
 
@@ -118,5 +118,5 @@ fi
 
 for i in `find ${testD}/voiced/*.wav`
 do
-    echo "`pwd`/$i" >> $vdTeWavF
+    echo "$i" >> $vdTeWavF
 done
