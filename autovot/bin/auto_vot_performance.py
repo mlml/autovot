@@ -32,8 +32,8 @@ corr2 = scipy.stats.spearmanr
 corr1 = scipy.stats.pearsonr
 
 
-from autovot.textgrid import *
-from autovot.utilities import *
+from helpers.textgrid import *
+from helpers.utilities import *
 
 def num_lines(filename):
     lines = 0
