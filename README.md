@@ -1,5 +1,14 @@
 AutoVOT, v. 0.9
 =======
+
+Joseph Keshet (joseph.keshet@biu.ac.il)             
+Morgan Sonderegger (morgan.sonderegger@mcgill.ca)    
+Thea Knowles (thea.knowles@gmail.com)
+
+This is a beta version of Autovot. Any reports of bugs, comments on how to improve the software or documentation, or questions are greatly appreciated, and should be sent to the authors at the addresses given above.
+
+---
+
 **For a quick-start,** first [download and compile the code](#settingup) then go to the [tutorial](#tutorial) section to begin.
 
 <a name="toc"/>
