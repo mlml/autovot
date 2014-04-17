@@ -105,10 +105,11 @@ https://help.github.com/articles/set-up-git
 ***Alternatively, you can download the current version of AutoVOT as a [zip file](https://github.com/mlml/autovot/archive/master.zip), in which case you will not have access to future updates without re-downloading the updated version.***
 
 ## Compiling
+**Note:** While you only have to clean and compile once, you will have to add the path to `code` to your `experiments` path *every time you open a new terminal window.*
 
 Clean and compile from the `code` directory:
 	
-	$ cd autovot/auto_vot/code
+	$ cd autovot/autovot/code
         $ make clean
 
 If successful, the final line of the output should be:
@@ -124,15 +125,20 @@ Final line of the output should be:
         [make] Compiling completed
     
 
+
+
 Finally, add the path to `code` to your `experiments` path:
-***NOTE: THIS STEP MUST BE DONE EVERY TIME YOU OPEN A NEW TERMINAL WINDOW***
-*** TO DO: MOVE THIS SOMEWHERE USEFUL***
+
+If not working out of the given `experiments` directory, you must add the path to your intended working directory.
+
+***IMPORTANT: YOU MUST ADD THE PATH EVERY TIME YOU OPEN A NEW TERMINAL WINDOW***
+
 
 	$ cd ../../experiments
-	$ export PATH=$PATH:/[YOUR PATH HERE]/autovot/autovot/auto_vot/bin
+	$ export PATH=$PATH:/[YOUR PATH HERE]/autovot/autovot/autovot/bin
 	
 	For example:
-	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/auto_vot/bin
+	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/autovot/bin
 
 **Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
 
@@ -142,7 +148,7 @@ Finally, add the path to `code` to your `experiments` path:
 
 **Files included in this version:**
 
-* **AutoVOT scripts:** `auto_vot/` contains all scripts necessary for user to extract features, train, and decode VOT measurements.
+* **AutoVOT scripts:** `autovot/` contains all scripts necessary for user to extract features, train, and decode VOT measurements.
 * **Tutorial example data:** 
 	* `experiments/data/tutorialExample/` contains the .wav and .TextGrid files used for training and testing, as well as `makeConfigFiles.sh`, a helper script used to generate file lists.
 		* **Note:** This data contains short utterances with one VOT window per file. Future versions will contain examples with longer files and more instances of VOT per file.
@@ -191,8 +197,8 @@ The `experiments` folder contains subdirectories that will be used to store file
 
 ### AutoVOT allows for two modes of feature extraction:
 
-* **Mode 1 - Covert feature extraction:** The handling of feature extraction is hidden. When training a classifier sing these features, a cross-validation set can be specified, or a random 20% of the training data will be used.
-* **Mode 2 - Features extracted to a known directory:** Training and decoding is done after feature extraction. Features are extracted to a known directory once after which training and decoding may be done as needed. Mode 2 is recommended if you have a large quantity of data.
+* **Mode 1 - Covert feature extraction:** The handling of feature extraction is hidden. When training a classifier sing these features, a cross-validation set can be specified, or a random 20% of the training data will be used. The output consists of modified TextGrids with a tier containing VOT prediction intervals.
+* **Mode 2 - Features extracted to a known directory:** Training and decoding is done after feature extraction. Features are extracted to a known directory once after which training and decoding may be done as needed. The output consists of the prediction performance summary. Mode 2 is recommended if you have a large quantity of data. 
 
 
 ***Note: All help text may also be viewed from the command line for each .py program using the flag -h***
@@ -207,114 +213,124 @@ The `experiments` folder contains subdirectories that will be used to store file
 ##### *Train a classifier to automatically measure VOT, using manually annotated VOTs in a set of textgrids and corresponding wav files. See [tutorial](#tutorial) for usage examples.*
 ###### Usage: auto\_vot\_train.py [OPTIONS] wav\_list textgrid\_list model_filename 
 
-    Positional Arguments			Description:
-    
-    wav_lis					Text file listing WAV files
-    textgrid_lis				Text file listing corresponding manually labeled 
-    						TextGrid files
-    model_filename                          	Name of classifiers (output)
+#
 
-    Optional arguments				Description
-    
-    -h, --hel					show this help message and exit
-    --vot_tier VOT_TIE				Name of the tier to extract VOTs from (default: vot)
-    --vot_mark VOT_MAR				Only intervals on the vot_tier with this mark value
-    						(e.g. "vot", "pos", "neg") are used for training, or
-    						"*" for any string (this is the default)
-    --window_min WINDOW_MIN			Left boundary of the window (in msec) relative to the
-    						VOT interval's right boundary. Usually should be
-    						negative, that is, before the VOT interval's left
-    						boundary. (default: -50)
-    --window_max WINDOW_MAX			Right boundary of the window (in msec) relative to the
-    						VOT interval's right boundary. Usually should be
-    						positive, that is, after the VOT interval's right
-    						boundary. (default: 800)
-    --cv_auto					Use 20% of the training set for cross-validation
-    						(default: don't do this)
-    --cv_wav_list CV_WAV_LIST			Text file listing corresponding manually labeled
-    						TextGrid files for cross-validation (default: none)
-    --cv_textgrid_list CV_TEXTGRID_LIS		Text file listing WAV files for cross-validation
-    						(default: none)
-    --max_num_instances MAX_NUM_INSTANCES	Maximum number of instances per file to use (default:
-    						use everything)
-    --logging_level LOGGING_LEVEL		Level of verbosity of information printed out by this
-    						program (DEBUG, INFO, WARNING or ERROR), in order of
-    						increasing verbosity. See
-    						http://docs.python.org/2/howto/logging for
-    						definitions. (default: INFO)
+	Positional arguments:		Function:
+	wav_list              Text file listing WAV files
+	textgrid_list         Text file listing corresponding manually labeled
+                        TextGrid files
+	model_filename        Name of classifiers (output)
+
+	Optional arguments:		Function:
+	-h, --help            show this help message and exit
+  	--vot_tier VOT_TIER   Name of the tier to extract VOTs from (default: vot)
+  	--vot_mark VOT_MARK   Only intervals on the vot_tier with this mark value
+                        (e.g. "vot", "pos", "neg") are used for training, or
+                        "*" for any string (this is the default)
+  	--window_min WINDOW_MIN
+                        Left boundary of the window (in msec) relative to the
+                        VOT interval's right boundary. Usually should be
+                        negative, that is, before the VOT interval's left
+                        boundary. (default: -50)
+  	--window_max WINDOW_MAX
+                        Right boundary of the window (in msec) relative to the
+                        VOT interval's right boundary. Usually should be
+                        positive, that is, after the VOT interval's right
+                        boundary. (default: 800)
+  	--cv_auto             Use 20% of the training set for cross-validation
+                        (default: don't do this)
+  	--cv_wav_list CV_WAV_LIST
+                        Text file listing WAV files for cross-validation
+                        (default: none)
+  	--cv_textgrid_list CV_TEXTGRID_LIST
+                        Text file listing corresponding manually labeled
+                        TextGrid files for cross-validation (default: none)
+  	--max_num_instances MAX_NUM_INSTANCES
+                        Maximum number of instances per file to use (default:
+                        use everything)
+  	--logging_level LOGGING_LEVEL
+                        Level of verbosity of information printed out by this
+                        program (DEBUG, INFO, WARNING or ERROR), in order of
+                        increasing verbosity. See
+                        http://docs.python.org/2/howto/logging for
+                        definitions. (default: INFO)
                 
 
 #### Mode 2: 
 ##### *Extract acoustic features for AutoVOT. To be used before auto_vot_train_after_fe.py or auto_vot_decode_after_fe.py*
 ###### Usage: auto\_vot\_extract\_features.py [OPTIONS] textgrid\_list wav\_list input\_filename features\_filename labels\_filename features_dir
-    
 
-    Positional Arguments:                       Description:
-    
-    textgrid_list                               File listing TextGrid files containing stops to
-		                        			extract features for (input)
-    wav_list                                    File listing corresponding WAV files (input)
-    input_filename                              Name of AutoVOT front end input file (output)
-    features_filename                           Name of AutoVOT front end features file (output)
-    labels_filename                             Name of AutoVOT front end labels file (output)
-    features_dir                                Name of AutoVOT directory for output front end feature files
+	Positional arguments:		Function:
+	textgrid_list         File listing TextGrid files containing stops to
+                        extract features for (input)
+	wav_list              File listing corresponding WAV files (input)
+	input_filename        Name of AutoVOT front end input file (output)
+	features_filename     Name of AutoVOT front end features file (output)
+	labels_filename       Name of AutoVOT front end labels file (output)
+	features_dir          Name of AutoVOT directory for output front end feature
+                        files
 
-    Optional Arguments				Description:
-    
-    -h, --help					show this help message and exit
-    --decoding					Extract features for decoding based on window_tier
-    						(vot_tier is ignored), otherwise extract features for
-    						training based on manual labeling given in the
-    						vot_tier
-    --vot_tier VOT_TIER				Name of the tier containing manually labeled VOTs to
-    						compare automatic measurements to (optional. default
-    						is none)
-    --vot_mark VOT_MARK				On vot_tier, only intervals with this mark value (e.g.
-    						"vot", "pos", "neg") are used, or "*" for any string
-    						(this is the default)
-    --window_tier WINDOW_TIER			Name of the tier containing windows to be searched as
-    						possible starts of the predicted VOT (default: none).
-    						If not given *and* vot_tier given, a window with
-    						boundaries window_min and window_max to the left and
-    						right of the manually labeled VOT will be used . NOTE:
-    						either window_tier or vot_tier must be specified. If
-    						both are specified, window_tier is used, and
-    						window_min and window_max are ignored.
-    --window_mark WINDOW_MARK			VOT is only predicted for intervals on the window tier
-    						with this mark value (e.g. "vot", "pos", "neg"), or
-    						"*" for any string (this is the default)
-    --window_min WINDOW_MIN			window left boundary (in msec) relative to the VOT
-    						right boundary (usually should be negative, that is,
-    						before the VOT right boundary.)
-    --window_max WINDOW_MAX			Right boundary of the window (in msec) relative to the
-    						VOT interval's right boundary. Usually should be
-    						positive, that is, after the VOT interval's right
-    						boundary. (default: 800)
-    --max_num_instances MAX_NUM_INSTANCES	Maximum number of instances per file to use (default:
-    						use everything)
-    --logging_level LOGGING_LEVEL		Level of verbosity of information printed out by this
-    						program (DEBUG, INFO, WARNING or ERROR), in order of
-    						increasing verbosity. See
-    						http://docs.python.org/2/howto/logging for
-    						definitions. (default: INFO)
+	Optional arguments:		Function:
+	-h, --help            show this help message and exit
+	--decoding            Extract features for decoding based on window_tier
+                        (vot_tier is ignored), otherwise extract features for
+                        training based on manual labeling given in the
+                        vot_tier
+	--vot_tier VOT_TIER   Name of the tier containing manually labeled VOTs to
+                        compare automatic measurements to (optional. default
+                        is none)
+	--vot_mark VOT_MARK   On vot_tier, only intervals with this mark value (e.g.
+                        "vot", "pos", "neg") are used, or "*" for any string
+                        (this is the default)
+	--window_tier WINDOW_TIER
+                        Name of the tier containing windows to be searched as
+                        possible starts of the predicted VOT (default: none).
+                        If not given *and* vot_tier given, a window with
+                        boundaries window_min and window_max to the left and
+                        right of the manually labeled VOT will be used . NOTE:
+                        either window_tier or vot_tier must be specified. If
+                        both are specified, window_tier is used, and
+                        window_min and window_max are ignored.
+	--window_mark WINDOW_MARK
+                        VOT is only predicted for intervals on the window tier
+                        with this mark value (e.g. "vot", "pos", "neg"), or
+                        "*" for any string (this is the default)
+	--window_min WINDOW_MIN
+                        window left boundary (in msec) relative to the VOT
+                        right boundary (usually should be negative, that is,
+                        before the VOT right boundary.)
+	--window_max WINDOW_MAX
+                        Right boundary of the window (in msec) relative to the
+                        VOT interval's right boundary. Usually should be
+                        positive, that is, after the VOT interval's right
+                        boundary. (default: 800)
+	--max_num_instances MAX_NUM_INSTANCES
+                        Maximum number of instances per file to use (default:
+                        use everything)
+	--logging_level LOGGING_LEVEL
+                        Level of verbosity of information printed out by this
+                        program (DEBUG, INFO, WARNING or ERROR), in order of
+                        increasing verbosity. See
+                        http://docs.python.org/2/howto/logging for
+                        definitions. (default: INFO)
                   
 
 ##### *Train a classifier to automatically measure VOT, using manually annotated VOTs for which features have already been extracted using auto_vot_extract_features.py, resulting in a set of feature files and labels.*
 ###### Usage: auto\_vot\_train\_after\_fe.py [OPTIONS] features\_filename labels\_filename model\_filename
 
-    Positional Arguments			Description:
-    
-    features_filenam				AutoVOT front end features filename (training)
-    labels_filenam				AutoVOT front end labels filename (training)
-    model_filenam				Name of classifiers (output)
+	Positional arguments:		Function:
+  	features_filename     AutoVOT front end features filename (training)
+  	labels_filename       AutoVOT front end labels filename (training)
+  	model_filename        Name of classifiers (output)
 
-    Optional arguments				Description:
-    -h, --hel					show this help message and exit
-    --logging_level LOGGING_LEVE		Level of verbosity of information printed out by this
-    						program (DEBUG, INFO, WARNING or ERROR), in order of
-    						increasing verbosity. See
-    						http://docs.python.org/2/howto/logging for
-    						definitions. (default: INFO)
+	Optional arguments:		Function:
+	-h, --help            show this help message and exit
+	--logging_level LOGGING_LEVEL
+                        Level of verbosity of information printed out by this
+                        program (DEBUG, INFO, WARNING or ERROR), in order of
+                        increasing verbosity. See
+                        http://docs.python.org/2/howto/logging for
+                        definitions. (default: INFO)
 
 
 ## VOT DECODING
@@ -323,69 +339,83 @@ The `experiments` folder contains subdirectories that will be used to store file
 ##### *Use an existing classifier to measure VOT for stops in a set of textgrids and corresponding wav files.*
 ###### Usage: auto\_vot\_decode.py [OPTIONS] wav\_filename textgrid\_filename model\_filename
 
-    Positional arguments:                       Description:
-    
-    wav_filenames                               Text file listing WAV files.
-    textgrid_filenames                          Text file listing corresponding manually labeled
-                        			TextGrid files containing stops VOT is to be measured for.
-    model_filename                              Name of classifier to be used to measure VOT
+	Positional arguments:		Function:
+	wav_filenames         Text file listing WAV files
+	textgrid_filenames    Text file listing corresponding manually labeled
+                        TextGrid files containing stops VOT is to be measured
+                        for
+	model_filename        Name of classifier to be used to measure VOT
 
-    Optional arguments:                         Description:
-    -h, --help                                  show this help message and exit
-    --vot_tier VOT_TIER                         Name of the tier containing manually labeled VOTs to
-                        			compare automatic measurements to (optional. default
-                        			is none)
-    --vot_mark VOT_MARK                         On vot_tier, only intervals with this mark value (e.g.
-                        			"vot", "pos", "neg") are used, or "*" for any string
-                        			(this is the default)
-    --window_tier WINDOW_TIER                   Name of the tier containing windows to be searched as
-                	 			possible startsof the predicted VOT (default: none).
-                        			If not given *and* vot_tier given, a window with
-                        			boundaries window_min and window_max to the left and
-                        			right of the manually labeled VOT will be used . NOTE:
-                        			either window_tier or vot_tier must be specified. If
-                        			both are specified, window_tier is used, and
-                        			window_min and window_max are ignored.
-    --window_mark WINDOW_MARK                   VOT is only predicted for intervals on the window tier
-                				with this mark value (e.g. "vot", "pos", "neg"), or
-                        			"*" for any string (this is the default)
-    --window_min WINDOW_MIN                     Left boundary of the window (in msec) relative to the
-                        			VOT interval's left boundary.
-    --window_max WINDOW_MAX                     Right boundary of the window (in msec) relative to the
-                        			VOT interval's right boundary. Usually should be
-                        			positive, that is, after the VOT interval's right
-                        			boundary. (default: 800)
-    --min_vot_length MIN_VOT_LENGTH             Minimum allowed length of predicted VOT (in msec)
-                        			(default: 15)
-    --max_vot_length MAX_VOT_LENGTH             Maximum allowed length of predicted VOT (in msec)
-                        			(default: 250)
-    --max_num_instances MAX_NUM_INSTANCES      	Maximum number of instances per file to use (default:
-                        			use everything)
-    --ignore_existing_tiers                     add a new AutoVOT tier to output textgrids, even if
-                        			one already exists (default: don't do so)
-    --logging_level LOGGING_LEVEL               Level of verbosity of information printed out by this
-                        			program (DEBUG, INFO, WARNING or ERROR), in order of
-                        			increasing verbosity. See
-                        			http://docs.python.org/2/howto/logging for
-                        			definitions. (default: INFO)
-    
+	Optional arguments:		Function:
+	-h, --help            show this help message and exit
+	--vot_tier VOT_TIER   Name of the tier containing manually labeled VOTs to
+                        compare automatic measurements to (optional. default
+                        is none)
+	--vot_mark VOT_MARK   On vot_tier, only intervals with this mark value (e.g.
+                        "vot", "pos", "neg") are used, or "*" for any string
+                        (this is the default)
+	--window_tier WINDOW_TIER
+                        Name of the tier containing windows to be searched as
+                        possible startsof the predicted VOT (default: none).
+                        If not given *and* vot_tier given, a window with
+                        boundaries window_min and window_max to the left and
+                        right of the manually labeled VOT will be used . NOTE:
+                        either window_tier or vot_tier must be specified. If
+                        both are specified, window_tier is used, and
+                        window_min and window_max are ignored.
+	--window_mark WINDOW_MARK
+                        VOT is only predicted for intervals on the window tier
+                        with this mark value (e.g. "vot", "pos", "neg"), or
+                        "*" for any string (this is the default)
+	--window_min WINDOW_MIN
+                        Left boundary of the window (in msec) relative to the
+                        VOT interval's left boundary.
+	--window_max WINDOW_MAX
+                        Right boundary of the window (in msec) relative to the
+                        VOT interval's right boundary. Usually should be
+                        positive, that is, after the VOT interval's right
+                        boundary. (default: 800)
+	--min_vot_length MIN_VOT_LENGTH
+                        Minimum allowed length of predicted VOT (in msec)
+                        (default: 15)
+	--max_vot_length MAX_VOT_LENGTH
+                        Maximum allowed length of predicted VOT (in msec)
+                        (default: 250)
+	--max_num_instances MAX_NUM_INSTANCES
+                        Maximum number of instances per file to use (default:
+                        use everything)
+	--ignore_existing_tiers
+                        add a new AutoVOT tier to output textgrids, even if
+                        one already exists (default: don't do so)
+	--csv_file CSV_FILE   Write a CSV file with this name with one row per
+                        predicited VOT, with columns for the prediction and
+                        the confidence of the prediction (default: don't do
+                        this)
+	--logging_level LOGGING_LEVEL
+                        Level of verbosity of information printed out by this
+                        program (DEBUG, INFO, WARNING or ERROR), in order of
+                        increasing verbosity. See
+                        http://docs.python.org/2/howto/logging for
+                        definitions. (default: INFO)
+                        
 
 #### Mode 2
 ##### *Decoding when features have already been extracted*
 ###### Usage: auto_vot_decode_after_fe.py [OPTIONS] features_filename labels_filename model_filename
 
-    Positional arguments:                       Description:
-    features_filename                           AutoVOT front end features filename (training)
-    labels_filename                             AutoVOT front end labels filename (training)
-    model_filename                              Name of classifier to be used to measure VOT
+	Positional arguments:		Function:
+	features_filename     AutoVOT front end features filename (training)
+	labels_filename       AutoVOT front end labels filename (training)
+	model_filename        Name of classifier to be used to measure VOT
 
-    Optional arguments:                         Description:
-    -h, --help                                  show this help message and exit
-    --logging_level LOGGING_LEVEL               Level of verbosity of information printed out by this
-                        			program (DEBUG, INFO, WARNING or ERROR), in order of
-                        			increasing verbosity. See
-                        			http://docs.python.org/2/howto/logging for
-                        			definitions. (default: INFO)
+	Optional arguments:		Function:
+	-h, --help            show this help message and exit
+	--logging_level LOGGING_LEVEL
+                        Level of verbosity of information printed out by this
+                        program (DEBUG, INFO, WARNING or ERROR), in order of
+                        increasing verbosity. See
+                        http://docs.python.org/2/howto/logging for
+                        definitions. (default: INFO)
 
 
 ## Check Performance
@@ -393,25 +423,25 @@ The `experiments` folder contains subdirectories that will be used to store file
 ###### Usage: auto_vot_performance.py [OPTIONS] labeled_textgrid_list predicted_textgrid_list labeled_vot_tier predicted_vot_tier [OPTIONS]
 
 
+	Positional arguments:		Function:
+	labeled_textgrid_list
+                        textfile listing TextGrid files containing manually
+                        labeled VOTs (one file per line)
+	predicted_textgrid_list
+                        textfile listing TextGrid files containing predicted
+                        VOTs (one file per line). This can be the same as
+                        labeled_textgrid_list, provided two different tiers
+                        are given for labeled_vot_tier and predicted_vot_tier.
+	labeled_vot_tier      name of the tier containing manually labeled VOTs in
+                        the TextGrids in labeled_textgrid_list (default: vot)
+	predicted_vot_tier    name of the tier containing automatically labeled VOTs
+                        in the TextGrids in predicted_textgrid_list (default:
+                        AutoVOT)
 
-
-	Positional arguments:			Description:
-  	labeled_textgrid_list			textfile listing TextGrid files containing manually
-			                        labeled VOTs (one per line)
-  	predicted_textgrid_list                 textfile listing TextGrid files containing predicted
-                        			VOTs (one per line). This can be the same as
-                        			labeled_textgrid_list, provided two different tiers
-                        			are given for labeled_vot_tier and predicted_vot_tier.
-	labeled_vot_tier      			name of the tier containing manually labeled VOTs in
-                        			the TextGrids in labeled_textgrid_list (default: vot)
-  	predicted_vot_tier    			name of the tier containing automatically labeled VOTs
-                        			in the TextGrids in predicted_textgrid_list (default:
-                        			AutoVOT)
-
-	Optional arguments:
-  	-h, --help            			show this help message and exit
-  	--csvF CSVF           			csv file to dump labeled and predicted VOT info to
-                        			(default: none)
+	Optional arguments:		Function:
+	-h, --help            show this help message and exit
+	--csv_file CSV_FILE   csv file to dump labeled and predicted VOT info to
+                        (default: none)
     
     
 <a name="tutorial"/>
@@ -484,7 +514,7 @@ For voiced:
 	--max_vot_length 100 config/voicedTestWavList.txt \
 	config/voicedTestTgList.txt models/VoicedModel.classifier
 
-If successful, you'll see information printed out about how many examples in each file were successfully decoded. After all files have been processed, you'll see the message:
+If successful, you'll see information printed out about how many instances in each file were successfully decoded. After all files have been processed, you'll see the message:
 
 `[auto_vot_decode.py] INFO: All done.`
 
@@ -492,7 +522,7 @@ If there were any problematic files that couldn't be processed, these will appea
 
 `[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
 
-You can then look at your textgrids, which will have a new tier AutoVOT with predicted VOT intervals, labeled "pred."
+Your TextGrids will be overwritten with a new tier called AutoVOT containing VOT predictions. These intervals will be labeled "pred".
 
 ## Mode 2
 **Recommended for large datasets**
@@ -540,7 +570,7 @@ If training is successful classifier files will be generated in `experiments/mod
 `[InitialVotTrain] INFO: Training completed.`
 
 ### Decoding
-**Note:** If you wish to produce predictions in the TextGrids, you may perform Mode 1 decoding using the classifiers produced from Mode 2 training.
+**Note:** Mode 2 decoding outputs a summary of the predictions' performance, **not** modified TextGrids containing predictions. If you wish to produce predictions in the TextGrids, you may perform Mode 1 decoding using the classifiers produced from Mode 2 training.
 
 For voiceless:
 
@@ -552,17 +582,27 @@ For voiced:
 	auto_vot_decode_after_fe.py --log=INFO config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt models/VoicedModel_ver2.classifier
 
-If decoding is successful you'll see the following output message: 
+If decoding is successful you will see a summary of the average performance of the VOT predictions based on the test set. You can use this summary output to tweak training parameters to fine-tune your output without having to re-extract features.
 
-`[InitialVotDecode] INFO: Decoding completed.`
+Example output: 
 
-As with Mode 1, if there were any problematic files that couldn't be processed, these will appear at the end, with the message:
-
-`[auto_vot_train.py] WARNING: Look for lines beginning with WARNING or ERROR in the program's output to see what went wrong.`
+	[VotDecode] INFO: Total num misclassified = 0
+	[VotDecode] INFO: Num pos misclassified as neg = 0
+	[VotDecode] INFO: Num neg misclassified as pos = nan
+	[VotDecode] INFO: Cumulative VOT loss on correctly classified data = 2.10667
+	[VotDecode] INFO: % corr VOT error (t <= 2ms) = 77.3333
+	[VotDecode] INFO: % corr VOT error (t <= 5ms) = 92
+	[VotDecode] INFO: % corr VOT error (t <= 10ms) = 97.3333
+	[VotDecode] INFO: % corr VOT error (t <= 15ms) = 100
+	[VotDecode] INFO: % corr VOT error (t <= 20ms) = 100
+	[VotDecode] INFO: % corr VOT error (t <= 25ms) = 100
+	[VotDecode] INFO: % corr VOT error (t <= 50ms) = 100
+	[VotDecode] INFO: RMS onset loss: 8.66025
+	[VotDecode] INFO: Decoding completed.
 
 
 ## Check Performance (after either Mode 1 or Mode 2)
-It is possible to compare the performance of the algorithm to a subset of manually measured VOT. If you would like to do this, generate a list of the TextGrids included in your test data that also have manual measurements. You may choose to either keep these TextGrids separate, in a distinct directory in which case you will need two lists of TextGrids. You may also simply include TextGrids in your test data that have an additional tier containing the manual annotation (just be sure that the tier name is distinct from your window tier and AutoVOT tier. In this case, you would need to only reference the single TextGrid list. The script optionally outputs a CSV file with information about the VOT start time and duration in the manual and automatic measurement tiers. 
+It is possible to compare the performance of the algorithm to a development set of manually measured VOT. If you would like to do this, generate a list of the TextGrids included in your test data that also have manual measurements. You may choose to either keep these TextGrids separate, in a distinct directory in which case you will need two lists of TextGrids. You may also simply include TextGrids in your test data that have an additional tier containing the manual annotation (just be sure that the tier name is distinct from your window tier and AutoVOT tier. In this case, you would need to only reference the single TextGrid list. The script optionally outputs a CSV file with information about the VOT start time and duration in the manual and automatic measurement tiers. 
 
 **Note:** This tutorial does not include this component, but the following section will provide an example of how it can be used with your data. Example arguments include:
 
