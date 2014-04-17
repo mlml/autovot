@@ -448,7 +448,7 @@ The `experiments` folder contains subdirectories that will be used to store file
 # Tutorial
 *Back to [top](#toc)*
 
-### Information for command-line arguments to be used in this example:
+#### Information for command-line arguments to be used in this example:
 * **TextGrid labels** are all `vot`. This includes tier names and window labels.
 * **File lists** will be generated in the first step of the tutorial and will be located in `experiments/config/`.
 * **Classifier files** will be generated during training and will be located in `experiments/models/`.
@@ -627,6 +627,12 @@ If successful, the command line output will generate Pearson correlations, means
 If you do not have a corresponding wav file for a TextGrid:
 `ERROR: Number of TextGrid files should match the number of WAVs`
 
+##### Wrong file format
+If one of your files does not have the right format, the following error will appear:
+
+`ERROR: *filename*.wav is not a valid WAV.`
+`ERROR: *filename*.TextGrid is not a valid TextGrid.`
+
 ### Warnings during Training:
 
 ##### Short VOT in training data
@@ -650,11 +656,6 @@ If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT 
 `[auto_vot_decode.py] WARNING: Writing a new AutoVOT tier (in addition to existing one(s))`
 
 
-##### Wrong file format
-If one of your files does not have the right format, the following error will appear:
-
-`ERROR: *filename*.wav is not a valid WAV.`
-`ERROR: *filename*.TextGrid is not a valid TextGrid.`
 
 <a name="citing"/>
 ## How do I Cite AutoVOT in my articles?
