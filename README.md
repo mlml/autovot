@@ -135,10 +135,10 @@ If not working out of the given `experiments` directory, you must add the path t
 
 
 	$ cd ../../experiments
-	$ export PATH=$PATH:/[YOUR PATH HERE]/autovot/autovot/autovot/bin
+	$ export PATH=$PATH:/[YOUR PATH HERE]/autovot/autovot/bin
 	
 	For example:
-	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/autovot/bin
+	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/bin
 
 **Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
 
