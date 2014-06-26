@@ -30,6 +30,8 @@ import os
 import tempfile
 import shutil
 import csv
+from itertools import izip
+import numpy as np
 
 from auto_vot_extract_features import *
 from helpers.utilities import *
@@ -89,6 +91,8 @@ if __name__ == "__main__":
     args.window_max /= 1000.0   # convert msec to seconds
     tier_definitions.extract_definition(args)
 
+    wav_files = list()
+    textgrid_files = list()
     if is_valid_wav(args.wav_filenames) and is_textgrid(args.textgrid_filenames):
         logging.info("Input arguments consist of a single WAV and a single TextGrid.")
         wav_files = [args.wav_filenames]
@@ -196,20 +200,28 @@ if __name__ == "__main__":
         xmax_preds = list()
         mark_preds = list()
         k = 0
-        for line in open(preds_filename):
-            (confidence, xmin, xmax) = line.strip().split()
+        feature_filelist = [line.strip() for line in open(features_filename)]
+        vot_predictions = [line.strip() for line in open(preds_filename)]
+        for feature_filename, vot_prediction in izip(feature_filelist, vot_predictions):
+            (confidence, xmin, xmax) = vot_prediction.split()
             xmin = float(xmin)
             xmax = float(xmax)
+            # check pre-voicing
+            features = np.loadtxt(feature_filename.rstrip(), skiprows=1)
+            rapt_voicing_feature = features[:, 7]
+            converted_rapt_voicing = np.where(rapt_voicing_feature < 0.01, -1, 1)
+            prevoicing_decision = np.mean(converted_rapt_voicing[xmin:xmax]) > 0
             if xmin < xmax:  # positive VOT
                 xmin_preds.append(xmin_proc_win[k] + xmin/1000)
                 xmax_preds.append(xmin_proc_win[k] + xmax/1000)
-                mark_preds.append(confidence)
+                if prevoicing_decision:
+                    mark_preds.append("-"+confidence)
+                else:
+                    mark_preds.append(confidence)
             else:  # negative VOT
                 xmin_preds.append(xmin_proc_win[k] + xmax/1000)
                 xmax_preds.append(xmin_proc_win[k] + xmin/1000)
                 mark_preds.append("neg " + confidence)
-                # print confidence, (xmin/1000), (xmax/1000), xmin_proc_win[k], " --> ", xmin_proc_win[k] + (xmin/1000), \
-                #     xmin_proc_win[k] + (xmax/1000), " [", confidence, "]"
             k += 1
 
         # add "AutoVOT" tier to textgrid_filename

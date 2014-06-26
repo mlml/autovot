@@ -45,3 +45,7 @@ autovot/code/vot_predictor/vot_joint.xcodeproj/xcuserdata/jkeshet.xcuserdatad/xc
 autovot/code/vot_predictor/vot_joint.xcodeproj/xcuserdata/jkeshet.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
 autovot/code/vot_predictor/vot_joint.xcodeproj/xcuserdata/
 experiments2/
+autovot/bin/auto_vot_extract_features.pyc
+autovot/bin/helpers/__init__.pyc
+autovot/bin/helpers/textgrid.pyc
+autovot/bin/helpers/utilities.pyc
