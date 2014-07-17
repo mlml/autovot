@@ -18,7 +18,7 @@ if numberOfSelected ("Sound") <> 1 or numberOfSelected ("TextGrid") <> 1
     exit Please select a Sound and a TextGrid first.
 endif
 form AutoVOT - automatic prediction of VOTs
-    text Window_tier 'Processing Window'
+    text Window_tier SearchVotTier 
 endform
 sound = selected ("Sound")
 textgrid = selected ("TextGrid")
