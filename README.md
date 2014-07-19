@@ -14,57 +14,18 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 <a name="toc"/>
 ##### Table of Contents
 
-**1.** [Acknowledgements](#acknowledgements)
+**1.** [Setting up](#settingup)
 
-**2.** [Setting up](#settingup)
+**2.** [Usage](#usage)
 
-**3.** [Usage](#usage)
+**3.** [Tutorial](#tutorial)
 
-**4.** [Tutorial](#tutorial)
+**4.** [Citing AutoVOT](#citing)
 
-**5.** [Citing AutoVOT](#citing)
+**5.** [Acknowledgements](#acknowledgements)
 
 
 
-<a name="acknowledgements"/>
-## Acknowledgements
-
-### Code
-This software incorporates code from several open-source projects:
-
-#### FFTReal
-FFTReal, Version 1.02, 2001/03/27
-
-Fourier transformation (FFT, IFFT) library specialised for real data.
-
-Copyright (c) by Laurent de Soras <laurent.de.soras@club-internet.fr>
-
-Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
-
-#### get_f0, sigproc
-get_f0.c estimates F0 using normalized cross correlation and dynamic programming. 
-sigproc.c is a collection of pretty generic signal-processing routines.
-
-Written and revised by: Derek Lin and David Talkin
-
-Copyright (c) 1990-1996 Entropic Research Laboratory, Inc. All rights reserved
-
-This software has been licensed to the Centre of Speech Technology, KTH by Microsoft Corp. with the terms in the accompanying file BSD.txt, which is a BSD style license.
-
-#### textgrid.py
-Python classes for Praat TextGrid and TextTier files (and HTK .mlf files)
-
-[http://github.com/kylebgorman/textgrid.py/](http://github.com/kylebgorman/textgrid.py/)
-
-Copyright (c) 2011-2013 Kyle Gorman, Max Bane, Morgan Sonderegger
-
-### Example data
-
-Example data was provided jointly by **Meghan Clayards,** [McGill University Speech Learning Lab](http://people.linguistics.mcgill.ca/~meghan.clayards/Research.html) and **Michael Wagner,** [McGill University Prosody Lab](http://prosodylab.org/). Data collection was funded by:
-
-* SSHRC #410-2011-1062 
-* Canada Research Chair #217849
-* FQRSC-NC #145433
 
 
 <a name="settingup"/>
@@ -79,13 +40,16 @@ Example data was provided jointly by **Meghan Clayards,** [McGill University Spe
 
 ## Dependencies
 In order to use AutoVOT you'll need the following installed in addition to the source code provided here:
-* [Python (Version 2.7 or earlier)](https://www.python.org/download/releases/2.7.6>)
 * [GCC, the GNU Compiler Collection](http://gcc.gnu.org/install/download.html)
+* [Python (Version 2.7 or earlier)](https://www.python.org/download/releases/2.7.6>)
+* If you're using Python version 2.6 or earlier, you will need to install the argparse module (which is installed by default in Python 2.7), e.g. by running `easy_install argparse` on the command line.
 * If you're using Mac OS X you'll need to download GCC, as it isn't installed by default.  You can either:
 	* Install [Xcode](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12), then install Command Line Tools using the Components tab of the Downloads preferences panel.
 	* Download the [Command Line Tools for Xcode](http://developer.apple.com/downloads) as a stand-alone package.
 
   You will need a registered Apple ID to download either package.
+
+
 
 ## Downloading and Installing
 ***AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.***
@@ -668,5 +632,45 @@ If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT 
 
 * Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. *The Journal of the Acoustical Society of America*, 132(6), 3965-3979.
 
+
+<a name="acknowledgements"/>
+## Acknowledgements
+
+### Code
+This software incorporates code from several open-source projects:
+
+#### FFTReal
+FFTReal, Version 1.02, 2001/03/27
+
+Fourier transformation (FFT, IFFT) library specialised for real data.
+
+Copyright (c) by Laurent de Soras <laurent.de.soras@club-internet.fr>
+
+Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
+
+#### get_f0, sigproc
+get_f0.c estimates F0 using normalized cross correlation and dynamic programming. 
+sigproc.c is a collection of pretty generic signal-processing routines.
+
+Written and revised by: Derek Lin and David Talkin
+
+Copyright (c) 1990-1996 Entropic Research Laboratory, Inc. All rights reserved
+
+This software has been licensed to the Centre of Speech Technology, KTH by Microsoft Corp. with the terms in the accompanying file BSD.txt, which is a BSD style license.
+
+#### textgrid.py
+Python classes for Praat TextGrid and TextTier files (and HTK .mlf files)
+
+[http://github.com/kylebgorman/textgrid.py/](http://github.com/kylebgorman/textgrid.py/)
+
+Copyright (c) 2011-2013 Kyle Gorman, Max Bane, Morgan Sonderegger
+
+### Example data
+
+Example data was provided jointly by **Meghan Clayards,** [McGill University Speech Learning Lab](http://people.linguistics.mcgill.ca/~meghan.clayards/Research.html) and **Michael Wagner,** [McGill University Prosody Lab](http://prosodylab.org/). Data collection was funded by:
+
+* SSHRC #410-2011-1062 
+* Canada Research Chair #217849
+* FQRSC-NC #145433
 
 *Back to [top](#toc)*
