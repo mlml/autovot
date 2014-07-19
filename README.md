@@ -22,9 +22,7 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 
 **4.** [Citing AutoVOT](#citing)
 
-**5.** [Citing AutoVOT](#citing)
-
-**6.** [Acknowledgements](#acknowledgements)
+**5.** [Acknowledgements](#acknowledgements)
 
 
 <a name="settingup"/>
