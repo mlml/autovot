@@ -25,9 +25,6 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 **5.** [Acknowledgements](#acknowledgements)
 
 
-
-
-
 <a name="settingup"/>
 # Setting Up
 
@@ -672,5 +669,9 @@ Example data was provided jointly by **Meghan Clayards,** [McGill University Spe
 * SSHRC #410-2011-1062 
 * Canada Research Chair #217849
 * FQRSC-NC #145433
+
+### Feedback
+
+We thank Eivind Torgersen for feedback on the code.
 
 *Back to [top](#toc)*
