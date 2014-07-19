@@ -672,6 +672,3 @@ Example data was provided jointly by **Meghan Clayards,** [McGill University Spe
 We thank Eivind Torgersen for feedback on the code.
 
 *Back to [top](#toc)*
-
-
-*Back to [top](#toc)*
