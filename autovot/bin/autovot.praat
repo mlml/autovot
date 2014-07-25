@@ -36,7 +36,7 @@ selectObject: sound, textgrid
 selected_tier_name = 1
 min_vot_length = 5
 max_vot_length = 500
-vot_classifier_model$ = "../models/vot_predictor.amanda.max_num_instances_1000.model"
+vot_classifier_model$ = "models/vot_predictor.amanda.max_num_instances_1000.model"
 beginPause: "AutoVOT"
 	comment: "This is a script for automatic measurement of voice onset time (VOT)"
 	optionMenu: "Select tier", selected_tier_name
@@ -48,7 +48,7 @@ beginPause: "AutoVOT"
     comment: "The script directory is:"
     comment: defaultDirectory$
     comment: "Training model files (relative to the above directory):"
-    text: "vot classifier model", "../models/vot_predictor.amanda.max_num_instances_1000.model"
+    text: "vot classifier model", "models/vot_predictor.amanda.max_num_instances_1000.model"
 endPause: "Next", 1
 #appendInfoLine: "selected_tier_name=", select_tier$
 #appendInfoLine: "min_vot_length=", min_vot_length
@@ -75,9 +75,14 @@ sound_filename$ = temporaryDirectory$ + "/" + sound_name$ + ".wav"
 #appendInfoLine: "Saving ", name$, " as ", sound_filename$
 current_rate = Get sample rate
 if current_rate <> 16000
-	exitScript:  "The Sound object should have the following properties: 16000Hz, 16bit, 1 channel. Please convert it."
+	#exitScript:  "The Sound object should have the following properties: 16000Hz, 16bit, 1 channel. Please convert it."
+	appendInfoLine: "Resampling Sound object to 16000 Hz."
+	Resample... 16000 50
+	Save as WAV file: sound_filename$
+	Remove
+else
+	Save as WAV file: sound_filename$
 endif
-Save as WAV file: sound_filename$
 selectObject: textgrid
 textgrid_name$ = selected$( "TextGrid")
 #appendInfoLine: "name=", name$
@@ -88,6 +93,7 @@ Save as text file: textgrid_filename$
 selectObject: sound, textgrid
 
 # call vot prediction
+log_filename$ = temporaryDirectory$  + "/cmd_line.log"
 exec_name$ = "export PATH=$PATH:.;  auto_vot_decode.py "
 #vot_classifier_model$ = "../models/vot_predictor.amanda.max_num_instances_1000.model"
 exec_params$ = "--min_vot_length " +  string$(min_vot_length) 
@@ -95,11 +101,16 @@ exec_params$ = exec_params$ + " --max_vot_length " +  string$(max_vot_length)
 exec_params$ = exec_params$ + " --window_tier " + "'" + select_tier$ + "'"
 cmd_line$ = exec_name$ + exec_params$
 cmd_line$ = cmd_line$ + " " + sound_filename$ + " " + textgrid_filename$ 
-cmd_line$ = cmd_line$ + " " + defaultDirectory$ + "/" + vot_classifier_model$
+cmd_line$ = cmd_line$ + " " + vot_classifier_model$
+cmd_line$ = cmd_line$ + " > " + log_filename$ + " 2>&1"
 appendInfoLine: "Executing in the shell the following command:"
 appendInfoLine: cmd_line$
 system 'cmd_line$'
+appendInfoLine: "Output:"
+log_text$ = readFile$ (log_filename$)
+appendInfoLine: log_text$
 appendInfoLine: "Done."
+
 
 # read new TextGrid
 system cp 'textgrid_filename$' 'new_textgrid_filename$'
