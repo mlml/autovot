@@ -5,6 +5,11 @@ Joseph Keshet (joseph.keshet@biu.ac.il)
 Morgan Sonderegger (morgan.sonderegger@mcgill.ca)    
 Thea Knowles (thea.knowles@gmail.com)
 
+Autovot is a software package for automatic measurement of voice onset time (VOT), using an algorithm which is trained to mimic VOT measurement by human annotators. It works as follows:
+* The user provides wav files containing a number of stop consonants, and corresponding Praat TextGrids containing some information about roughly where each stop consonant is located.
+* A classifier is used to find the VOT for each stop consonant, and add a new tier to each TextGrid containing these measurements.
+* The user can either use a pre-existing classifier, or (recommended) train a new one using a small number (~100) of manually-labeled VOTs from their own data.
+
 This is a beta version of Autovot. Any reports of bugs, comments on how to improve the software or documentation, or questions are greatly appreciated, and should be sent to the authors at the addresses given above.
 
 ---
