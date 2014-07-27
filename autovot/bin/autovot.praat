@@ -15,6 +15,8 @@
 
 clearinfo
 
+writeInfoLine: "AutoVOT ver. 0.91"
+
 # save files to a temporary directory
 if numberOfSelected ("Sound") <> 1 or numberOfSelected ("TextGrid") <> 1
     exit Please select a Sound and a TextGrid first.
@@ -54,19 +56,6 @@ endPause: "Next", 1
 #appendInfoLine: "min_vot_length=", min_vot_length
 #appendInfoLine: "max_vot_length=", max_vot_length
 #appendInfoLine: "model=", vot_classifier_model$
-
-
-#form AutoVOT
-#    comment This is a script for automatic measurement of voice onset time (VOT), using
-#    comment an algorithm which is trained to mimic VOT measurement by human annotators.
-#    comment Please select a Sound object and a TextGrid object and specify the name
-#    comment of the tier with interval roughly specify where each stop consonant is located.
-#    text Window_tier SearchVotTier
-#    positive Min_vot_length 5
-#    positive Max_vot_length 500
-#    comment Location of the training model (relative to the path above):
-#    text Vot_classifier_model ../models/vot_predictor.amanda.max_num_instances_1000.model 
-#endform
 
 selectObject: sound
 sound_name$ = selected$( "Sound")
@@ -110,7 +99,13 @@ appendInfoLine: "Output:"
 log_text$ = readFile$ (log_filename$)
 appendInfoLine: log_text$
 appendInfoLine: "Done."
-
+appendInfoLine: " "
+appendInfoLine: "Please cite:"
+appendInfoLine: "Sonderegger, M., & Keshet, J. (2012). Automatic measurement of "
+appendInfoLine: "voice onset time using discriminative structured predictions. The"
+appendInfoLine: "Journal of the Acoustical Society of America, 132(6), 3965-3979."
+appendInfoLine: " "
+appendInfoLine: " send comments to keshet@biu.ac.il"
 
 # read new TextGrid
 system cp 'textgrid_filename$' 'new_textgrid_filename$'
