@@ -978,28 +978,21 @@ double Classifier::predict(SpeechUtterance& x, VotLocation &y_hat, bool pos_only
 	
 	VotLocation y_hat_pos, y_hat_neg;
 	
-	// changed 3/29/10 for (0,length-1) basis
-	int	max_onset = _min(max_onset_time, int(x.size()-1));
+	int phi_span = 15;
 	
-	//for (int onset = 1; onset < max_onset; onset++) {
+	int	max_onset = _min(max_onset_time, int(x.size()-min_vot_length-phi_span-1));
+	
 	for (int onset = 0; onset < max_onset; onset++) {
-		int min_vot = _min(onset + min_vot_length, int(x.size()-15-1));
-		int max_vot = _min(onset + max_vot_length, int(x.size()-15-1));
-		//    for (int offset = min_vot; offset < max_vot; offset++) {
-		///std::cout << "onset= " << onset << " min_vot= " << min_vot << " max_vot= " << max_vot << " x.size= " << x.size() << std::endl;
+		int min_vot = _min(onset + min_vot_length, int(x.size()-phi_span-1));
+		int max_vot = _min(onset + max_vot_length, int(x.size()-phi_span-1));
+		//std::cout << "onset= " << onset << " min_vot= " << min_vot << " max_vot= " << max_vot << " x.size= " << x.size() << std::endl;
 		for (int offset = min_vot; offset <= max_vot; offset++) {
 			VotLocation y_temp;
 			y_temp.burst = onset;
 			y_temp.voice = offset;
 
 			if (w_pos*phi_pos(x,y_temp) > D_pos) {
-				///std::cout << "burst= " << y_temp.burst << " voice= " << y_temp.voice << " wx=" << w_pos*phi_pos(x,y_temp) << std::endl;
-				///if ( (y_temp.burst==49 && y_temp.voice==126) || (y_temp.burst==50 && y_temp.voice==55) ) {
-				///	infra::vector klum = phi_pos(x,y_temp);
-				///	for (int ii=0; ii < w_pos.size(); ii++){
-				///		std::cout << ii << " " << w_pos(ii) << "*" << klum(ii) << "=" << w_pos(ii)*klum(ii) << std::endl;
-				///	}
-				///}
+				//std::cout << "burst= " << y_temp.burst << " voice= " << y_temp.voice << " wx=" << w_pos*phi_pos(x,y_temp) << std::endl;
 				y_hat_pos.burst = y_temp.burst;
 				y_hat_pos.voice = y_temp.voice;
 				D_pos = w_pos*phi_pos(x,y_temp);
@@ -1014,7 +1007,6 @@ double Classifier::predict(SpeechUtterance& x, VotLocation &y_hat, bool pos_only
 				LOG(DEBUG) << "w_neg*phi_neg(x,y_temp)=" << w_neg*phi_neg(x,y_temp);
 				}
 				if (w_neg*phi_neg(x,y_temp) > D_neg) {
-					//std::cout << "wx=" << w*phi(x,y_temp) << " (-eps)=" << -epsilon*loss(y_temp,y) << std::endl;
 					y_hat_neg.burst = y_temp.burst;
 					y_hat_neg.voice = y_temp.voice;
 					D_neg = w_neg*phi_neg(x,y_temp);
