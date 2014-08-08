@@ -1,4 +1,4 @@
-AutoVOT, v. 0.9
+AutoVOT, v. 0.91
 =======
 
 Joseph Keshet (joseph.keshet@biu.ac.il)             
@@ -36,7 +36,7 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 #### Please note: 
 * For a quick-start, skip to the [tutorial section](#tutorial) below after [compiling](#compiling).
 * All commands in this readme should be executed from the command line on a Unix-style system (OS X or Linux).
-* All commands for AutoVOT Version 0.9 have been tested on OS X Mavericks only.
+* All commands for AutoVOT Version 0.91 have been tested on OS X Mavericks only.
 * Any feedback is greatly appreciated!
 
 
@@ -628,7 +628,7 @@ If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT 
 
 ***If possible to cite a program, the following format is recommended (adjusting retrieval dates and versions as necessary):***
 
-* Keshet, J., Sonderegger, M., Knowles, T. (2014). AutoVOT: A tool for automatic measurement of voice onset time using discriminative structured prediction [Computer program]. Version 0.9, retrieved April 2014 from https://github.com/mlml/autovot/.
+* Keshet, J., Sonderegger, M., Knowles, T. (2014). AutoVOT: A tool for automatic measurement of voice onset time using discriminative structured prediction [Computer program]. Version 0.91, retrieved August 2014 from https://github.com/mlml/autovot/.
 
 ***If you are unable to cite the program itself, please cite the following paper:***
 
