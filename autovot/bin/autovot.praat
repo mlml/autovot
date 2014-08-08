@@ -15,7 +15,7 @@
 
 clearinfo
 
-writeInfoLine: "AutoVOT ver. 0.91"
+writeInfoLine: "AutoVOT ver. 0.92"
 
 # save files to a temporary directory
 if numberOfSelected ("Sound") <> 1 or numberOfSelected ("TextGrid") <> 1
@@ -26,45 +26,62 @@ endif
 sound = selected ("Sound")
 textgrid = selected ("TextGrid")
 
-# get tiers name
+# get tier names
 selectObject: textgrid
 num_tiers = Get number of tiers
 for i from 1 to 'num_tiers'
 	tier_name$[i] = Get tier name... 'i'
- 	#appendInfoLine: tier_name$[i]
 endfor
+
+# get number of channels
+selectObject: sound
+nummebr_of_channels = Get number of channels
 
 selectObject: sound, textgrid
 selected_tier_name = 1
+selected_channel = 1
 min_vot_length = 5
 max_vot_length = 500
 vot_classifier_model$ = "models/vot_predictor.amanda.max_num_instances_1000.model"
 beginPause: "AutoVOT"
 	comment: "This is a script for automatic measurement of voice onset time (VOT)"
-	optionMenu: "Select tier", selected_tier_name
+	comment: "Sound & TextGrid parameters:"
+	optionMenu: "Interval tier", selected_tier_name
 	for i from 1 to 'num_tiers'
 		option: tier_name$[i]
 	endfor
-    natural: "min vot length", 5
+    word: "Interval mark", "* (= any string)"
+   	optionMenu: "Channel:", selected_channel
+		option: "mono"
+		option: "left"
+		option: "right"
+	comment: "Algorithm parameters:"
+	natural: "min vot length", 5
     natural: "max vot length", 500
     comment: "The script directory is:"
     comment: defaultDirectory$
     comment: "Training model files (relative to the above directory):"
-    text: "vot classifier model", "models/vot_predictor.amanda.max_num_instances_1000.model"
+    text: "vot classifier model", vot_classifier_model$
 endPause: "Next", 1
-#appendInfoLine: "selected_tier_name=", select_tier$
+#appendInfoLine: "selected_tier_name=", interval_tier$
 #appendInfoLine: "min_vot_length=", min_vot_length
 #appendInfoLine: "max_vot_length=", max_vot_length
 #appendInfoLine: "model=", vot_classifier_model$
+#appendInfoLine: "interval_mark=", interval_mark$
+#appendInfoLine: "num_of_channels=", nummebr_of_channels
+#appendInfoLine: "selected_channel=", channel$
 
 selectObject: sound
 sound_name$ = selected$( "Sound")
-#appendInfoLine: "name=", name$
 sound_filename$ = temporaryDirectory$ + "/" + sound_name$ + ".wav"
 #appendInfoLine: "Saving ", name$, " as ", sound_filename$
+if channel$ = "mono"
+	converted_sound = Convert to mono
+else
+	converted_sound = Extract one channel... 'channel$'
+endif
 current_rate = Get sample rate
 if current_rate <> 16000
-	#exitScript:  "The Sound object should have the following properties: 16000Hz, 16bit, 1 channel. Please convert it."
 	appendInfoLine: "Resampling Sound object to 16000 Hz."
 	Resample... 16000 50
 	Save as WAV file: sound_filename$
@@ -72,9 +89,10 @@ if current_rate <> 16000
 else
 	Save as WAV file: sound_filename$
 endif
+removeObject: 'converted_sound'
+
 selectObject: textgrid
 textgrid_name$ = selected$( "TextGrid")
-#appendInfoLine: "name=", name$
 textgrid_filename$ = temporaryDirectory$  + "/" + textgrid_name$ + ".TextGrid"
 new_textgrid_filename$ = temporaryDirectory$ + "/" + textgrid_name$ + "_vad.TextGrid"
 #appendInfoLine: "Saving ", name$, " as ", textgrid_filename$
@@ -84,10 +102,10 @@ selectObject: sound, textgrid
 # call vot prediction
 log_filename$ = temporaryDirectory$  + "/cmd_line.log"
 exec_name$ = "export PATH=$PATH:.;  auto_vot_decode.py "
-#vot_classifier_model$ = "../models/vot_predictor.amanda.max_num_instances_1000.model"
 exec_params$ = "--min_vot_length " +  string$(min_vot_length) 
 exec_params$ = exec_params$ + " --max_vot_length " +  string$(max_vot_length) 
-exec_params$ = exec_params$ + " --window_tier " + "'" + select_tier$ + "'"
+exec_params$ = exec_params$ + " --window_tier " + "'" + interval_tier$ + "'"
+exec_params$ = exec_params$ + " --window_mark " + "'" + interval_mark$ + "'"
 cmd_line$ = exec_name$ + exec_params$
 cmd_line$ = cmd_line$ + " " + sound_filename$ + " " + textgrid_filename$ 
 cmd_line$ = cmd_line$ + " " + vot_classifier_model$
@@ -110,7 +128,6 @@ appendInfoLine: " send comments to keshet@biu.ac.il"
 # read new TextGrid
 system cp 'textgrid_filename$' 'new_textgrid_filename$'
 Read from file... 'new_textgrid_filename$'
-#sound_obj_name$ = "Sound " + sound_name$
 textgrid_obj_name$ = "TextGrid " + textgrid_name$ + "_vad"
 selectObject: sound, textgrid_obj_name$
 
@@ -118,3 +135,5 @@ selectObject: sound, textgrid_obj_name$
 deleteFile: sound_filename$
 deleteFile: textgrid_filename$
 deleteFile: new_textgrid_filename$
+
+View & Edit
