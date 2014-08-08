@@ -17,9 +17,19 @@ clearinfo
 
 writeInfoLine: "AutoVOT ver. 0.92"
 
+# check OS X version
+tmp_filename$ = temporaryDirectory$  + "/tmp.txt"
+cmd_line$ = "uname -r > " + tmp_filename$
+system 'cmd_line$'
+os_version = readFile(tmp_filename$)
+if os_version < 12.0
+	appendInfoLine: "os_version=", os_version, " < 12.0"
+	exitScript: "AutoVOT can run on OS X 10.8 or later."
+endif
+
 # save files to a temporary directory
 if numberOfSelected ("Sound") <> 1 or numberOfSelected ("TextGrid") <> 1
-    exit Please select a Sound and a TextGrid first.
+    exitScript: Please select a Sound and a TextGrid first.
 endif
 
 # keep the selected object safe
