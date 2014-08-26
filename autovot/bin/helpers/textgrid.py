@@ -137,7 +137,7 @@ class TextGrid:
         text.readline()
         for i in range(m): # loop over grids
             text.readline()
-            if text.readline().rstrip().split()[2] == '"IntervalTier"': 
+            if text.readline().rstrip().split()[2] == '"IntervalTier"':
                 # inam = text.readline().rstrip().split()[2][1:-1]
                 inam = text.readline().split('=')[1].strip().strip('"') # Joseph Keshet: handle space in the tier name
                 imin = float(text.readline().rstrip().split()[2])

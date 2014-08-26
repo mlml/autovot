@@ -147,6 +147,9 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             logging.error('(sox can be downloaded from http://sox.sourceforge.net)')
             problematic_files.append(wav_filename)
             continue
+        num_samples = wav_file.getnframes()
+        wav_duration = num_samples/float(wav_file.getframerate())
+        print "wav_duration=", wav_duration
         textgrid = TextGrid()
 
         # read TextGrid
@@ -161,7 +164,7 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             logging.error("Either --window_tier or --vot_tier should be given.")
             exit(-1)
 
-            # check if the VOT tier is one of the tiers in the TextGrid
+        # check if the VOT tier is one of the tiers in the TextGrid
         if definitions.vot_tier in tier_names:
             tier_index = tier_names.index(definitions.vot_tier)
             # run over all intervals in the tier
@@ -169,7 +172,8 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                 if (definitions.vot_mark == "*" and re.search(r'\S', interval.mark())) \
                         or (interval.mark() == definitions.vot_mark):
                     window_min = max(interval.xmin() + definitions.window_min, 0)
-                    window_max = min(interval.xmax() + definitions.window_max, textgrid.xmax())
+                    window_max = min(min(interval.xmax() + definitions.window_max, textgrid.xmax()), wav_duration)
+                    print window_max
                     new_instance = Instance()
                     new_instance.set(wav_filename, window_min, window_max, interval.xmin(), interval.xmax())
                     instances.append(new_instance)

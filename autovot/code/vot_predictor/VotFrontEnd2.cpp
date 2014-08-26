@@ -131,7 +131,9 @@ int main(int argc, char **argv)
 			instances.word_end[i] = (samples.size()-1)/double(sampling_rate);
 		}
 
-		if (instances.word_end[i] >= samples.size()/double(sampling_rate)) {
+		// round the wav file duration up to 3 figures after the point
+		double wav_duration = round(1000*samples.size()/double(sampling_rate))/1000.0;
+		if (instances.word_end[i] > wav_duration) {
 			LOG(ERROR) << "Word end (" << instances.word_end[i] << ") is greater than "
 			<< "the length of " << instances.file_list[i];
 			return EXIT_FAILURE;
