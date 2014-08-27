@@ -149,7 +149,6 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             continue
         num_samples = wav_file.getnframes()
         wav_duration = num_samples/float(wav_file.getframerate())
-        print "wav_duration=", wav_duration
         textgrid = TextGrid()
 
         # read TextGrid
@@ -173,7 +172,6 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                         or (interval.mark() == definitions.vot_mark):
                     window_min = max(interval.xmin() + definitions.window_min, 0)
                     window_max = min(min(interval.xmax() + definitions.window_max, textgrid.xmax()), wav_duration)
-                    print window_max
                     new_instance = Instance()
                     new_instance.set(wav_filename, window_min, window_max, interval.xmin(), interval.xmax())
                     instances.append(new_instance)

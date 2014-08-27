@@ -116,12 +116,17 @@ class TextGrid:
     def append(self, tier):
         self.__tiers.append(tier)
         ## JosephKeshet
-        if self.__xmin == None:
+        if self.__xmin is None:
             self.__xmin = tier.xmin()
         else:
             self.__xmin = min(tier.xmin(), self.__xmin)
         ## JosephKeshet
         self.__xmax = max(tier.xmax(), self.__xmax)
+        ## JosephKeshet / MS
+        if self.__xmax is None:
+            self.__xmax = tier.xmax()
+        else:
+            self.__xmax = max(tier.xmax(), self.__xmax)
         self.__n += 1
 
     def read(self, file):
@@ -322,7 +327,13 @@ class PointTier:
 
     def append(self, point):
         self.__points.append(point)
-        self.__xmax = point.xmax()
+        ## MS: points don't have xmax, right?
+        # self.__xmax = point.xmax()
+        if self.__xmax is None:
+            self.__xmax = point.time()
+        else:
+            self.__max = max(point.time(), self.__xmax)
+        ## MS: do we then need to do this for xmin as well?
         self.__n += 1
 
     def read(self, file):
