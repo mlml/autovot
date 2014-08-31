@@ -24,21 +24,24 @@
 # optionally writing information for each stop to a CSV file.
 #
 
-import argparse, os, csv
+import argparse
+import os
+import csv
 import numpy as np
 import scipy.stats
 
 corr2 = scipy.stats.spearmanr
 corr1 = scipy.stats.pearsonr
 
-
 from helpers.textgrid import *
 from helpers.utilities import *
 
+
 def num_lines(filename):
     lines = 0
-    for _ in open(filename):
-        lines += 1
+    with open(filename) as f:
+        for _ in f:
+            lines += 1
     return lines
 
 
@@ -130,14 +133,23 @@ if __name__ == "__main__":
     y_files = []
     
     for labeled_textgrid, predicted_textgrid in zip(labeled_textgrids, predicted_textgrids):
-        labeled_vots = read_textgrid_tier(labeled_textgrid.strip(), args.labeled_vot_tier)
-        
+
+        labeled_textgrid = labeled_textgrid.strip()
+        predicted_textgrid = predicted_textgrid.strip()
+
+        labeled_vots = read_textgrid_tier(labeled_textgrid, args.labeled_vot_tier)
+        predicted_vots = read_textgrid_tier(predicted_textgrid, args.predicted_vot_tier)
+
+        if len(labeled_vots) != len(predicted_vots):
+            logging.warning("The length of %s (%d) and of %s (%d) do not match. Skipping those files" %
+                            (labeled_textgrid, len(labeled_vots), predicted_textgrid, len(predicted_vots)))
+            continue
+
         x_xmin = x_xmin + [x.xmin() for x in labeled_vots]
         x_xmax = x_xmax + [x.xmax() for x in labeled_vots]
         x_vot = x_vot + [(x.xmax()-x.xmin()) for x in labeled_vots]
         x_files = x_files + [labeled_textgrid.strip() for x in labeled_vots]
 
-        predicted_vots = read_textgrid_tier(predicted_textgrid.strip(), args.predicted_vot_tier)
         y_xmin = y_xmin + [y.xmin() for y in predicted_vots]
         y_xmax = y_xmax + [y.xmax() for y in predicted_vots]
         y_vot = y_vot + [(y.xmax()-y.xmin()) for y in predicted_vots]
@@ -146,7 +158,6 @@ if __name__ == "__main__":
 
     labF = os.path.abspath(args.labeled_textgrid_list)
     predF = os.path.abspath(args.predicted_textgrid_list)
-
 
     print "\n\nEvaluating labeled vs. predicted VOTs, using:"
     print "- labeled VOTs: '%s' tier in %s" % (args.labeled_vot_tier, labF)
@@ -177,7 +188,7 @@ if __name__ == "__main__":
     print "Percentage of examples with labeled/predicted VOT difference of at most:"
     print "------------------------------"
     for thresh in thresholds:
-        print "%d msec: " % thresh, 100*(len(X[abs(X-Y)< thresh/1000.0])/float(len(X)))
+        print "%d msec: " % thresh, 100*(len(X[abs(X-Y) < thresh/1000.0])/float(len(X)))
 
     ## dump predicted/labeled VOT info to a CSV, for later examination in R, excel, etc.
     if args.csv_file:
