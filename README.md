@@ -116,7 +116,7 @@ If not working out of the given `experiments` directory, you must add the path t
 	For example:
 	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/bin
 
-**Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
+**Quick-start:** *Bring me to the* ***[tutorial](#tutorial1)***
 
 *Back to [top](#toc)*
 
@@ -127,7 +127,7 @@ Download the latest Praat plugin installer from the [releases page](https://gith
 
 Double click on the installer icon and follow the directions.
 
-**Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
+**Quick-start:** *Bring me to the* ***[tutorial](#tutorial2)***
 
 *Back to [top](#toc)*
 
