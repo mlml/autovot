@@ -618,13 +618,21 @@ If successful, the command line output will generate Pearson correlations, means
 
 **Note:** This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#tutorial1).
 
-Open the soundfile and accompanying TextGrid in Praat. 
+* Open the soundfile and accompanying TextGrid in Praat. 
 
-Select both and click AutoVOT. Select the interval tier containing the intervals where you would like to predict the VOT.
+* Select both and click AutoVOT in the Praat Objects window. 
 
-Adjust the other parameters as necessary. 
+* From the dropdown menu, select the interval tier containing the intervals where you would like to predict the VOT.
 
-Click "Next"
+* Indicate the text used to mark your VOT intervals (default = any string)
+
+* Select the appropriate channel.
+
+* Adjust the min and max vot length parameters as necessary.
+
+* Indicate which training model file you would like to use (default = amanda)
+
+* Click "Next"
 
 If successful, the Praat info window will display the output of auto\_vot_decode.py and the new TextGrid with the AuotVOT prediction tier will open with the sound in the Praat editor.
 
