@@ -437,6 +437,8 @@ The `experiments` folder contains subdirectories that will be used to store file
 <a name="tutorial1"/>
 # From the command line
 
+*Bring me to the [Praat plugin tutorial](#tutorial2)*
+
 *Back to [top](#toc)*
 
 #### Information for command-line arguments to be used in this example:
@@ -613,7 +615,8 @@ If successful, the command line output will generate Pearson correlations, means
 
 <a name="tutorial2"/>
 ## Praat plugin tutorial
-This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#tutorial1).
+
+**Note:** This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#tutorial1).
 
 Open the soundfile and accompanying TextGrid in Praat. 
 
