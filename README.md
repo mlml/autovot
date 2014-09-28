@@ -21,9 +21,17 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 
 **1.** [Setting up](#settingup)
 
+**1.1** [Command line installation](#settingup1)
+
+**1.2** [Praat plugin installation](#settingup2)
+
 **2.** [Usage](#usage)
 
 **3.** [Tutorial](#tutorial)
+
+**3.1** [Command line tutorial](#tutorial1)
+
+**3.2** [Praat plugin tutorial](#tutorial2)
 
 **4.** [Citing AutoVOT](#citing)
 
@@ -54,6 +62,8 @@ In order to use AutoVOT you'll need the following installed in addition to the s
 
 
 ## Downloading and Installing
+<a name="settingup1"/>
+### Command line installation
 ***AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.***
 
 The code to clone AutoVOT is: 
@@ -70,7 +80,7 @@ https://help.github.com/articles/set-up-git
 
 ***Alternatively, you can download the current version of AutoVOT as a [zip file](https://github.com/mlml/autovot/archive/master.zip), in which case you will not have access to future updates without re-downloading the updated version.***
 
-## Compiling
+### Compiling
 **Note:** While you only have to clean and compile once, you will have to add the path to `code` to your `experiments` path *every time you open a new terminal window.*
 
 Clean and compile from the `code` directory:
@@ -105,6 +115,15 @@ If not working out of the given `experiments` directory, you must add the path t
 	
 	For example:
 	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/bin
+
+**Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
+
+*Back to [top](#toc)*
+
+<a name="settingup"/>
+### Praat plugin installation
+Download the latest Praat plugin installer from the [releases page](https://github.com/mlml/autovot/releases)
+Double click on the installer icon and follow the directions.
 
 **Quick-start:** *Bring me to the* ***[tutorial](#tutorial)***
 
@@ -412,6 +431,10 @@ The `experiments` folder contains subdirectories that will be used to store file
     
 <a name="tutorial"/>
 # Tutorial
+
+<a name="tutorial1"/>
+# From the command line
+
 *Back to [top](#toc)*
 
 #### Information for command-line arguments to be used in this example:
@@ -585,6 +608,20 @@ If successful, the command line output will generate Pearson correlations, means
 
 **Note:** It is **not recommended** to simply include the data used for training as the subset used to compute performance. The reason for this is that performance measurements are likely to be inflated in such a situation, as the algorithm is generating predictions for the same tokens on which it was trained. It is best to have an additional subset of manually aligned VOT if you would like to take advantage of this comparison. 
 
+
+<a name="tutorial2"/>
+## Praat plugin tutorial
+This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#tutorial1).
+
+Open the soundfile and accompanying TextGrid in Praat. 
+
+Select both and click AutoVOT. Select the interval tier containing the intervals where you would like to predict the VOT.
+
+Adjust the other parameters as necessary. 
+
+Click "Next"
+
+If successful, the Praat info window will display the output of auto\_vot_decode.py and the new TextGrid with the AuotVOT prediction tier will open with the sound in the Praat editor.
 
 ## Possible errors and warnings
 *Back to [top](#toc)*
