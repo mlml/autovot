@@ -120,7 +120,7 @@ If not working out of the given `experiments` directory, you must add the path t
 
 *Back to [top](#toc)*
 
-<a name="settingup"/>
+<a name="settingup2"/>
 ### Praat plugin installation
 Download the latest Praat plugin installer from the [releases page](https://github.com/mlml/autovot/releases)
 Double click on the installer icon and follow the directions.
