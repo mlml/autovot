@@ -620,17 +620,19 @@ If successful, the command line output will generate Pearson correlations, means
 
 * Open the soundfile and accompanying TextGrid in Praat. 
 
-* Select both and click AutoVOT in the Praat Objects window. 
+* Select both and click AutoVOT in the Praat Objects window.
 
-* From the dropdown menu, select the interval tier containing the intervals where you would like to predict the VOT.
+* Adjust the parameters as necessary:
 
-* Indicate the text used to mark your VOT intervals (default = any string)
+	* From the dropdown menu, select the interval tier containing the intervals where you would like to predict the VOT.
 
-* Select the appropriate channel.
+	* Indicate the text used to mark your VOT intervals (default = any string)
 
-* Adjust the min and max vot length parameters as necessary.
+	* Select the appropriate channel.
 
-* Indicate which training model file you would like to use (default = amanda)
+	* Adjust the min and max vot length parameters as necessary.
+
+	* Indicate which training model file you would like to use (default = amanda)
 
 * Click "Next"
 
