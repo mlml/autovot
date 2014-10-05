@@ -441,27 +441,49 @@ The `experiments` folder contains subdirectories that will be used to store file
 ## Praat plugin tutorial
 *Bring me to the [command line tutorial](#cltutorial)*
 
-**Note:** This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#cltutorial).
+**Note:** 
+* This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial] (#cltutorial).
+* The Praat plugin allows you to work with one file at a time. If you would like to execute this function over all files in a directory and save them, you may write a Praat script to do so. A script will be made available in a future version of AutoVOT.
 
-* Open the soundfile and accompanying TextGrid in Praat. 
+
+---------
+* Open the soundfile and accompanying TextGrid in Praat.
+	* For this tutorial you may use files from the `test` experiment directory, e.g:
+	* `autovot-0.93/experiments/data/tutorialExample/test/voiced/cas7D_1054_24_3.wav`
+	* `autovot-0.93/experiments/data/tutorialExample/test/voiced/cas7D_1054_24_3.TextGrid`
 
 * Select both and click AutoVOT in the Praat Objects window.
 
 * Adjust the parameters as necessary:
+	**Sound and TextGrid parameters**
+	* Interval tier: name of the tier containing the intervals where you would like to predict the VOT
 
-	* From the dropdown menu, select the interval tier containing the intervals where you would like to predict the VOT.
+		`vot`
 
-	* Indicate the text used to mark your VOT intervals (default = any string)
+	* Interval mark: text used to mark your VOT intervals
 
-	* Select the appropriate channel.
+		`\*default = any string` or `vot`
 
-	* Adjust the min and max vot length parameters as necessary.
+	* Channel: Choose mono for a single track recording or left/right if you are using a multitrack recording.
 
-	* Indicate which training model file you would like to use (default = amanda)
+		`Mono`
+	
+	**Algorithm Parameters**
+	* min vot length: The minimum duration (in ms) that the algorithm should predict. **Note** that the default is 15ms. For English voiced stops this is too high. Since this tutorial uses voiced data, we will change this.		
+
+		`5`
+
+	* max vot length: The maximum duration (in ms) that the algorithm should predict.
+
+		`100`
+
+	* Training model (path): Indicate which training model file you would like to use (default = amanda)
+		
+		`models/vot_predictor.amanda.max_num_instances_1000.model`
 
 * Click "Next"
 
-If successful, the Praat info window will display the output of auto\_vot_decode.py and the new TextGrid with the AuotVOT prediction tier will open with the sound in the Praat editor.
+If successful, the Praat info window will display the output of auto\_vot_decode.py and the new TextGrid with the AuotVOT prediction tier will open with the sound in the Praat editor. You must save the TextGrid manually.
 
 *Back to [top](#toc)*
 
