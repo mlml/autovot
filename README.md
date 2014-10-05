@@ -41,13 +41,6 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 <a name="settingup"/>
 # Setting Up
 
-#### Please note: 
-* For a quick-start, skip to the [tutorial section](#tutorial) below after [compiling](#compiling).
-* All commands in this readme should be executed from the command line on a Unix-style system (OS X or Linux).
-* All commands for AutoVOT Version 0.91 have been tested on OS X Mavericks only.
-* Any feedback is greatly appreciated!
-
-
 ## Dependencies
 In order to use AutoVOT you'll need the following installed in addition to the source code provided here:
 * [GCC, the GNU Compiler Collection](http://gcc.gnu.org/install/download.html)
@@ -74,6 +67,13 @@ Double click on the installer icon and follow the directions.
 
 <a name="commandlinesetup"/>
 ### Command line installation
+
+#### Please note: 
+* For a quick-start, skip to the [tutorial section](#tutorial) below after [compiling](#compiling).
+* All commands in this readme should be executed from the command line on a Unix-style system (OS X or Linux).
+* All commands for AutoVOT Version 0.91 have been tested on OS X Mavericks only.
+* Any feedback is greatly appreciated!
+
 ***AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.***
 
 The code to clone AutoVOT is: 
