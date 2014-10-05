@@ -463,7 +463,6 @@ The `experiments` folder contains subdirectories that will be used to store file
 
 If successful, the Praat info window will display the output of auto\_vot_decode.py and the new TextGrid with the AuotVOT prediction tier will open with the sound in the Praat editor.
 
-## Possible errors and warnings
 *Back to [top](#toc)*
 
 <a name="cltutorial"/>
@@ -644,6 +643,8 @@ If successful, the command line output will generate Pearson correlations, means
 
 **Note:** It is **not recommended** to simply include the data used for training as the subset used to compute performance. The reason for this is that performance measurements are likely to be inflated in such a situation, as the algorithm is generating predictions for the same tokens on which it was trained. It is best to have an additional subset of manually aligned VOT if you would like to take advantage of this comparison. 
 
+## Possible errors and warnings
+*Back to [top](#toc)*
 
 ##### Missing files
 If you do not have a corresponding wav file for a TextGrid:
