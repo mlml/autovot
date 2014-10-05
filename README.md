@@ -53,6 +53,7 @@ In order to use AutoVOT you'll need the following installed in addition to the s
   You will need a registered Apple ID to download either package.
 
 ## Downloading and Installing
+*[What is included in the download?] (#outofthebox)
 
 <a name="praatsetup"/>
 ### Praat plugin installation
@@ -130,6 +131,7 @@ If not working out of the given `experiments` directory, you must add the path t
 
 *Back to [top](#toc)*
 
+<a name="outofthebox"/>
 ## Out of the box:
 
 **Files included in this version:**
