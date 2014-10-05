@@ -70,7 +70,7 @@ Double click on the installer icon and follow the directions.
 ### Command line installation
 
 #### Please note: 
-* For a quick-start, skip to the [tutorial section](#tutorial) below after [compiling](#compiling).
+* For a quick-start, skip to the [tutorial section](#tutorial) below *after [compiling](#compiling)*.
 * All commands in this readme should be executed from the command line on a Unix-style system (OS X or Linux).
 * All commands for AutoVOT Version 0.91 have been tested on OS X Mavericks only.
 * Any feedback is greatly appreciated!
