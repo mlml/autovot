@@ -678,6 +678,7 @@ You can ignore this, but be aware that a VOT in the training data was skipped.
 
 
 If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT tier exists already:
+
 `[auto_vot_decode.py] WARNING: Writing a new AutoVOT tier (in addition to existing one(s))`
 
 
