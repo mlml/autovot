@@ -175,6 +175,8 @@ The `experiments` folder contains subdirectories that will be used to store file
 * `experiments/tmp_dir/`: Currently empty. This is where feature extraction will be stored in Mode 2.
 * `experiments/data/tutorialExample/`: This contains TextGrids and wav files for training and testing during the [tutorial](#tutorial).
 
+*Back to [top](#toc)*
+
 <a name="usage"/>
 # Usage
 *Back to [top](#toc)*
