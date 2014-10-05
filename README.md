@@ -21,9 +21,9 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 
 **1.** [Setting up](#settingup)
 
-**1.1** [Command line installation](#settingup1)
+**1.1** [Praat plugin installation](#praatsetup)
 
-**1.2** [Praat plugin installation](#settingup2)
+**1.2** [Command line installation](#commandlinesetup)
 
 **2.** [Usage](#usage)
 
@@ -60,9 +60,19 @@ In order to use AutoVOT you'll need the following installed in addition to the s
   You will need a registered Apple ID to download either package.
 
 
+<a name="praatsetup"/>
+### Praat plugin installation
+
+Download the latest Praat plugin installer from the [releases page](https://github.com/mlml/autovot/releases)
+
+Double click on the installer icon and follow the directions.
+
+**Quick-start:** *Bring me to the* ***[tutorial](#tutorial2)***
+
+*Back to [top](#toc)*
 
 ## Downloading and Installing
-<a name="settingup1"/>
+<a name="commandlinesetup"/>
 ### Command line installation
 ***AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.***
 
@@ -117,17 +127,6 @@ If not working out of the given `experiments` directory, you must add the path t
 	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/bin
 
 **Quick-start:** *Bring me to the* ***[tutorial](#tutorial1)***
-
-*Back to [top](#toc)*
-
-<a name="settingup2"/>
-### Praat plugin installation
-
-Download the latest Praat plugin installer from the [releases page](https://github.com/mlml/autovot/releases)
-
-Double click on the installer icon and follow the directions.
-
-**Quick-start:** *Bring me to the* ***[tutorial](#tutorial2)***
 
 *Back to [top](#toc)*
 
