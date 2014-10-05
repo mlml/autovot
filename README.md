@@ -646,8 +646,10 @@ If successful, the command line output will generate Pearson correlations, means
 ## Possible errors and warnings
 *Back to [top](#toc)*
 
+### General Errors
 ##### Missing files
 If you do not have a corresponding wav file for a TextGrid:
+
 `ERROR: Number of TextGrid files should match the number of WAVs`
 
 ##### Wrong file format
