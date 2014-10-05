@@ -730,48 +730,4 @@ Example data was provided jointly by **Meghan Clayards,** [McGill University Spe
 
 We thank Eivind Torgersen for feedback on the code.
 
-<a name="acknowledgements"/>
-## Acknowledgements
-
-### Code
-This software incorporates code from several open-source projects:
-
-#### FFTReal
-FFTReal, Version 1.02, 2001/03/27
-
-Fourier transformation (FFT, IFFT) library specialised for real data.
-
-Copyright (c) by Laurent de Soras <laurent.de.soras@club-internet.fr>
-
-Object Pascal port (c) Frederic Vanmol <frederic@fruityloops.com>
-
-#### get_f0, sigproc
-get_f0.c estimates F0 using normalized cross correlation and dynamic programming. 
-sigproc.c is a collection of pretty generic signal-processing routines.
-
-Written and revised by: Derek Lin and David Talkin
-
-Copyright (c) 1990-1996 Entropic Research Laboratory, Inc. All rights reserved
-
-This software has been licensed to the Centre of Speech Technology, KTH by Microsoft Corp. with the terms in the accompanying file BSD.txt, which is a BSD style license.
-
-#### textgrid.py
-Python classes for Praat TextGrid and TextTier files (and HTK .mlf files)
-
-[http://github.com/kylebgorman/textgrid.py/](http://github.com/kylebgorman/textgrid.py/)
-
-Copyright (c) 2011-2013 Kyle Gorman, Max Bane, Morgan Sonderegger
-
-### Example data
-
-Example data was provided jointly by **Meghan Clayards,** [McGill University Speech Learning Lab](http://people.linguistics.mcgill.ca/~meghan.clayards/Research.html) and **Michael Wagner,** [McGill University Prosody Lab](http://prosodylab.org/). Data collection was funded by:
-
-* SSHRC #410-2011-1062 
-* Canada Research Chair #217849
-* FQRSC-NC #145433
-
-### Feedback
-
-We thank Eivind Torgersen for feedback on the code.
-
 *Back to [top](#toc)*
