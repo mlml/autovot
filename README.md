@@ -29,9 +29,9 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 
 **3.** [Tutorial](#tutorial)
 
-**3.1** [Command line tutorial](#tutorial1)
+**3.1** [Praat plugin tutorial](#praattutorial)
 
-**3.2** [Praat plugin tutorial](#tutorial2)
+**3.2** [Command line tutorial](#cltutorial)
 
 **4.** [Citing AutoVOT](#citing)
 
@@ -437,10 +437,39 @@ The `experiments` folder contains subdirectories that will be used to store file
 <a name="tutorial"/>
 # Tutorial
 
-<a name="tutorial1"/>
+<a name="praattutorial"/>
+## Praat plugin tutorial
+*Bring me to the [command line tutorial](#cltutorial)*
+
+**Note:** This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#tutorial1).
+
+* Open the soundfile and accompanying TextGrid in Praat. 
+
+* Select both and click AutoVOT in the Praat Objects window.
+
+* Adjust the parameters as necessary:
+
+	* From the dropdown menu, select the interval tier containing the intervals where you would like to predict the VOT.
+
+	* Indicate the text used to mark your VOT intervals (default = any string)
+
+	* Select the appropriate channel.
+
+	* Adjust the min and max vot length parameters as necessary.
+
+	* Indicate which training model file you would like to use (default = amanda)
+
+* Click "Next"
+
+If successful, the Praat info window will display the output of auto\_vot_decode.py and the new TextGrid with the AuotVOT prediction tier will open with the sound in the Praat editor.
+
+## Possible errors and warnings
+*Back to [top](#toc)*
+
+<a name="cltutorial"/>
 # From the command line
 
-*Bring me to the [Praat plugin tutorial](#tutorial2)*
+*Bring me to the [Praat plugin tutorial](#praattutorial)*
 
 *Back to [top](#toc)*
 
@@ -615,34 +644,6 @@ If successful, the command line output will generate Pearson correlations, means
 
 **Note:** It is **not recommended** to simply include the data used for training as the subset used to compute performance. The reason for this is that performance measurements are likely to be inflated in such a situation, as the algorithm is generating predictions for the same tokens on which it was trained. It is best to have an additional subset of manually aligned VOT if you would like to take advantage of this comparison. 
 
-
-<a name="tutorial2"/>
-## Praat plugin tutorial
-
-**Note:** This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#tutorial1).
-
-* Open the soundfile and accompanying TextGrid in Praat. 
-
-* Select both and click AutoVOT in the Praat Objects window.
-
-* Adjust the parameters as necessary:
-
-	* From the dropdown menu, select the interval tier containing the intervals where you would like to predict the VOT.
-
-	* Indicate the text used to mark your VOT intervals (default = any string)
-
-	* Select the appropriate channel.
-
-	* Adjust the min and max vot length parameters as necessary.
-
-	* Indicate which training model file you would like to use (default = amanda)
-
-* Click "Next"
-
-If successful, the Praat info window will display the output of auto\_vot_decode.py and the new TextGrid with the AuotVOT prediction tier will open with the sound in the Praat editor.
-
-## Possible errors and warnings
-*Back to [top](#toc)*
 
 ##### Missing files
 If you do not have a corresponding wav file for a TextGrid:
