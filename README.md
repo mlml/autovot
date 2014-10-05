@@ -53,7 +53,7 @@ In order to use AutoVOT you'll need the following installed in addition to the s
   You will need a registered Apple ID to download either package.
 
 ## Downloading and Installing
-*[What is included in the download?] (#outofthebox)
+*[What is included in the download?] (#outofthebox)*
 
 <a name="praatsetup"/>
 ### Praat plugin installation
