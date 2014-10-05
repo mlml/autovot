@@ -62,7 +62,7 @@ Download the latest Praat plugin installer from the [releases page](https://gith
 
 Double click on the installer icon and follow the directions.
 
-**Quick-start:** *Bring me to the* ***[tutorial](#tutorial2)***
+**Quick-start:** *Bring me to the* ***[tutorial](#praattutorial)***
 
 *Back to [top](#toc)*
 
@@ -127,7 +127,7 @@ If not working out of the given `experiments` directory, you must add the path t
 	For example:
 	$ export PATH=$PATH:/Users/mcgillLing/3_MLML/autovot/autovot/bin
 
-**Quick-start:** *Bring me to the* ***[tutorial](#tutorial1)***
+**Quick-start:** *Bring me to the* ***[tutorial](#cltutorial)***
 
 *Back to [top](#toc)*
 
@@ -441,7 +441,7 @@ The `experiments` folder contains subdirectories that will be used to store file
 ## Praat plugin tutorial
 *Bring me to the [command line tutorial](#cltutorial)*
 
-**Note:** This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#tutorial1).
+**Note:** This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#cltutorial).
 
 * Open the soundfile and accompanying TextGrid in Praat. 
 
