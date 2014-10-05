@@ -59,6 +59,7 @@ In order to use AutoVOT you'll need the following installed in addition to the s
 
   You will need a registered Apple ID to download either package.
 
+## Downloading and Installing
 
 <a name="praatsetup"/>
 ### Praat plugin installation
@@ -71,7 +72,6 @@ Double click on the installer icon and follow the directions.
 
 *Back to [top](#toc)*
 
-## Downloading and Installing
 <a name="commandlinesetup"/>
 ### Command line installation
 ***AutoVOT is available to be cloned from Github, which allows you to easily have access to any future updates.***
