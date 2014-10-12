@@ -128,7 +128,9 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
         if not textgrid_filename or not wav_filename:
             continue
         if not is_textgrid(textgrid_filename):
-            logging.error("%s is not a valid TextGrid." % textgrid_filename)
+            logging.error("%s is not a valid TextGrid file" % textgrid_filename)
+            logging.error("(note that the file cannot have been saved as a 'short text file'")
+            logging.error("or 'binary file' in Praat)")
             problematic_files.append(textgrid_filename)
             continue
         if not is_valid_wav(wav_filename):

@@ -100,6 +100,8 @@ if __name__ == "__main__":
     elif is_valid_wav(args.wav_filenames) and not is_textgrid(args.textgrid_filenames):
         logging.error("%s valid WAV file while %s is not a valid TextGrid." % (args.wav_filenames,
                                                                                args.textgrid_filenames))
+        logging.error("(note that the TextGrid file cannot have been saved as a 'short text file'")
+        logging.error("or 'binary file' in Praat)")
         exit()
     elif not is_valid_wav(args.wav_filenames) and is_textgrid(args.textgrid_filenames):
         logging.error("%s not valid WAV file while %s is a valid TextGrid." % (args.wav_filenames,
