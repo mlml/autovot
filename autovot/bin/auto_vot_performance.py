@@ -55,12 +55,20 @@ def read_textgrid_tier(textgrid_filename, vot_tier):
 
     # check if the VOT tier is one of the tiers in the TextGrid
     vots = list()
+
+
+
     if vot_tier in tier_names:
         tier_index = tier_names.index(vot_tier)
         # run over all intervals in the tier
         for interval in textgrid[tier_index]:
             if re.search(r'\S', interval.mark()):
                 vots.append(interval)
+    else:
+        logging.error("Tier %s not found in TextGrid %s" % (vot_tier, textgrid_filename))
+        logging.error("(If you think the tier is there, perhaps there's extra whitespace in the tier name?)")
+
+
     return vots
 
 # def remove_outliers(x_list, y_list):
