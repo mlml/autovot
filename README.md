@@ -578,14 +578,14 @@ Navigate to `experiments/` and run:
 
 For voiceless:
 
-	auto_vot_extract_features.py --log=INFO --vot_tier vot --vot_mark vot \
+	auto_vot_extract_features.py --vot_tier vot --vot_mark vot \
 	config/voicelessTrainTgList.txt config/voicelessTrainWavList.txt \
 	config/VoicelessFeInput.txt config/VoicelessFeFeatures.txt \
 	config/VoicelessFeLabels.txt tmp_dir
 	
 For voiced: 
 
-	auto_vot_extract_features.py --log=INFO --vot_tier vot --vot_mark vot \
+	auto_vot_extract_features.py --vot_tier vot --vot_mark vot \
 	config/voicedTrainTgList.txt config/voicedTrainWavList.txt \
 	config/VoicedFeInput.txt config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt tmp_dir
@@ -603,12 +603,12 @@ From within `experiments/` run the following:
 
 For voiceless:
 
-	auto_vot_train_after_fe.py --log=INFO config/VoicelessFeFeatures.txt \
+	auto_vot_train_after_fe.py config/VoicelessFeFeatures.txt \
 	config/VoicelessFeLabels.txt models/VoicelessModel_ver2.classifier
 	
 For voiced:
 
-	auto_vot_train_after_fe.py --log=INFO config/VoicedFeFeatures.txt \
+	auto_vot_train_after_fe.py config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt models/VoicedModel_ver2.classifier
 
 If training is successful classifier files will be generated in `experiments/models/` and you will see the following output command line message upon completion:
@@ -620,12 +620,12 @@ If training is successful classifier files will be generated in `experiments/mod
 
 For voiceless:
 
-	auto_vot_decode_after_fe.py --log=INFO config/VoicelessFeFeatures.txt \
+	auto_vot_decode_after_fe.py config/VoicelessFeFeatures.txt \
 	config/VoicelessFeLabels.txt models/VoicelessModel_ver2.classifier
 	
 For voiced:
 
-	auto_vot_decode_after_fe.py --log=INFO config/VoicedFeFeatures.txt \
+	auto_vot_decode_after_fe.py config/VoicedFeFeatures.txt \
 	config/VoicedFeLabels.txt models/VoicedModel_ver2.classifier
 
 If decoding is successful you will see a summary of the average performance of the VOT predictions based on the test set. You can use this summary output to tweak training parameters to fine-tune your output without having to re-extract features.
