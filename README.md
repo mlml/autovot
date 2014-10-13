@@ -1,4 +1,4 @@
-AutoVOT, v. 0.91
+AutoVOT
 =======
 
 Joseph Keshet (joseph.keshet@biu.ac.il)             
