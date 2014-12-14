@@ -25,7 +25,8 @@ License along with Autovot.  If not, see
 #include <sstream>
 #include <string>
 #include <algorithm>
-#include <stdio.h>
+#include <cstdio>
+//#include <stdio.h>
 #include <sys/time.h>
 
 

@@ -21,6 +21,7 @@ License along with Autovot.  If not, see
 
 
 #include "WavFile.h"
+#include <string.h>
 #include <stdio.h>
 #include <iostream>
 
