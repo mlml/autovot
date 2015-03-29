@@ -121,8 +121,14 @@ int main(int argc, char **argv)
 	for (unsigned int i=0; i < _min(limit_instances,instances.size()); i++) {
 		
 		LOG(DEBUG) << "Processing " << instances.file_list[i] << " (" << (i+1) << " of " << instances.size() << ")";
-		
-		// read samples
+
+		if (instances.word_end[i] - instances.word_start[i] < 0.6) {
+			LOG(ERROR) << "Window size is less than 600 msec (word_start=" << instances.word_start[i]
+			<< " word_end=" << instances.word_end[i] << ")";
+			return EXIT_FAILURE;
+		}
+
+			// read samples
 		infra::vector samples;
 		
 		double sampling_rate = read_samples_from_file(instances.file_list[i], samples, SAMPLING_RATE);
