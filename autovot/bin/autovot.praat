@@ -12,7 +12,6 @@
 # A copy of the GNU General Public License is available at
 # <http://www.gnu.org/licenses/>.
 
-
 clearinfo
 
 writeInfoLine: "AutoVOT ver. 0.92"
@@ -72,7 +71,10 @@ beginPause: "AutoVOT"
     comment: defaultDirectory$
     comment: "Training model files (relative to the above directory):"
     text: "vot classifier model", vot_classifier_model$
-endPause: "Next", 1
+clicked = endPause: "Cancel", "Next", 2, 1
+if clicked <> 2
+	exit
+endif
 #appendInfoLine: "selected_tier_name=", interval_tier$
 #appendInfoLine: "min_vot_length=", min_vot_length
 #appendInfoLine: "max_vot_length=", max_vot_length
