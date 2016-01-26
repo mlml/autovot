@@ -50,3 +50,4 @@ autovot/bin/helpers/__init__.pyc
 autovot/bin/helpers/textgrid.pyc
 autovot/bin/helpers/utilities.pyc
 *.DS_Store
+q7_vot_train_amanda.sh

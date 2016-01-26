@@ -185,23 +185,23 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                 problematic_files.append(textgrid_filename)
                 continue
 
-            # if the window tier is empty and not decoding, fix window information
-            if definitions.window_tier == "":
-                logging.debug("--window_tier and --window_mark were not given - using defaults.")
-                for i in xrange(1, len(instances) - 1):
-                    # check if window_min is less than the previous vot_max
-                    if instances[i].window_min < instances[i - 1].vot_max:
-                        instances[i].window_min = max(instances[i].vot_min - 0.02, instances[i - 1].vot_max + 0.02)
-                    # check if window_max is greater than the next vot_min
-                    if instances[i].window_max > instances[i + 1].vot_min:
-                        instances[i].window_max = min(instances[i].vot_max + 0.02, instances[i + 1].vot_min - 0.02)                    
-                    # check for consistency
-                    if instances[i].window_min > instances[i].vot_min \
-                            or instances[i].vot_min > instances[i].window_max \
-                            or instances[i].window_min > instances[i].vot_max \
-                            or instances[i].window_max < instances[i].vot_max:                            
-                        logging.error("Something wrong in the TextGrid VOT tier: %s" % instances[i])
-                        problematic_files.append(textgrid_filename)
+            # # if the window tier is empty and not decoding, fix window information
+            # if definitions.window_tier == "":
+            #     logging.debug("--window_tier and --window_mark were not given - using defaults.")
+            #     for i in xrange(1, len(instances) - 1):
+            #         # check if window_min is less than the previous vot_max
+            #         if instances[i].window_min < instances[i - 1].vot_max:
+            #             instances[i].window_min = max(instances[i].vot_min - 0.02, instances[i - 1].vot_max + 0.02)
+            #         # check if window_max is greater than the next vot_min
+            #         if instances[i].window_max > instances[i + 1].vot_min:
+            #             instances[i].window_max = min(instances[i].vot_max + 0.02, instances[i + 1].vot_min - 0.02)                    
+            #         # check for consistency
+            #         if instances[i].window_min > instances[i].vot_min \
+            #                 or instances[i].vot_min > instances[i].window_max \
+            #                 or instances[i].window_min > instances[i].vot_max \
+            #                 or instances[i].window_max < instances[i].vot_max:                            
+            #             logging.error("Something wrong in the TextGrid VOT tier: %s" % instances[i])
+            #             problematic_files.append(textgrid_filename)
 
         elif definitions.vot_tier != "":
             logging.error("The VOT tier '%s' has not found in %s" % (definitions.vot_tier, textgrid_filename))
