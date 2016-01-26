@@ -49,3 +49,4 @@ autovot/bin/auto_vot_extract_features.pyc
 autovot/bin/helpers/__init__.pyc
 autovot/bin/helpers/textgrid.pyc
 autovot/bin/helpers/utilities.pyc
+*.DS_Store

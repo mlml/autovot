@@ -194,12 +194,12 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
                         instances[i].window_min = max(instances[i].vot_min - 0.02, instances[i - 1].vot_max + 0.02)
                     # check if window_max is greater than the next vot_min
                     if instances[i].window_max > instances[i + 1].vot_min:
-                        instances[i].window_max = min(instances[i].vot_max + 0.02, instances[i + 1].vot_min - 0.02)
+                        instances[i].window_max = min(instances[i].vot_max + 0.02, instances[i + 1].vot_min - 0.02)                    
                     # check for consistency
                     if instances[i].window_min > instances[i].vot_min \
                             or instances[i].vot_min > instances[i].window_max \
                             or instances[i].window_min > instances[i].vot_max \
-                            or instances[i].window_max < instances[i].vot_max:
+                            or instances[i].window_max < instances[i].vot_max:                            
                         logging.error("Something wrong in the TextGrid VOT tier: %s" % instances[i])
                         problematic_files.append(textgrid_filename)
 
