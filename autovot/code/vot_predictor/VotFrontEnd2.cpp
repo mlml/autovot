@@ -122,11 +122,11 @@ int main(int argc, char **argv)
 		
 		LOG(DEBUG) << "Processing " << instances.file_list[i] << " (" << (i+1) << " of " << instances.size() << ")";
 
-		if (instances.word_end[i] - instances.word_start[i] < 0.6) {
-			LOG(ERROR) << "Window size is less than 600 msec (word_start=" << instances.word_start[i]
-			<< " word_end=" << instances.word_end[i] << ")";
-			return EXIT_FAILURE;
-		}
+		// if (instances.word_end[i] - instances.word_start[i] < 0.6) {
+		// 	LOG(ERROR) << "Window size is less than 600 msec (word_start=" << instances.word_start[i]
+		// 	<< " word_end=" << instances.word_end[i] << ")";
+		// 	return EXIT_FAILURE;
+		// }
 
 			// read samples
 		infra::vector samples;
