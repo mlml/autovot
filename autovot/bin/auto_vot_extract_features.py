@@ -27,7 +27,9 @@ from os.path import splitext, basename, isfile
 
 from helpers.textgrid import *
 from helpers.utilities import *
+import warnings
 
+warnings.simplefilter("error")
 
 class Instance:
     def __init__(self):
