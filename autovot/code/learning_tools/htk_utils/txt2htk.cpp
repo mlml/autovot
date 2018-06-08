@@ -38,7 +38,7 @@ void get_tokens(std::vector<std::string>& tokens, const std::string& str)
 	class tokenizer {
 public:
 		tokenizer(const std::string& str) : in_(str) {}
-		bool next() { return in_ >> token_; }
+		bool next() { return static_cast<bool>(in_ >> token_); }
 		std::string token() const { return token_; }
 private:
 		std::istringstream in_;
