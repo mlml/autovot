@@ -206,15 +206,17 @@ if __name__ == "__main__":
         vot_predictions = [line.strip() for line in open(preds_filename, 'rU')]
         for feature_filename, vot_prediction in izip(feature_filelist, vot_predictions):
             (confidence, xmin, xmax) = vot_prediction.split()
-            if confidence == '0':
-                continue
             xmin = float(xmin)
             xmax = float(xmax)
-            # check pre-voicing
-            features = np.loadtxt(feature_filename.rstrip(), skiprows=1)
-            rapt_voicing_feature = features[:, 7]
-            converted_rapt_voicing = np.where(rapt_voicing_feature < 0.01, -1, 1)
-            prevoicing_decision = np.mean(converted_rapt_voicing[int(xmin):int(xmax)]) > 0
+            if confidence == '0':
+                logging.warning("Zero confidence stop detected.")
+                prevoicing_decision = True
+            else:
+                # check pre-voicing
+                features = np.loadtxt(feature_filename.rstrip(), skiprows=1)
+                rapt_voicing_feature = features[:, 7]
+                converted_rapt_voicing = np.where(rapt_voicing_feature < 0.01, -1, 1)
+                prevoicing_decision = np.mean(converted_rapt_voicing[int(xmin):int(xmax)]) > 0
             if xmin < xmax:  # positive VOT
                 xmin_preds.append(xmin_proc_win[k] + xmin/1000.0)
                 xmax_preds.append(xmin_proc_win[k] + xmax/1000.0)
