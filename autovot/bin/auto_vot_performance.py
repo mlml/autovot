@@ -39,7 +39,7 @@ from helpers.utilities import *
 
 def num_lines(filename):
     lines = 0
-    with open(filename, 'rU') as f:
+    with open(filename, 'r') as f:
         for _ in f:
             lines += 1
     return lines
@@ -119,11 +119,11 @@ if __name__ == "__main__":
                                                                                        args.predicted_vot_tier))
             exit()
 
-        f = open(args.labeled_textgrid_list, 'rU')
+        f = open(args.labeled_textgrid_list, 'r')
         labeled_textgrids = f.readlines()
         f.close()
 
-        f = open(args.predicted_textgrid_list, 'rU')
+        f = open(args.predicted_textgrid_list, 'r')
         predicted_textgrids = f.readlines()
         f.close()
 

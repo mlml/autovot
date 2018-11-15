@@ -113,11 +113,11 @@ if __name__ == "__main__":
                                                                                         args.textgrid_filenames))
             exit()
 
-        f = open(args.wav_filenames, 'rU')
+        f = open(args.wav_filenames, 'r')
         wav_files = f.readlines()
         f.close()
 
-        f = open(args.textgrid_filenames, 'rU')
+        f = open(args.textgrid_filenames, 'r')
         textgrid_files = f.readlines()
         f.close()
 
@@ -192,7 +192,7 @@ if __name__ == "__main__":
         # convert decoding back to TextGrid
         xmin_proc_win = list()
         xmax_proc_win = list()
-        for line in open(input_filename, 'rU'):
+        for line in open(input_filename, 'r'):
             items = line.strip().split()
             xmin_proc_win.append(float(items[1]))
             xmax_proc_win.append(float(items[2]))
@@ -202,8 +202,8 @@ if __name__ == "__main__":
         xmax_preds = list()
         mark_preds = list()
         k = 0
-        feature_filelist = [line.strip() for line in open(features_filename, 'rU')]
-        vot_predictions = [line.strip() for line in open(preds_filename, 'rU')]
+        feature_filelist = [line.strip() for line in open(features_filename, 'r')]
+        vot_predictions = [line.strip() for line in open(preds_filename, 'r')]
         for feature_filename, vot_prediction in zip(feature_filelist, vot_predictions):
             (confidence, xmin, xmax) = vot_prediction.split()
             xmin = float(xmin)

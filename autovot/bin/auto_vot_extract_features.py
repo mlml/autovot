@@ -121,8 +121,8 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
 
     input_file = open(input_filename, 'w')
     feature_file = open(features_filename, 'w')
-    textgrid_list = open(textgrid_list, 'rU')
-    wav_list = open(wav_list, 'rU')
+    textgrid_list = open(textgrid_list, 'r')
+    wav_list = open(wav_list, 'r')
     for textgrid_filename, wav_filename in zip(textgrid_list, wav_list):
         textgrid_filename = textgrid_filename.strip()
         wav_filename = wav_filename.strip()

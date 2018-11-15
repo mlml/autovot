@@ -43,8 +43,8 @@ if __name__ == "__main__":
     logging_defaults(args.logging_level)
 
     # open files
-    in_features = open(args.features_filename, 'rU')
-    in_labels = open(args.labels_filename, 'rU')
+    in_features = open(args.features_filename, 'r')
+    in_labels = open(args.labels_filename, 'r')
 
     # read infra text header
     header = in_labels.readline()
@@ -67,12 +67,12 @@ if __name__ == "__main__":
 
     try:
         # try to open the files
-        app_features = open(args.appended_features_filename, 'rU')
-        app_labels = open(args.appended_labels_filename, 'rU')
+        app_features = open(args.appended_features_filename, 'r')
+        app_labels = open(args.appended_labels_filename, 'r')
 
         # now read the appended files
-        app_features = open(args.appended_features_filename, 'rU')
-        app_labels = open(args.appended_labels_filename, 'rU')
+        app_features = open(args.appended_features_filename, 'r')
+        app_labels = open(args.appended_labels_filename, 'r')
 
         # read infra text header
         app_header = app_labels.readline()

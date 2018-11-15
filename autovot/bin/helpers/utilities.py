@@ -30,7 +30,7 @@ def logging_defaults(logging_level="INFO"):
 
 def num_lines(filename):
     lines = 0
-    for _ in open(filename, 'rU'):
+    for _ in open(filename, 'r'):
         lines += 1
     return lines
 
@@ -52,8 +52,8 @@ def easy_call(command):
 def random_shuffle_data(in_features_filename, in_labels_filename, out_features_filename, out_labels_filename):
 
     # open files
-    in_features = open(in_features_filename, 'rU')
-    in_labels = open(in_labels_filename, 'rU')
+    in_features = open(in_features_filename, 'r')
+    in_labels = open(in_labels_filename, 'r')
 
     # read infra text header
     header = in_labels.readline()
@@ -100,7 +100,7 @@ def extract_lines(input_filename, output_filename, lines_range, has_header=False
     if lines_range[0] >= lines_range[1]:
         logging.error("Range should be causal.")
         exit(-1)
-    input_file = open(input_filename, 'rU')
+    input_file = open(input_filename, 'r')
     output_file = open(output_filename, 'w')
     if has_header:
         header = input_file.readline().strip().split()
@@ -115,7 +115,7 @@ def extract_lines(input_filename, output_filename, lines_range, has_header=False
 
 def is_textgrid(filename):
     try:
-        file = open(filename, 'rU')
+        file = open(filename, 'r')
         first_line = file.readline()
     except:
         return False
