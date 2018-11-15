@@ -113,13 +113,11 @@ if __name__ == "__main__":
                                                                                         args.textgrid_filenames))
             exit()
 
-        f = open(args.wav_filenames, 'r')
-        wav_files = f.readlines()
-        f.close()
+        with open(args.wav_filenames, 'r') as f:
+            wav_files = f.readlines()
 
-        f = open(args.textgrid_filenames, 'r')
-        textgrid_files = f.readlines()
-        f.close()
+        with open(args.textgrid_filenames, 'r') as f:
+            textgrid_files = f.readlines()
 
     problematic_files = list()
 
@@ -190,18 +188,21 @@ if __name__ == "__main__":
         # convert decoding back to TextGrid
         xmin_proc_win = list()
         xmax_proc_win = list()
-        for line in open(input_filename, 'r'):
-            items = line.strip().split()
-            xmin_proc_win.append(float(items[1]))
-            xmax_proc_win.append(float(items[2]))
+        with open(input_filename, 'r') as f:
+            for line in f:
+                items = line.strip().split()
+                xmin_proc_win.append(float(items[1]))
+                xmax_proc_win.append(float(items[2]))
 
         # convert decoding back to TextGrid. first generate list of xmin, xmax and mark
         xmin_preds = list()
         xmax_preds = list()
         mark_preds = list()
         k = 0
-        feature_filelist = [line.strip() for line in open(features_filename, 'r')]
-        vot_predictions = [line.strip() for line in open(preds_filename, 'r')]
+        with open(features_filename, 'r') as f:
+            feature_filelist = [line.strip() for line in f]
+        with open(preds_filename, 'r') as f:
+            vot_predictions = [line.strip() for line in f]
         for feature_filename, vot_prediction in zip(feature_filelist, vot_predictions):
             (confidence, xmin, xmax) = vot_prediction.split()
             xmin = float(xmin)
