@@ -220,13 +220,13 @@ if __name__ == "__main__":
                 xmin_preds.append(xmin_proc_win[k] + xmin/1000.0)
                 xmax_preds.append(xmin_proc_win[k] + xmax/1000.0)
                 if prevoicing_decision:
-                    mark_preds.append("-"+confidence)
+                    mark_preds.append("-{:.12g}".format(float(confidence)))
                 else:
-                    mark_preds.append(confidence)
+                    mark_preds.append("{:.12g}".format(float(confidence)))
             else:  # negative VOT
                 xmin_preds.append(xmin_proc_win[k] + xmax/1000.0)
                 xmax_preds.append(xmin_proc_win[k] + xmin/1000.0)
-                mark_preds.append("neg " + confidence)
+                mark_preds.append("neg {:.12g}".format(float(confidence)))
             k += 1
 
         # add "AutoVOT" tier to textgrid_filename
@@ -272,9 +272,9 @@ if __name__ == "__main__":
         if out_file:
             for i in range(len(xmin_preds) - 1):
                 vot, conf = xmax_preds[i] - xmin_preds[i], mark_preds[i]
-                out_file.writerow([wav_file, str(xmin_preds[i]), str(vot), str(conf)])
+                out_file.writerow([wav_file, "{:.12g}".format(xmin_preds[i]), "{:.12g}".format(vot), conf])
             vot, conf = xmax_preds[-1] - xmin_preds[-1], mark_preds[-1]
-            out_file.writerow([wav_file, str(xmin_preds[-1]), str(vot), str(conf)])
+            out_file.writerow([wav_file, "{:.12g}".format(xmin_preds[-1]), "{:.12g}".format(vot), conf])
             
     if out_file:
         csv_file.close()
