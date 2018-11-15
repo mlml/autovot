@@ -201,7 +201,7 @@ if __name__ == "__main__":
     ## dump predicted/labeled VOT info to a CSV, for later examination in R, excel, etc.
     if args.csv_file:
         print("\nWriting labeled / predicted VOT info to %s" % args.csv_file)
-        out_file = open(args.csv_file, 'wb')
+        out_file = open(args.csv_file, 'w')
         csv_file = csv.writer(out_file)
         csv_file.writerow(['filename_labeled', 'filename_predicted', 'time_in_labeledF', 'time_in_predictedF',
                            'tier_in_labeledF', 'tier_in_predictedF', 'vot_labeled', 'vot_predicted'])

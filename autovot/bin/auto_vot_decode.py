@@ -126,7 +126,7 @@ if __name__ == "__main__":
     out_file = None
     if args.csv_file:
         try:
-            csv_file = open(args.csv_file, 'wb')
+            csv_file = open(args.csv_file, 'w')
             out_file = csv.writer(csv_file)
         except:
             logging.warning("Couldn't open %s for writing. CSV file not being written." % args.csv_name)
