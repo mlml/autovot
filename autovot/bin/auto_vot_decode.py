@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python3
 #
 # Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
 #
@@ -30,7 +30,7 @@ import os
 import tempfile
 import shutil
 import csv
-from itertools import izip
+
 import numpy as np
 
 from auto_vot_extract_features import *
@@ -204,7 +204,7 @@ if __name__ == "__main__":
         k = 0
         feature_filelist = [line.strip() for line in open(features_filename, 'rU')]
         vot_predictions = [line.strip() for line in open(preds_filename, 'rU')]
-        for feature_filename, vot_prediction in izip(feature_filelist, vot_predictions):
+        for feature_filename, vot_prediction in zip(feature_filelist, vot_predictions):
             (confidence, xmin, xmax) = vot_prediction.split()
             xmin = float(xmin)
             xmax = float(xmax)
@@ -236,7 +236,7 @@ if __name__ == "__main__":
         auto_vot_tier = IntervalTier(name='AutoVOT', xmin=textgrid.xmin(), xmax=textgrid.xmax())
         auto_vot_tier.append(Interval(textgrid.xmin(), xmin_preds[0], ''))
         # print textgrid.xmin(), xmin_preds[0], ''
-        for i in xrange(len(xmin_preds) - 1):
+        for i in range(len(xmin_preds) - 1):
             ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
             auto_vot_tier.append(Interval(xmin_preds[i], xmax_preds[i], 'pred'))
             # print xmin_preds[i], xmax_preds[i], mark_preds[i]
@@ -271,7 +271,7 @@ if __name__ == "__main__":
             shutil.rmtree(path=working_dir, ignore_errors=True)
 
         if out_file:
-            for i in xrange(len(xmin_preds) - 1):
+            for i in range(len(xmin_preds) - 1):
                 vot, conf = xmax_preds[i] - xmin_preds[i], mark_preds[i]
                 out_file.writerow([wav_file, str(xmin_preds[i]), str(vot), str(conf)])
             vot, conf = xmax_preds[-1] - xmin_preds[-1], mark_preds[-1]

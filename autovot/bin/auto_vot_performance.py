@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python3
 #
 # Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
 #
@@ -115,8 +115,8 @@ if __name__ == "__main__":
         predicted_textgrids = [args.predicted_textgrid_list]
     else:
         if num_lines(args.labeled_textgrid_list) != num_lines(args.predicted_textgrid_list):
-            print "Error: the files %s and %s should have the same number of lines" % (args.labeled_textgrid_list,
-                                                                                       args.predicted_vot_tier)
+            print("Error: the files %s and %s should have the same number of lines" % (args.labeled_textgrid_list,
+                                                                                       args.predicted_vot_tier))
             exit()
 
         f = open(args.labeled_textgrid_list, 'rU')
@@ -167,40 +167,40 @@ if __name__ == "__main__":
     labF = os.path.abspath(args.labeled_textgrid_list)
     predF = os.path.abspath(args.predicted_textgrid_list)
 
-    print "\n\nEvaluating labeled vs. predicted VOTs, using:"
-    print "- labeled VOTs: '%s' tier in %s" % (args.labeled_vot_tier, labF)
-    print "- predicted VOTs: '%s' tier in %s" % (args.predicted_vot_tier, predF)
+    print("\n\nEvaluating labeled vs. predicted VOTs, using:")
+    print("- labeled VOTs: '%s' tier in %s" % (args.labeled_vot_tier, labF))
+    print("- predicted VOTs: '%s' tier in %s" % (args.predicted_vot_tier, predF))
 
     ## performance measure 1
-    print
-    print "Correlations (Pearson/Spearman) between predicted/labeled:"
-    print "-------------"
+    print()
+    print("Correlations (Pearson/Spearman) between predicted/labeled:")
+    print("-------------")
 
-    print "Left edge (burst onset): ", corr1(x_xmin, y_xmin)[0], "/", corr2(x_xmin, y_xmin)[0]
-    print "Right edge (voicing onset): ", corr1(x_xmax, y_xmax)[0], "/", corr2(x_xmax, y_xmax)[0]
-    print "VOTs: ", corr1(x_vot, y_vot)[0], "/", corr2(x_xmax, y_xmax)[0]
+    print("Left edge (burst onset): ", corr1(x_xmin, y_xmin)[0], "/", corr2(x_xmin, y_xmin)[0])
+    print("Right edge (voicing onset): ", corr1(x_xmax, y_xmax)[0], "/", corr2(x_xmax, y_xmax)[0])
+    print("VOTs: ", corr1(x_vot, y_vot)[0], "/", corr2(x_xmax, y_xmax)[0])
 
-    print "\n(Note: if the Pearson and Spearman correlations differ much,\nyou probably have outliers which are " \
-          "strongly influencing Pearson's R)\n"
+    print("\n(Note: if the Pearson and Spearman correlations differ much,\nyou probably have outliers which are " \
+          "strongly influencing Pearson's R)\n")
 
     ## numpy arrays of labeled VOTs and predicted VOTs (in sec)
     X, Y = np.array(x_vot), np.array(y_vot)
 
     ## performance measure 2
-    print "Mean, standard deviation of labeled/predicted difference:"
-    print "------------------------------"
-    print "VOT:", 1000*np.mean(abs(X-Y)), "msec,", 1000*np.std(abs(X-Y)), "msec\n"
+    print("Mean, standard deviation of labeled/predicted difference:")
+    print("------------------------------")
+    print("VOT:", 1000*np.mean(abs(X-Y)), "msec,", 1000*np.std(abs(X-Y)), "msec\n")
 
     ## performance measure 3
     thresholds = [2, 5, 10, 15, 20, 25, 50]
-    print "Percentage of examples with labeled/predicted VOT difference of at most:"
-    print "------------------------------"
+    print("Percentage of examples with labeled/predicted VOT difference of at most:")
+    print("------------------------------")
     for thresh in thresholds:
-        print "%d msec: " % thresh, 100*(len(X[abs(X-Y) < thresh/1000.0])/float(len(X)))
+        print("%d msec: " % thresh, 100*(len(X[abs(X-Y) < thresh/1000.0])/float(len(X))))
 
     ## dump predicted/labeled VOT info to a CSV, for later examination in R, excel, etc.
     if args.csv_file:
-        print "\nWriting labeled / predicted VOT info to %s" % args.csv_file
+        print("\nWriting labeled / predicted VOT info to %s" % args.csv_file)
         out_file = open(args.csv_file, 'wb')
         csv_file = csv.writer(out_file)
         csv_file.writerow(['filename_labeled', 'filename_predicted', 'time_in_labeledF', 'time_in_predictedF',

@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python3
 #
 # Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
 #
