@@ -33,7 +33,7 @@ import scipy.stats
 corr2 = scipy.stats.spearmanr
 corr1 = scipy.stats.pearsonr
 
-from helpers.textgrid import *
+import textgrid as tg
 from helpers.utilities import *
 
 
@@ -51,19 +51,17 @@ def read_textgrid_tier(textgrid_filename, vot_tier):
     textgrid.read(textgrid_filename)
 
     # extract tier names
-    tier_names = textgrid.tierNames()
+    tier_names = textgrid.getNames()
 
     # check if the VOT tier is one of the tiers in the TextGrid
-    vots = list()
-
-
+    vots = tg.IntervalTier
 
     if vot_tier in tier_names:
         tier_index = tier_names.index(vot_tier)
         # run over all intervals in the tier
         for interval in textgrid[tier_index]:
-            if re.search(r'\S', interval.mark()):
-                vots.append(interval)
+            if re.search(r'\S', interval.mark):
+                vots.addInterval(interval)
     else:
         logging.error("Tier %s not found in TextGrid %s" % (vot_tier, textgrid_filename))
         logging.error("(If you think the tier is there, perhaps there's extra whitespace in the tier name?)")
@@ -153,14 +151,14 @@ if __name__ == "__main__":
                             (labeled_textgrid, len(labeled_vots), predicted_textgrid, len(predicted_vots)))
             continue
 
-        x_xmin = x_xmin + [x.xmin() for x in labeled_vots]
-        x_xmax = x_xmax + [x.xmax() for x in labeled_vots]
-        x_vot = x_vot + [(x.xmax()-x.xmin()) for x in labeled_vots]
+        x_xmin = x_xmin + [x.minTime for x in labeled_vots]
+        x_xmax = x_xmax + [x.maxTime for x in labeled_vots]
+        x_vot = x_vot + [(x.maxTime-x.minTime) for x in labeled_vots]
         x_files = x_files + [labeled_textgrid.strip() for x in labeled_vots]
 
-        y_xmin = y_xmin + [y.xmin() for y in predicted_vots]
-        y_xmax = y_xmax + [y.xmax() for y in predicted_vots]
-        y_vot = y_vot + [(y.xmax()-y.xmin()) for y in predicted_vots]
+        y_xmin = y_xmin + [y.minTime for y in predicted_vots]
+        y_xmax = y_xmax + [y.maxTime for y in predicted_vots]
+        y_vot = y_vot + [(y.maxTime-y.minTime) for y in predicted_vots]
         y_files = y_files + [predicted_textgrid.strip() for x in predicted_vots]
 
 

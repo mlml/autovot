@@ -25,7 +25,7 @@
 import argparse
 from os.path import splitext, basename, isfile
 
-from helpers.textgrid import *
+import textgrid as tg
 from helpers.utilities import *
 import warnings
 
@@ -153,13 +153,13 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             continue
         num_samples = wav_file.getnframes()
         wav_duration = num_samples/float(wav_file.getframerate())
-        textgrid = TextGrid()
+        textgrid = tg.TextGrid()
 
         # read TextGrid
         textgrid.read(textgrid_filename)
 
         # extract tier names
-        tier_names = textgrid.tierNames()
+        tier_names = textgrid.getNames()
 
         instances = list()
 
@@ -172,12 +172,12 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             tier_index = tier_names.index(definitions.vot_tier)
             # run over all intervals in the tier
             for interval in textgrid[tier_index]:
-                if (definitions.vot_mark == "*" and re.search(r'\S', interval.mark())) \
-                        or (interval.mark() == definitions.vot_mark):
-                    window_min = max(interval.xmin() + definitions.window_min, 0)
-                    window_max = min(min(interval.xmax() + definitions.window_max, textgrid.xmax()), wav_duration)
+                if (definitions.vot_mark == "*" and re.search(r'\S', interval.mark)) \
+                        or (interval.mark == definitions.vot_mark):
+                    window_min = max(float(interval.minTime) + definitions.window_min, 0)
+                    window_max = min(min(float(interval.maxTime) + definitions.window_max, float(textgrid.maxTime)), wav_duration)
                     new_instance = Instance()
-                    new_instance.set(wav_filename, window_min, window_max, interval.xmin(), interval.xmax())
+                    new_instance.set(wav_filename, window_min, window_max, float(interval.minTime), float(interval.maxTime))
                     instances.append(new_instance)
             # check if the given mark was ever found
             if not instances:
@@ -215,10 +215,10 @@ def textgrid2front_end(textgrid_list, wav_list, input_filename, features_filenam
             tier_index = tier_names.index(definitions.window_tier)
             # run over all intervals in the tier
             for interval in textgrid[tier_index]:
-                if (definitions.window_mark == "*" and re.search(r'\S', interval.mark())) \
-                        or (interval.mark() == definitions.window_mark):
-                    window_min = interval.xmin()
-                    window_max = interval.xmax()
+                if (definitions.window_mark == "*" and re.search(r'\S', interval.mark)) \
+                        or (interval.mark == definitions.window_mark):
+                    window_min = float(interval.minTime)
+                    window_max = float(interval.maxTime)
                     new_instance = Instance()
                     new_instance.set(wav_filename, window_min, window_max, window_min, window_max)
                     instances.append(new_instance)

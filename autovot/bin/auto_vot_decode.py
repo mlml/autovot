@@ -32,10 +32,10 @@ import shutil
 import csv
 
 import numpy as np
+import textgrid as tg
 
 from auto_vot_extract_features import *
 from helpers.utilities import *
-from helpers.textgrid import *
 
 
 if __name__ == "__main__":
@@ -157,14 +157,12 @@ if __name__ == "__main__":
         final_vot_filename = my_basename + ".vot"
 
         textgrid_list = my_basename + ".tg_list"
-        f = open(textgrid_list, 'w')
-        f.write(textgrid_file + '\n')
-        f.close()
+        with open(textgrid_list, 'w') as f:
+            f.write(textgrid_file + '\n')
 
         wav_list = my_basename + ".wav_list"
-        f = open(wav_list, 'w')
-        f.write(wav_file + '\n')
-        f.close()
+        with open(wav_list, 'w') as f:
+            f.write(wav_file + '\n')
 
         logging.debug("working_dir=%s" % working_dir)
 
@@ -231,28 +229,28 @@ if __name__ == "__main__":
             k += 1
 
         # add "AutoVOT" tier to textgrid_filename
-        textgrid = TextGrid()
+        textgrid = tg.TextGrid()
         textgrid.read(textgrid_file)
-        auto_vot_tier = IntervalTier(name='AutoVOT', xmin=textgrid.xmin(), xmax=textgrid.xmax())
-        auto_vot_tier.append(Interval(textgrid.xmin(), xmin_preds[0], ''))
+        auto_vot_tier = tg.IntervalTier(name='AutoVOT', minTime=textgrid.minTime, maxTime=textgrid.maxTime)
+        auto_vot_tier.add(textgrid.minTime, xmin_preds[0], '')
         # print textgrid.xmin(), xmin_preds[0], ''
         for i in range(len(xmin_preds) - 1):
             ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
-            auto_vot_tier.append(Interval(xmin_preds[i], xmax_preds[i], 'pred'))
+            auto_vot_tier.add(xmin_preds[i], xmax_preds[i], 'pred')
             # print xmin_preds[i], xmax_preds[i], mark_preds[i]
-            auto_vot_tier.append(Interval(xmax_preds[i], xmin_preds[i + 1], ''))
+            auto_vot_tier.add(xmax_preds[i], xmin_preds[i + 1], '')
             # print xmax_preds[i], xmin_preds[i+1], ''
         ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
-        auto_vot_tier.append(Interval(xmin_preds[-1], xmax_preds[-1], 'pred'))
+        auto_vot_tier.add(xmin_preds[-1], xmax_preds[-1], 'pred')
         # print xmin_preds[-1], xmax_preds[-1], mark_preds[-1]
-        auto_vot_tier.append(Interval(xmax_preds[-1], textgrid.xmax(), ''))
+        auto_vot_tier.add(xmax_preds[-1], textgrid.maxTime, '')
         # print xmax_preds[-1], textgrid.xmax(), ''
 
         ## check if target textgrid already has a tier named
         ## "AutoVOT", modulo preceding or trailing spaces or case. If
         ## so, action taken depends on if --ignore_existing_tiers flag
         ## invoked
-        existing_tiers = [n.strip() for n in textgrid.tierNames(case="lower") if n.strip() == 'autovot']
+        existing_tiers = [n.strip() for n in [x.lower() for x in textgrid.getNames()] if n.strip() == 'autovot']
         if len(existing_tiers) > 0:
             logging.warning("File %s already contains a tier with the name \"AutoVOT\"" % textgrid_file)
             if args.ignore_existing_tiers:
