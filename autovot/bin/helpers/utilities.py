@@ -30,8 +30,9 @@ def logging_defaults(logging_level="INFO"):
 
 def num_lines(filename):
     lines = 0
-    for _ in open(filename, 'rU'):
-        lines += 1
+    with open(filename, 'r') as f:
+        for _ in f:
+            lines += 1
     return lines
 
 
@@ -52,8 +53,8 @@ def easy_call(command):
 def random_shuffle_data(in_features_filename, in_labels_filename, out_features_filename, out_labels_filename):
 
     # open files
-    in_features = open(in_features_filename, 'rU')
-    in_labels = open(in_labels_filename, 'rU')
+    in_features = open(in_features_filename, 'r')
+    in_labels = open(in_labels_filename, 'r')
 
     # read infra text header
     header = in_labels.readline()
@@ -100,7 +101,7 @@ def extract_lines(input_filename, output_filename, lines_range, has_header=False
     if lines_range[0] >= lines_range[1]:
         logging.error("Range should be causal.")
         exit(-1)
-    input_file = open(input_filename, 'rU')
+    input_file = open(input_filename, 'r')
     output_file = open(output_filename, 'w')
     if has_header:
         header = input_file.readline().strip().split()
@@ -115,8 +116,8 @@ def extract_lines(input_filename, output_filename, lines_range, has_header=False
 
 def is_textgrid(filename):
     try:
-        file = open(filename, 'rU')
-        first_line = file.readline()
+        with open(filename, 'r') as f:
+            first_line = f.readline()
     except:
         return False
     if "ooTextFile" in first_line:
@@ -127,10 +128,10 @@ def is_textgrid(filename):
 def is_valid_wav(filename):
     # check the sampling rate and number bits of the WAV
     try:
-        wav_file = wave.Wave_read(filename)
+        with wave.Wave_read(filename) as wav_file:
+            if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
+                or wav_file.getcomptype() != 'NONE':
+                return False
+        return True
     except:
         return False
-    if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
-        or wav_file.getcomptype() != 'NONE':
-        return False
-    return True

@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python3
 #
 # Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
 #
@@ -30,12 +30,12 @@ import os
 import tempfile
 import shutil
 import csv
-from itertools import izip
+
 import numpy as np
+import textgrid as tg
 
 from auto_vot_extract_features import *
 from helpers.utilities import *
-from helpers.textgrid import *
 
 
 if __name__ == "__main__":
@@ -113,20 +113,18 @@ if __name__ == "__main__":
                                                                                         args.textgrid_filenames))
             exit()
 
-        f = open(args.wav_filenames, 'rU')
-        wav_files = f.readlines()
-        f.close()
+        with open(args.wav_filenames, 'r') as f:
+            wav_files = f.readlines()
 
-        f = open(args.textgrid_filenames, 'rU')
-        textgrid_files = f.readlines()
-        f.close()
+        with open(args.textgrid_filenames, 'r') as f:
+            textgrid_files = f.readlines()
 
     problematic_files = list()
 
     out_file = None
     if args.csv_file:
         try:
-            csv_file = open(args.csv_file, 'wb')
+            csv_file = open(args.csv_file, 'w')
             out_file = csv.writer(csv_file)
         except:
             logging.warning("Couldn't open %s for writing. CSV file not being written." % args.csv_name)
@@ -157,14 +155,12 @@ if __name__ == "__main__":
         final_vot_filename = my_basename + ".vot"
 
         textgrid_list = my_basename + ".tg_list"
-        f = open(textgrid_list, 'w')
-        f.write(textgrid_file + '\n')
-        f.close()
+        with open(textgrid_list, 'w') as f:
+            f.write(textgrid_file + '\n')
 
         wav_list = my_basename + ".wav_list"
-        f = open(wav_list, 'w')
-        f.write(wav_file + '\n')
-        f.close()
+        with open(wav_list, 'w') as f:
+            f.write(wav_file + '\n')
 
         logging.debug("working_dir=%s" % working_dir)
 
@@ -192,19 +188,22 @@ if __name__ == "__main__":
         # convert decoding back to TextGrid
         xmin_proc_win = list()
         xmax_proc_win = list()
-        for line in open(input_filename, 'rU'):
-            items = line.strip().split()
-            xmin_proc_win.append(float(items[1]))
-            xmax_proc_win.append(float(items[2]))
+        with open(input_filename, 'r') as f:
+            for line in f:
+                items = line.strip().split()
+                xmin_proc_win.append(float(items[1]))
+                xmax_proc_win.append(float(items[2]))
 
         # convert decoding back to TextGrid. first generate list of xmin, xmax and mark
         xmin_preds = list()
         xmax_preds = list()
         mark_preds = list()
         k = 0
-        feature_filelist = [line.strip() for line in open(features_filename, 'rU')]
-        vot_predictions = [line.strip() for line in open(preds_filename, 'rU')]
-        for feature_filename, vot_prediction in izip(feature_filelist, vot_predictions):
+        with open(features_filename, 'r') as f:
+            feature_filelist = [line.strip() for line in f]
+        with open(preds_filename, 'r') as f:
+            vot_predictions = [line.strip() for line in f]
+        for feature_filename, vot_prediction in zip(feature_filelist, vot_predictions):
             (confidence, xmin, xmax) = vot_prediction.split()
             xmin = float(xmin)
             xmax = float(xmax)
@@ -221,38 +220,38 @@ if __name__ == "__main__":
                 xmin_preds.append(xmin_proc_win[k] + xmin/1000.0)
                 xmax_preds.append(xmin_proc_win[k] + xmax/1000.0)
                 if prevoicing_decision:
-                    mark_preds.append("-"+confidence)
+                    mark_preds.append("-{:.12g}".format(float(confidence)))
                 else:
-                    mark_preds.append(confidence)
+                    mark_preds.append("{:.12g}".format(float(confidence)))
             else:  # negative VOT
                 xmin_preds.append(xmin_proc_win[k] + xmax/1000.0)
                 xmax_preds.append(xmin_proc_win[k] + xmin/1000.0)
-                mark_preds.append("neg " + confidence)
+                mark_preds.append("neg {:.12g}".format(float(confidence)))
             k += 1
 
         # add "AutoVOT" tier to textgrid_filename
-        textgrid = TextGrid()
+        textgrid = tg.TextGrid()
         textgrid.read(textgrid_file)
-        auto_vot_tier = IntervalTier(name='AutoVOT', xmin=textgrid.xmin(), xmax=textgrid.xmax())
-        auto_vot_tier.append(Interval(textgrid.xmin(), xmin_preds[0], ''))
+        auto_vot_tier = tg.IntervalTier(name='AutoVOT', minTime=textgrid.minTime, maxTime=textgrid.maxTime)
+        auto_vot_tier.add(textgrid.minTime, xmin_preds[0], '')
         # print textgrid.xmin(), xmin_preds[0], ''
-        for i in xrange(len(xmin_preds) - 1):
+        for i in range(len(xmin_preds) - 1):
             ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
-            auto_vot_tier.append(Interval(xmin_preds[i], xmax_preds[i], 'pred'))
+            auto_vot_tier.add(xmin_preds[i], xmax_preds[i], 'pred')
             # print xmin_preds[i], xmax_preds[i], mark_preds[i]
-            auto_vot_tier.append(Interval(xmax_preds[i], xmin_preds[i + 1], ''))
+            auto_vot_tier.add(xmax_preds[i], xmin_preds[i + 1], '')
             # print xmax_preds[i], xmin_preds[i+1], ''
         ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
-        auto_vot_tier.append(Interval(xmin_preds[-1], xmax_preds[-1], 'pred'))
+        auto_vot_tier.add(xmin_preds[-1], xmax_preds[-1], 'pred')
         # print xmin_preds[-1], xmax_preds[-1], mark_preds[-1]
-        auto_vot_tier.append(Interval(xmax_preds[-1], textgrid.xmax(), ''))
+        auto_vot_tier.add(xmax_preds[-1], textgrid.maxTime, '')
         # print xmax_preds[-1], textgrid.xmax(), ''
 
         ## check if target textgrid already has a tier named
         ## "AutoVOT", modulo preceding or trailing spaces or case. If
         ## so, action taken depends on if --ignore_existing_tiers flag
         ## invoked
-        existing_tiers = [n.strip() for n in textgrid.tierNames(case="lower") if n.strip() == 'autovot']
+        existing_tiers = [n.strip() for n in [x.lower() for x in textgrid.getNames()] if n.strip() == 'autovot']
         if len(existing_tiers) > 0:
             logging.warning("File %s already contains a tier with the name \"AutoVOT\"" % textgrid_file)
             if args.ignore_existing_tiers:
@@ -271,11 +270,11 @@ if __name__ == "__main__":
             shutil.rmtree(path=working_dir, ignore_errors=True)
 
         if out_file:
-            for i in xrange(len(xmin_preds) - 1):
+            for i in range(len(xmin_preds) - 1):
                 vot, conf = xmax_preds[i] - xmin_preds[i], mark_preds[i]
-                out_file.writerow([wav_file, str(xmin_preds[i]), str(vot), str(conf)])
+                out_file.writerow([wav_file, "{:.12g}".format(xmin_preds[i]), "{:.12g}".format(vot), conf])
             vot, conf = xmax_preds[-1] - xmin_preds[-1], mark_preds[-1]
-            out_file.writerow([wav_file, str(xmin_preds[-1]), str(vot), str(conf)])
+            out_file.writerow([wav_file, "{:.12g}".format(xmin_preds[-1]), "{:.12g}".format(vot), conf])
             
     if out_file:
         csv_file.close()

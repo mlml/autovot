@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python3
 #
 # Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
 #
@@ -33,13 +33,13 @@ import scipy.stats
 corr2 = scipy.stats.spearmanr
 corr1 = scipy.stats.pearsonr
 
-from helpers.textgrid import *
+import textgrid as tg
 from helpers.utilities import *
 
 
 def num_lines(filename):
     lines = 0
-    with open(filename, 'rU') as f:
+    with open(filename, 'r') as f:
         for _ in f:
             lines += 1
     return lines
@@ -51,19 +51,17 @@ def read_textgrid_tier(textgrid_filename, vot_tier):
     textgrid.read(textgrid_filename)
 
     # extract tier names
-    tier_names = textgrid.tierNames()
+    tier_names = textgrid.getNames()
 
     # check if the VOT tier is one of the tiers in the TextGrid
-    vots = list()
-
-
+    vots = tg.IntervalTier
 
     if vot_tier in tier_names:
         tier_index = tier_names.index(vot_tier)
         # run over all intervals in the tier
         for interval in textgrid[tier_index]:
-            if re.search(r'\S', interval.mark()):
-                vots.append(interval)
+            if re.search(r'\S', interval.mark):
+                vots.addInterval(interval)
     else:
         logging.error("Tier %s not found in TextGrid %s" % (vot_tier, textgrid_filename))
         logging.error("(If you think the tier is there, perhaps there's extra whitespace in the tier name?)")
@@ -115,15 +113,15 @@ if __name__ == "__main__":
         predicted_textgrids = [args.predicted_textgrid_list]
     else:
         if num_lines(args.labeled_textgrid_list) != num_lines(args.predicted_textgrid_list):
-            print "Error: the files %s and %s should have the same number of lines" % (args.labeled_textgrid_list,
-                                                                                       args.predicted_vot_tier)
+            print("Error: the files %s and %s should have the same number of lines" % (args.labeled_textgrid_list,
+                                                                                       args.predicted_vot_tier))
             exit()
 
-        f = open(args.labeled_textgrid_list, 'rU')
+        f = open(args.labeled_textgrid_list, 'r')
         labeled_textgrids = f.readlines()
         f.close()
 
-        f = open(args.predicted_textgrid_list, 'rU')
+        f = open(args.predicted_textgrid_list, 'r')
         predicted_textgrids = f.readlines()
         f.close()
 
@@ -153,55 +151,55 @@ if __name__ == "__main__":
                             (labeled_textgrid, len(labeled_vots), predicted_textgrid, len(predicted_vots)))
             continue
 
-        x_xmin = x_xmin + [x.xmin() for x in labeled_vots]
-        x_xmax = x_xmax + [x.xmax() for x in labeled_vots]
-        x_vot = x_vot + [(x.xmax()-x.xmin()) for x in labeled_vots]
+        x_xmin = x_xmin + [x.minTime for x in labeled_vots]
+        x_xmax = x_xmax + [x.maxTime for x in labeled_vots]
+        x_vot = x_vot + [(x.maxTime-x.minTime) for x in labeled_vots]
         x_files = x_files + [labeled_textgrid.strip() for x in labeled_vots]
 
-        y_xmin = y_xmin + [y.xmin() for y in predicted_vots]
-        y_xmax = y_xmax + [y.xmax() for y in predicted_vots]
-        y_vot = y_vot + [(y.xmax()-y.xmin()) for y in predicted_vots]
+        y_xmin = y_xmin + [y.minTime for y in predicted_vots]
+        y_xmax = y_xmax + [y.maxTime for y in predicted_vots]
+        y_vot = y_vot + [(y.maxTime-y.minTime) for y in predicted_vots]
         y_files = y_files + [predicted_textgrid.strip() for x in predicted_vots]
 
 
     labF = os.path.abspath(args.labeled_textgrid_list)
     predF = os.path.abspath(args.predicted_textgrid_list)
 
-    print "\n\nEvaluating labeled vs. predicted VOTs, using:"
-    print "- labeled VOTs: '%s' tier in %s" % (args.labeled_vot_tier, labF)
-    print "- predicted VOTs: '%s' tier in %s" % (args.predicted_vot_tier, predF)
+    print("\n\nEvaluating labeled vs. predicted VOTs, using:")
+    print("- labeled VOTs: '%s' tier in %s" % (args.labeled_vot_tier, labF))
+    print("- predicted VOTs: '%s' tier in %s" % (args.predicted_vot_tier, predF))
 
     ## performance measure 1
-    print
-    print "Correlations (Pearson/Spearman) between predicted/labeled:"
-    print "-------------"
+    print()
+    print("Correlations (Pearson/Spearman) between predicted/labeled:")
+    print("-------------")
 
-    print "Left edge (burst onset): ", corr1(x_xmin, y_xmin)[0], "/", corr2(x_xmin, y_xmin)[0]
-    print "Right edge (voicing onset): ", corr1(x_xmax, y_xmax)[0], "/", corr2(x_xmax, y_xmax)[0]
-    print "VOTs: ", corr1(x_vot, y_vot)[0], "/", corr2(x_xmax, y_xmax)[0]
+    print("Left edge (burst onset): ", corr1(x_xmin, y_xmin)[0], "/", corr2(x_xmin, y_xmin)[0])
+    print("Right edge (voicing onset): ", corr1(x_xmax, y_xmax)[0], "/", corr2(x_xmax, y_xmax)[0])
+    print("VOTs: ", corr1(x_vot, y_vot)[0], "/", corr2(x_xmax, y_xmax)[0])
 
-    print "\n(Note: if the Pearson and Spearman correlations differ much,\nyou probably have outliers which are " \
-          "strongly influencing Pearson's R)\n"
+    print("\n(Note: if the Pearson and Spearman correlations differ much,\nyou probably have outliers which are " \
+          "strongly influencing Pearson's R)\n")
 
     ## numpy arrays of labeled VOTs and predicted VOTs (in sec)
     X, Y = np.array(x_vot), np.array(y_vot)
 
     ## performance measure 2
-    print "Mean, standard deviation of labeled/predicted difference:"
-    print "------------------------------"
-    print "VOT:", 1000*np.mean(abs(X-Y)), "msec,", 1000*np.std(abs(X-Y)), "msec\n"
+    print("Mean, standard deviation of labeled/predicted difference:")
+    print("------------------------------")
+    print("VOT:", 1000*np.mean(abs(X-Y)), "msec,", 1000*np.std(abs(X-Y)), "msec\n")
 
     ## performance measure 3
     thresholds = [2, 5, 10, 15, 20, 25, 50]
-    print "Percentage of examples with labeled/predicted VOT difference of at most:"
-    print "------------------------------"
+    print("Percentage of examples with labeled/predicted VOT difference of at most:")
+    print("------------------------------")
     for thresh in thresholds:
-        print "%d msec: " % thresh, 100*(len(X[abs(X-Y) < thresh/1000.0])/float(len(X)))
+        print("%d msec: " % thresh, 100*(len(X[abs(X-Y) < thresh/1000.0])/float(len(X))))
 
     ## dump predicted/labeled VOT info to a CSV, for later examination in R, excel, etc.
     if args.csv_file:
-        print "\nWriting labeled / predicted VOT info to %s" % args.csv_file
-        out_file = open(args.csv_file, 'wb')
+        print("\nWriting labeled / predicted VOT info to %s" % args.csv_file)
+        out_file = open(args.csv_file, 'w')
         csv_file = csv.writer(out_file)
         csv_file.writerow(['filename_labeled', 'filename_predicted', 'time_in_labeledF', 'time_in_predictedF',
                            'tier_in_labeledF', 'tier_in_predictedF', 'vot_labeled', 'vot_predicted'])
