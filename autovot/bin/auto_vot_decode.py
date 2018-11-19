@@ -237,15 +237,24 @@ if __name__ == "__main__":
         # print textgrid.xmin(), xmin_preds[0], ''
         for i in range(len(xmin_preds) - 1):
             ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
-            auto_vot_tier.add(xmin_preds[i], xmax_preds[i], 'pred')
-            # print xmin_preds[i], xmax_preds[i], mark_preds[i]
-            auto_vot_tier.add(xmax_preds[i], xmin_preds[i + 1], '')
-            # print xmax_preds[i], xmin_preds[i+1], ''
+            # Check for overlapping predictions
+            if i > 0 and xmax_preds[i-1] > xmin_preds[i]:
+                # In the case of overlapping, just put the min of next pred as the max of the previous
+                auto_vot_tier.add(xmax_preds[i-1], xmax_preds[i], 'pred')
+            else:
+                auto_vot_tier.add(xmin_preds[i], xmax_preds[i], 'pred')
+
+            # check for overlapping predictions
+            if not xmin_preds[i+1] < xmax_preds[i]:
+                auto_vot_tier.add(xmax_preds[i], xmin_preds[i + 1], '')
         ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
-        auto_vot_tier.add(xmin_preds[-1], xmax_preds[-1], 'pred')
-        # print xmin_preds[-1], xmax_preds[-1], mark_preds[-1]
+
+        if xmax_preds[-2] > xmin_preds[-1]:
+            auto_vot_tier.add(xmax_preds[-2], xmax_preds[-1], 'pred')
+        else:
+            auto_vot_tier.add(xmin_preds[-1], xmax_preds[-1], 'pred')
+
         auto_vot_tier.add(xmax_preds[-1], textgrid.maxTime, '')
-        # print xmax_preds[-1], textgrid.xmax(), ''
 
         ## check if target textgrid already has a tier named
         ## "AutoVOT", modulo preceding or trailing spaces or case. If
