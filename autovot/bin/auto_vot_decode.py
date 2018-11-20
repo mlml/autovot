@@ -234,19 +234,19 @@ if __name__ == "__main__":
         textgrid.read(textgrid_file)
         auto_vot_tier = tg.IntervalTier(name='AutoVOT', minTime=textgrid.minTime, maxTime=textgrid.maxTime)
         auto_vot_tier.add(textgrid.minTime, xmin_preds[0], '')
-        # print textgrid.xmin(), xmin_preds[0], ''
-        for i in range(len(xmin_preds) - 1):
-            ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
-            auto_vot_tier.add(xmin_preds[i], xmax_preds[i], 'pred')
-            # print xmin_preds[i], xmax_preds[i], mark_preds[i]
-            auto_vot_tier.add(xmax_preds[i], xmin_preds[i + 1], '')
-            # print xmax_preds[i], xmin_preds[i+1], ''
-        ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
-        auto_vot_tier.add(xmin_preds[-1], xmax_preds[-1], 'pred')
-        # print xmin_preds[-1], xmax_preds[-1], mark_preds[-1]
-        auto_vot_tier.add(xmax_preds[-1], textgrid.maxTime, '')
-        # print xmax_preds[-1], textgrid.xmax(), ''
+        try:
+            for i in range(len(xmin_preds) - 1):
+                ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
+                auto_vot_tier.add(xmin_preds[i], xmax_preds[i], 'pred')
 
+                auto_vot_tier.add(xmax_preds[i], xmin_preds[i + 1], '')
+            ## instead of mark_preds[i] (confidence number), just put 'pred' in the interval
+
+            auto_vot_tier.add(xmin_preds[-1], xmax_preds[-1], 'pred')
+            auto_vot_tier.add(xmax_preds[-1], textgrid.maxTime, '')
+        except ValueError as e:
+            logging.error("Overlapping stops detected, textgrid output stopped at {}".format(xmin_preds[i]))
+            
         ## check if target textgrid already has a tier named
         ## "AutoVOT", modulo preceding or trailing spaces or case. If
         ## so, action taken depends on if --ignore_existing_tiers flag
