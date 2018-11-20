@@ -137,10 +137,14 @@ def is_textgrid(filename):
 def is_valid_wav(filename):
     # check the sampling rate and number bits of the WAV
     try:
-        with wave.Wave_read(filename) as wav_file:
-            if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
-                or wav_file.getcomptype() != 'NONE':
-                return False
+        wav_file = wave.Wave_read(filename)
+        if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
+            or wav_file.getcomptype() != 'NONE':
+            wav_file.close()
+            return False
+        wav_file.close()
         return True
-    except:
+    except Exception:
+        if 'wav_file' in locals():
+            wav_file.close()
         return False
