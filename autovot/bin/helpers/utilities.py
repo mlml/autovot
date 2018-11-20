@@ -1,3 +1,7 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 # Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
 #
 # This file is part of Autovot, a package for automatic extraction of
@@ -18,6 +22,11 @@
 # <http://www.gnu.org/licenses/>.
 #
 
+from builtins import zip
+from builtins import int
+from builtins import open
+from future import standard_library
+standard_library.install_aliases()
 import subprocess
 import random
 import logging

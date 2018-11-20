@@ -22,6 +22,16 @@
 # auto_vot_extract_features.py: Extract acoustic features for AutoVOT. To be used before auto_vot_train_after_fe.py or auto_vot_decode_after_fe.py
 #
 
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
+from builtins import open
+from builtins import str
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 import argparse
 from os.path import splitext, basename, isfile
 
@@ -31,7 +41,7 @@ import warnings
 
 warnings.simplefilter("error")
 
-class Instance:
+class Instance(object):
     def __init__(self):
         self.wav_filename = ""
         self.window_min = 0
@@ -55,7 +65,7 @@ class Instance:
         ##                             int(16000*self.vot_min), int(16000*self.vot_max))
 
 
-class TierDefinitions:
+class TierDefinitions(object):
     def __init__(self):
         self.vot_tier = ''
         self.vot_mark = '*'
