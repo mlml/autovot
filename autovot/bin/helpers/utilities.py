@@ -1,3 +1,7 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 # Copyright (c) 2014 Joseph Keshet, Morgan Sonderegger, Thea Knowles
 #
 # This file is part of Autovot, a package for automatic extraction of
@@ -18,6 +22,11 @@
 # <http://www.gnu.org/licenses/>.
 #
 
+from builtins import zip
+from builtins import int
+from builtins import open
+from future import standard_library
+standard_library.install_aliases()
 import subprocess
 import random
 import logging
@@ -128,10 +137,14 @@ def is_textgrid(filename):
 def is_valid_wav(filename):
     # check the sampling rate and number bits of the WAV
     try:
-        with wave.Wave_read(filename) as wav_file:
-            if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
-                or wav_file.getcomptype() != 'NONE':
-                return False
+        wav_file = wave.Wave_read(filename)
+        if wav_file.getframerate() != 16000 or wav_file.getsampwidth() != 2 or wav_file.getnchannels() != 1 \
+            or wav_file.getcomptype() != 'NONE':
+            wav_file.close()
+            return False
+        wav_file.close()
         return True
-    except:
+    except Exception:
+        if 'wav_file' in locals():
+            wav_file.close()
         return False
