@@ -1,0 +1,5 @@
+numpy
+future
+scipy
+textgrid
+argparse
