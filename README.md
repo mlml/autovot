@@ -44,8 +44,8 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 ## Dependencies
 In order to use AutoVOT you'll need the following installed in addition to the source code provided here:
 * [GCC, the GNU Compiler Collection](http://gcc.gnu.org/install/download.html)
-* [Python (Version 2.7 or earlier)](https://www.python.org/download/releases/2.7.6>)
-* If you're using Python version 2.6 or earlier, you will need to install the argparse module (which is installed by default in Python 2.7), e.g. by running `easy_install argparse` on the command line.
+* [Python 2.7 or 3)](https://www.python.org/downloads/)
+* To install python dependences, please run the command `pip -r "requirements.txt"` from the main directory of the repository
 * If you're using Mac OS X you'll need to download GCC, as it isn't installed by default.  You can either:
 	* Install [Xcode](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12), then install Command Line Tools using the Components tab of the Downloads preferences panel.
 	* Download the [Command Line Tools for Xcode](http://developer.apple.com/downloads) as a stand-alone package.
