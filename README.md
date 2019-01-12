@@ -659,7 +659,7 @@ It is possible to compare the performance of the algorithm to a development set 
 Still from within `experiments/` run the following:
 
 	auto_vot_performance.py config/checkPerformanceTgList.txt \
-	config/checkPerformanceTgList.txt ManualVot AutoVOT --csvF checkPerformance.csv
+	config/checkPerformanceTgList.txt ManualVot AutoVOT --csv_file checkPerformance.csv
 
 If successful, the command line output will generate Pearson correlations, means, and standard deviations for the VOT measurements, as well as the percentage of tokens within given durational threshold differences. The output CSV file will contain VOT start times and durations for the data subset.
 
