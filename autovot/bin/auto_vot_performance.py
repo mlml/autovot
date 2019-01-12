@@ -35,6 +35,7 @@ from future import standard_library
 standard_library.install_aliases()
 import argparse
 import os
+import re
 import csv
 import numpy as np
 import scipy.stats
@@ -56,19 +57,18 @@ def num_lines(filename):
 
 def read_textgrid_tier(textgrid_filename, vot_tier):
      # read TextGrid
-    textgrid = TextGrid()
+    textgrid = tg.TextGrid()
     textgrid.read(textgrid_filename)
 
     # extract tier names
     tier_names = textgrid.getNames()
 
     # check if the VOT tier is one of the tiers in the TextGrid
-    vots = tg.IntervalTier
+    vots = tg.IntervalTier(minTime=textgrid.minTime, maxTime=textgrid.maxTime)
 
     if vot_tier in tier_names:
-        tier_index = tier_names.index(vot_tier)
         # run over all intervals in the tier
-        for interval in textgrid[tier_index]:
+        for interval in textgrid.getFirst(vot_tier):
             if re.search(r'\S', interval.mark):
                 vots.addInterval(interval)
     else:
@@ -160,14 +160,14 @@ if __name__ == "__main__":
                             (labeled_textgrid, len(labeled_vots), predicted_textgrid, len(predicted_vots)))
             continue
 
-        x_xmin = x_xmin + [x.minTime for x in labeled_vots]
-        x_xmax = x_xmax + [x.maxTime for x in labeled_vots]
-        x_vot = x_vot + [(x.maxTime-x.minTime) for x in labeled_vots]
+        x_xmin = x_xmin + [float(x.minTime) for x in labeled_vots]
+        x_xmax = x_xmax + [float(x.maxTime) for x in labeled_vots]
+        x_vot = x_vot + [float(x.maxTime-x.minTime) for x in labeled_vots]
         x_files = x_files + [labeled_textgrid.strip() for x in labeled_vots]
 
-        y_xmin = y_xmin + [y.minTime for y in predicted_vots]
-        y_xmax = y_xmax + [y.maxTime for y in predicted_vots]
-        y_vot = y_vot + [(y.maxTime-y.minTime) for y in predicted_vots]
+        y_xmin = y_xmin + [float(y.minTime) for y in predicted_vots]
+        y_xmax = y_xmax + [float(y.maxTime) for y in predicted_vots]
+        y_vot = y_vot + [float(y.maxTime-y.minTime) for y in predicted_vots]
         y_files = y_files + [predicted_textgrid.strip() for x in predicted_vots]
 
 
@@ -208,11 +208,10 @@ if __name__ == "__main__":
     ## dump predicted/labeled VOT info to a CSV, for later examination in R, excel, etc.
     if args.csv_file:
         print("\nWriting labeled / predicted VOT info to %s" % args.csv_file)
-        out_file = open(args.csv_file, 'w')
-        csv_file = csv.writer(out_file)
-        csv_file.writerow(['filename_labeled', 'filename_predicted', 'time_in_labeledF', 'time_in_predictedF',
-                           'tier_in_labeledF', 'tier_in_predictedF', 'vot_labeled', 'vot_predicted'])
-        for i, xmin in enumerate(x_xmin):
-            csv_file.writerow([x_files[i], y_files[i], str(xmin), str(y_xmin[i]), args.labeled_vot_tier,
-                               args.predicted_vot_tier, str(x_vot[i]), str(y_vot[i])])
-        out_file.close()
+        with open(args.csv_file, 'wb') as out_file:
+            csv_file = csv.writer(out_file)
+            csv_file.writerow(['filename_labeled', 'filename_predicted', 'time_in_labeledF', 'time_in_predictedF',
+                               'tier_in_labeledF', 'tier_in_predictedF', 'vot_labeled', 'vot_predicted'])
+            for i, xmin in enumerate(x_xmin):
+                csv_file.writerow([x_files[i], y_files[i], str(xmin), str(y_xmin[i]), args.labeled_vot_tier,
+                                   args.predicted_vot_tier, str(x_vot[i]), str(y_vot[i])])
