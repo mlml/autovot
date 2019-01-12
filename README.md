@@ -744,7 +744,7 @@ This software has been licensed to the Centre of Speech Technology, KTH by Micro
 #### textgrid.py
 Python classes for Praat TextGrid and TextTier files (and HTK .mlf files)
 
-[http://github.com/kylebgorman/textgrid.py/](http://github.com/kylebgorman/textgrid.py/)
+[http://github.com/kylebgorman/textgrid/](http://github.com/kylebgorman/textgrid/)
 
 Copyright (c) 2011-2013 Kyle Gorman, Max Bane, Morgan Sonderegger
 
