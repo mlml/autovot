@@ -652,7 +652,7 @@ It is possible to compare the performance of the algorithm to a development set 
 
 **Note:** This tutorial does not include this component, but the following section will provide an example of how it can be used with your data. Example arguments include:
 
-* `checkPerformanceTgList.txt:` the list of TextGrids that would contain an additional tier with manual VOT measurements. This should be located in `config/`.
+* `checkPerformanceTgList.txt:` the list of TextGrids that would contain an additional tier with manual VOT measurements. For example, if you were testing over voiced stops, it would be `config/voicedTestTgList.txt`.
 * `ManualVot:` the name of the tier containing manual VOT measurements
 * `checkPerformance.csv:` the output CSV file to be generated
 
