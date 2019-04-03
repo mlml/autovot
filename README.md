@@ -17,6 +17,7 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 **For a quick-start,** first [download and compile the code](#settingup) then go to the [tutorial](#tutorial) section to begin.
 
 <a name="toc"/>
+
 ##### Table of Contents
 
 **1.** [Setting up](#settingup)
@@ -39,6 +40,7 @@ This is a beta version of Autovot. Any reports of bugs, comments on how to impro
 
 
 <a name="settingup"/>
+
 # Setting Up
 
 ## Dependencies
@@ -53,9 +55,10 @@ In order to use AutoVOT you'll need the following installed in addition to the s
   You will need a registered Apple ID to download either package.
 
 ## Downloading and Installing
-*[What is included in the download?] (#outofthebox)*
+*[What is included in the download?](#outofthebox)*
 
 <a name="praatsetup"/>
+
 ### Praat plugin installation
 
 Download the latest Praat plugin installer from the [releases page](https://github.com/mlml/autovot/releases)
@@ -67,6 +70,7 @@ Double click on the installer icon and follow the directions.
 *Back to [top](#toc)*
 
 <a name="commandlinesetup"/>
+
 ### Command line installation
 
 #### Please note: 
@@ -132,6 +136,7 @@ If not working out of the given `experiments` directory, you must add the path t
 *Back to [top](#toc)*
 
 <a name="outofthebox"/>
+
 ## Out of the box:
 
 **Files included in this version:**
@@ -180,7 +185,9 @@ The `experiments` folder contains subdirectories that will be used to store file
 *Back to [top](#toc)*
 
 <a name="usage"/>
+
 # Usage
+
 *Back to [top](#toc)*
 
 ***Tutorial to follow***
@@ -435,10 +442,13 @@ The `experiments` folder contains subdirectories that will be used to store file
     
     
 <a name="tutorial"/>
+
 # Tutorial
 
 <a name="praattutorial"/>
+
 ## Praat plugin tutorial
+
 *Bring me to the [command line tutorial](#cltutorial)*
 
 **Note:** 
@@ -488,6 +498,7 @@ If successful, the Praat info window will display the output of auto\_vot_decode
 *Back to [top](#toc)*
 
 <a name="cltutorial"/>
+
 # From the command line
 
 *Bring me to the [Praat plugin tutorial](#praattutorial)*
@@ -706,6 +717,7 @@ If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT 
 
 
 <a name="citing"/>
+
 ## How do I Cite AutoVOT in my articles?
 
 ***If possible to cite a program, the following format is recommended (adjusting retrieval dates and versions as necessary):***
@@ -717,6 +729,7 @@ If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT 
 * Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. *The Journal of the Acoustical Society of America*, 132(6), 3965-3979.
 
 <a name="acknowledgements"/>
+
 ## Acknowledgements
 
 ### Code
