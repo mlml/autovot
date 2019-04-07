@@ -452,7 +452,7 @@ The `experiments` folder contains subdirectories that will be used to store file
 *Bring me to the [command line tutorial](#cltutorial)*
 
 **Note:** 
-* This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial] (#cltutorial).
+* This plugin does not train a new classifier. You have the option of using one of the classifiers provided with this installation. If you'd like to train your own, please follow the [command line tutorial](#cltutorial).
 * The Praat plugin allows you to work with one file at a time. If you would like to execute this function over all files in a directory and save them, you may write a Praat script to do so. A script will be made available in a future version of AutoVOT.
 
 
