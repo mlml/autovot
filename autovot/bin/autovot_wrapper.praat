@@ -224,6 +224,12 @@ for file from 1 to n_files
 
 endfor
 
+date$ = date$ ()
+month$ = mid$ (date$,5,3)
+year$ = right$ (date$,4)
+month_year$ = "'month$', 'year$'"
+
+
 printline 'newline$'Files saved in 'dir_out$''newline$'
 printline Citing AutoVOT:'newline$'
 printline If possible to cite a program, the following format is recommended
@@ -231,7 +237,7 @@ printline (adjusting retrieval dates and versions as necessary):'newline$'
 printline Keshet, J., Sonderegger, M., Knowles, T. (2014). 
 printline AutoVOT: A tool for automatic measurement of voice onset time using discriminative 
 printline structured prediction [Computer program]. 
-printline Version 0.91, retrieved 'date$' from https://github.com/mlml/autovot/.
+printline Version 0.91, retrieved 'month_year$' from https://github.com/mlml/autovot/.
 printline
 printline If you are unable to cite the program itself, please cite the following paper:'newline$'
 printline Sonderegger, M., & Keshet, J. (2012).
