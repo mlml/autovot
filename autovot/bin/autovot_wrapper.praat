@@ -53,7 +53,7 @@ if manually_choose
 	directory$ = chooseDirectory$ ("Choose the directory containing the input .wav and .TextGrid files")
 	dir_in_tg$ = directory$
 	dir_in_wav$ = directory$
-	dir_out$ = directory$
+	dir_out$ = "'directory$'/data_out"
 
 	if directory$ == ""
 		exit Script exited. You did not select folders.
@@ -224,18 +224,35 @@ for file from 1 to n_files
 
 endfor
 
+printline 'newline$'Files saved in 'dir_out$''newline$'
+printline Citing AutoVOT:'newline$'
+printline If possible to cite a program, the following format is recommended
+printline (adjusting retrieval dates and versions as necessary):'newline$'
+printline Keshet, J., Sonderegger, M., Knowles, T. (2014). 
+printline AutoVOT: A tool for automatic measurement of voice onset time using discriminative 
+printline structured prediction [Computer program]. 
+printline Version 0.91, retrieved 'date$' from https://github.com/mlml/autovot/.
+printline
+printline If you are unable to cite the program itself, please cite the following paper:'newline$'
+printline Sonderegger, M., & Keshet, J. (2012).
+printline Automatic measurement of voice onset time using discriminative structured predictions. 
+printline The Journal of the Acoustical Society of America, 132(6), 3965-3979.
+printline
+printline Latest release available at: https://github.com/mlml/autovot/.
 
-appendInfoLine: "Please cite:"
-appendInfoLine: "Sonderegger, M., & Keshet, J. (2012). Automatic measurement of "
-appendInfoLine: "voice onset time using discriminative structured predictions. The"
-appendInfoLine: "Journal of the Acoustical Society of America, 132(6), 3965-3979."
-appendInfoLine: " "
+#appendInfoLine: "Please cite:"
+#appendInfoLine: "Sonderegger, M., & Keshet, J. (2012). Automatic measurement of "
+#appendInfoLine: "voice onset time using discriminative structured predictions. The"
+#appendInfoLine: "Journal of the Acoustical Society of America, 132(6), 3965-3979."
+#appendInfoLine: " "
 appendInfoLine: "Send comments to keshet@biu.ac.il"
 
 select all
 Remove
 
-system open 'dir_out$'
+#system open 'dir_out$'
+
+
 
 ################################################################################
 # PROCEDURES
