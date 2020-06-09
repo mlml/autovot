@@ -3,4 +3,5 @@ if praatVersion < 5380
 	appendInfoLine: "recent version of Praat (5.3.80 or later)."
 else
 	Add action command: "Sound", 1, "TextGrid", 1, "", 0, "AutoVOT", "", 0, "autovot.praat"
+	Add menu command: "Objects", "New", "Batch process AutoVOT...", "", 0, "autovot_wrapper.praat"
 endif
