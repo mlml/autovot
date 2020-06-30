@@ -481,9 +481,9 @@ The `experiments` folder contains subdirectories that will be used to store file
 |---|---|---|
 |`textgrid directory`| path to input TextGrids. <br> TextGrids should be prepped for AutoVOT as detailed [above](#textgridformat)|`test_data_in` (within plugin folder)|
 |`audio directory` | path to input audio files|`test_data_in` (within plugin folder)|
-|`output directory` | path to where you'd like the new TextGrids to be saved|`test_data_out` (within plugin folder)|
-|`Manually choose` | If your audio and TextGrids are saved in the same directory, choose this if you'd like to be prompted to **manually choose the directory**. <br><br>In this case, the output folder will be automatically created within this directory and named `0_output`.| :white_circle: Unselected|
-|`Embellish`| Allows you to choose various additions to your TextGrid output, which you will select on the next window.|:radio_button: Selected |
+|`output directory` | path to where you'd like the new TextGrids to be saved. <br>This will get created if it does not already exist.|`test_data_out` (within plugin folder)|
+|`Manually choose` | If your audio and TextGrids are saved in the same directory, select this to be prompted to **manually choose the input directory**. <br><br>The output folder will be automatically created within this directory and named `0_output`.| :white_circle: Unselected|
+|`Embellish`| If selected, allows you to choose various additions to your TextGrid output, which you will select on the next window.|:radio_button: Selected |
 |`Verbose`| If selected, will print AutoVOT messages to the Praat info window. | :white_circle: Unselected|
 |`Test`| If selected, will only run AutoVOT on the first 5 files. | :radio_button: Selected|
 
@@ -533,7 +533,7 @@ Click `Next: AutoVOT parameters` to continue to the next window.
 |Argument | Description| Default|
 |---|---|---|
 |`Tier_number`| Tier containing the intervals where you want AutoVOT to look when predicting VOT. | Tier 3 |
-|`Interval_mark`| Text used to label your intervals | `*` (any string) |
+|`Interval_mark`| Text used to label the intervals where you want AutoVOT to look. | `*` (any string) |
 |`Channel`| Choose mono for a single track recording or left/right if you are using a stereo recording | `Mono` |
 |`min vot length`| The minimum duration (in ms) that the algorithm should predict. <br><br>**Note**: If you are doing voiced and voiceless stops separately, you may wish to change this.| `5` |
 |`max vot length`| The maximum duration (in ms) that the algorithm should predict. | `500` |
@@ -542,12 +542,12 @@ Click `Next: AutoVOT parameters` to continue to the next window.
 ### One file at a time
 * Open the soundfile and accompanying TextGrid in Praat.
 	* For this tutorial you may use files from the `test` experiment directory, e.g:
-	* `autovot-0.93/experiments/data/tutorialExample/test/voiced/cas7D_1054_24_3.wav`
-	* `autovot-0.93/experiments/data/tutorialExample/test/voiced/cas7D_1054_24_3.TextGrid`
+	* `autovot-0.94/experiments/data/tutorialExample/test/voiced/cas7D_1054_24_3.wav`
+	* `autovot-0.94/experiments/data/tutorialExample/test/voiced/cas7D_1054_24_3.TextGrid`
 
 * Select both and click AutoVOT in the Praat Objects window.
 * Click the `AutoVOT` option in the Object Menu.
-* Adjust the parameters as necessary (skip to [AutoVOT parameters](#autovotparameters))
+* Adjust the parameters as necessary (go to [AutoVOT parameters](#autovotparameters) to review).
 * Click "Next"
 
 If successful, the Praat info window will display the output of auto\_vot_decode.py and the new TextGrid with the AuotVOT prediction tier will open with the sound in the Praat editor. **You must save the TextGrid manually with this option.**
