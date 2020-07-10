@@ -1,0 +1,184 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0 
+xmax = 1.86 
+tiers? <exists> 
+size = 4 
+item []: 
+    item [1]:
+        class = "IntervalTier" 
+        name = "phones" 
+        xmin = 0 
+        xmax = 1.86 
+        intervals: size = 22 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.02 
+            text = "sil" 
+        intervals [2]:
+            xmin = 0.02 
+            xmax = 0.05 
+            text = "N" 
+        intervals [3]:
+            xmin = 0.05 
+            xmax = 0.31 
+            text = "AW1" 
+        intervals [4]:
+            xmin = 0.31 
+            xmax = 0.41 
+            text = "M" 
+        intervals [5]:
+            xmin = 0.41 
+            xmax = 0.52 
+            text = "UW1" 
+        intervals [6]:
+            xmin = 0.52 
+            xmax = 0.55 
+            text = "V" 
+        intervals [7]:
+            xmin = 0.55 
+            xmax = 0.59 
+            text = "DH" 
+        intervals [8]:
+            xmin = 0.59 
+            xmax = 0.64 
+            text = "AH0" 
+        intervals [9]:
+            xmin = 0.64 
+            xmax = 0.76 
+            text = "P" 
+        intervals [10]:
+            xmin = 0.76 
+            xmax = 0.94 
+            text = "AE1" 
+        intervals [11]:
+            xmin = 0.94 
+            xmax = 1.03 
+            text = "CH" 
+        intervals [12]:
+            xmin = 1.03 
+            xmax = 1.11 
+            text = "AH0" 
+        intervals [13]:
+            xmin = 1.11 
+            xmax = 1.19 
+            text = "B" 
+        intervals [14]:
+            xmin = 1.19 
+            xmax = 1.29 
+            text = "AH1" 
+        intervals [15]:
+            xmin = 1.29 
+            xmax = 1.33 
+            text = "V" 
+        intervals [16]:
+            xmin = 1.33 
+            xmax = 1.39 
+            text = "DH" 
+        intervals [17]:
+            xmin = 1.39 
+            xmax = 1.43 
+            text = "AH0" 
+        intervals [18]:
+            xmin = 1.43 
+            xmax = 1.58 
+            text = "S" 
+        intervals [19]:
+            xmin = 1.58 
+            xmax = 1.62 
+            text = "N" 
+        intervals [20]:
+            xmin = 1.62 
+            xmax = 1.74 
+            text = "EY1" 
+        intervals [21]:
+            xmin = 1.74 
+            xmax = 1.84 
+            text = "L" 
+        intervals [22]:
+            xmin = 1.84 
+            xmax = 1.86 
+            text = "sil" 
+    item [2]:
+        class = "IntervalTier" 
+        name = "words" 
+        xmin = 0 
+        xmax = 1.86 
+        intervals: size = 9 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.02 
+            text = "sil" 
+        intervals [2]:
+            xmin = 0.02 
+            xmax = 0.31 
+            text = "NOW" 
+        intervals [3]:
+            xmin = 0.31 
+            xmax = 0.55 
+            text = "MOVE" 
+        intervals [4]:
+            xmin = 0.55 
+            xmax = 0.64 
+            text = "THE" 
+        intervals [5]:
+            xmin = 0.64 
+            xmax = 1.03 
+            text = "PATCH" 
+        intervals [6]:
+            xmin = 1.03 
+            xmax = 1.33 
+            text = "ABOVE" 
+        intervals [7]:
+            xmin = 1.33 
+            xmax = 1.43 
+            text = "THE" 
+        intervals [8]:
+            xmin = 1.43 
+            xmax = 1.84 
+            text = "SNAIL" 
+        intervals [9]:
+            xmin = 1.84 
+            xmax = 1.86 
+            text = "sil" 
+    item [3]:
+        class = "IntervalTier" 
+        name = "vot" 
+        xmin = 0 
+        xmax = 1.86 
+        intervals: size = 3 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.690001 
+            text = "" 
+        intervals [2]:
+            xmin = 0.690001 
+            xmax = 0.79 
+            text = "vot" 
+        intervals [3]:
+            xmin = 0.79 
+            xmax = 1.86 
+            text = "" 
+    item [4]:
+        class = "IntervalTier" 
+        name = "AutoVOT-edit" 
+        xmin = 0 
+        xmax = 1.86 
+        intervals: size = 4 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.64 
+            text = "" 
+        intervals [2]:
+            xmin = 0.64 
+            xmax = 0.725 
+            text = "P_clo" 
+        intervals [3]:
+            xmin = 0.725 
+            xmax = 0.771 
+            text = "P_vot" 
+        intervals [4]:
+            xmin = 0.771 
+            xmax = 1.86 
+            text = "" 
