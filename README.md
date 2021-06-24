@@ -783,7 +783,7 @@ If you've used --ignore_existing_tiers flag, you'll be reminded that an AutoVOT 
 
 * Keshet, J., Sonderegger, M., Knowles, T. (2014). AutoVOT: A tool for automatic measurement of voice onset time using discriminative structured prediction [Computer program]. Version 0.94, retrieved June 2020 from https://github.com/mlml/autovot/.
 
-***If you are unable to cite the program itself, please cite the following paper:***
+***If you are unable to cite the program itself, please cite the following paper, which can be found [here](https://doi.org/10.1121/1.4763995):***
 
 * Sonderegger, M., & Keshet, J. (2012). Automatic measurement of voice onset time using discriminative structured predictions. *The Journal of the Acoustical Society of America*, 132(6), 3965-3979.
 
