@@ -129,12 +129,19 @@ log_text$ = readFile$ (log_filename$)
 appendInfoLine: log_text$
 appendInfoLine: "Done."
 appendInfoLine: " "
-appendInfoLine: "Please cite:"
-appendInfoLine: "Sonderegger, M., & Keshet, J. (2012). Automatic measurement of "
-appendInfoLine: "voice onset time using discriminative structured predictions. The"
-appendInfoLine: "Journal of the Acoustical Society of America, 132(6), 3965-3979."
+appendInfoLine: "If possible to cite a program, the following format is recommended"
+appendInfoLine: "(adjusting retrieval dates and versions as necessary):'newline$'"
+appendInfoLine: "Keshet, J., Sonderegger, M., Knowles, T. (2014)."
+appendInfoLine: "AutoVOT: A tool for automatic measurement of voice onset time using discriminative"
+appendInfoLine: "structured prediction [Computer program]."
+appendInfoLine: "Version 0.94.1, retrieved 'month_year$' from https://github.com/mlml/autovot/."
 appendInfoLine: " "
-appendInfoLine: " send comments to keshet@biu.ac.il"
+appendInfoLine: "If you are unable to cite the program itself, please cite the following paper:'newline$'"
+appendInfoLine: "Sonderegger, M., & Keshet, J. (2012)."
+appendInfoLine: "Automatic measurement of voice onset time using discriminative structured predictions."
+appendInfoLine: "The Journal of the Acoustical Society of America, 132(6), 3965-3979."
+appendInfoLine: " "
+appendInfoLine: "Latest release available at: https://github.com/mlml/autovot/."
 
 # read new TextGrid
 system cp 'textgrid_filename$' 'new_textgrid_filename$'

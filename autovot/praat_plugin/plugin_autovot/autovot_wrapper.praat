@@ -237,7 +237,7 @@ printline (adjusting retrieval dates and versions as necessary):'newline$'
 printline Keshet, J., Sonderegger, M., Knowles, T. (2014). 
 printline AutoVOT: A tool for automatic measurement of voice onset time using discriminative 
 printline structured prediction [Computer program]. 
-printline Version 0.94, retrieved 'month_year$' from https://github.com/mlml/autovot/.
+printline Version 0.94.1, retrieved 'month_year$' from https://github.com/mlml/autovot/.
 printline
 printline If you are unable to cite the program itself, please cite the following paper:'newline$'
 printline Sonderegger, M., & Keshet, J. (2012).
