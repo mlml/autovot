@@ -49,7 +49,7 @@ Please note that at this time AutoVOT does not support predictions of negative V
 In order to use AutoVOT you'll need the following installed in addition to the source code provided here:
 * [GCC, the GNU Compiler Collection](http://gcc.gnu.org/install/download.html)
 * [Python (2.7 or 3)](https://www.python.org/downloads/)
-* To install python dependences, please run the command `pip install -r "requirements.txt"` from the main directory of the repository
+* To install python dependences, please run the command `pip install -r "requirements.txt"` from the main directory of the repository. You may also install each dependency separately using `pip install [package name]`
 * If you're using Mac OS X you'll need to download GCC, as it isn't installed by default.  You can either:
 	* Install [Xcode](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12), then install Command Line Tools using the Components tab of the Downloads preferences panel.
 	* Download the [Command Line Tools for Xcode](http://developer.apple.com/downloads) as a stand-alone package.
@@ -65,7 +65,10 @@ In order to use AutoVOT you'll need the following installed in addition to the s
 
 Download the latest Praat plugin installer from the [releases page](https://github.com/mlml/autovot/releases)
 
-Double click on the installer icon and follow the directions.
+Double click on the installer icon, then:
+- In Finder, click `Cmd + shift + G` and enter `~Library/Preferences/Praat Prefs`. This will open your Praat Preferences folder where plugins live.
+- Drag the autovot_plugin folder into your Praat Prefs folder.
+- Note that test data for the tutorial and log files will live in this folder whenever you run the Praat plugin.
 
 **Quick-start:** *Bring me to the* ***[tutorial](#praattutorial)***
 
