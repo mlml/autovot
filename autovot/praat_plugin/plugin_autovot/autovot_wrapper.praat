@@ -71,7 +71,7 @@ endif
 createDirectory ("'dir_out$'")
 
 
-printline Running AutoVOT ver. 0.94
+printline Running AutoVOT ver. 0.94.1
 printline Input TextGrids located in:
 printline 'tab$''dir_in_tg$'
 printline Input Sounds located in:

@@ -15,7 +15,7 @@
 
 clearinfo
 
-writeInfoLine: "AutoVOT ver. 0.95"
+writeInfoLine: "AutoVOT ver. 0.94.1"
 
 # check OS X version
 tmp_filename$ = temporaryDirectory$  + "/tmp.txt"
